@@ -1,1 +1,242 @@
 /* You can add global styles to this file, and also import other style files */
+.navbar-custom{
+  background-color: black;
+  text-align: right;
+  color:gray;
+  font-size: 18px;
+   // height:100px;
+   font-family: Bebas-Neue,Arial,sans-serif;
+letter-spacing: 0.12em;
+}
+body, html {
+    height: 100%;
+    font-family: fakt-web,Helvetica Neue,Hevetica,sans-serif;
+}
+body{
+  // font-weight: 400;
+  color:#1C2331;
+  // line-height: 1.8;
+
+}
+.padding0{
+  padding:0px;
+}
+
+.navbar-transparent:not(.top-nav-collapse) {
+  // background-color: black !important;
+  color: white !important;
+}
+// .navbar-custom {
+//   height:115px !important;
+//   border: 0;
+//   color:white !important;
+//   line-height: 2em;
+//   // font-weight:500;
+//
+//   // border-color: #f5f5f5 !important;
+//   // border-bottom: 1px solid #f5f5f5 !important;
+//   border-radius: 0;
+//   text-transform: uppercase;
+//
+//   font-size: 12px;
+//   z-index: 1000;
+//   // background-image: url('./assets/images/tecplot3.jpg');
+//   // background-size: cover;
+//   // background-repeat: no-repeat;
+//    background-color: black;
+//    color:white;
+//
+// }
+.nav-link{
+  letter-spacing: 0.12em !important;
+}
+.section,
+.section-div {
+  min-height:100% !important;
+
+}
+@media (min-width: 600px){
+
+}
+// .navbar-toggler-icon{
+//    background-color: black;
+// }
+@media only screen and (min-width: 544px) {
+  // .navbar-transparent:not(.top-nav-collapse) {
+  //     background-color: transparent !important;
+  // }
+}
+// section{
+// margin-top:100px !important;
+// padding:30px !important;
+// height:100%;
+// }
+
+.section-title{
+   text-align: center;
+  // position: relative;
+  // overflow: hidden;
+   text-transform: uppercase;
+  // font-weight: 400;
+  // font-size: 1rem;
+  // line-height: 1.5;
+  // letter-spacing: 2px;
+  // // font-family: "Open Sans", sans-serif;
+  // color:#333;
+  font-family: inherit;
+font-weight: 500;
+line-height: 1.1;
+color: rgba(0,0,0,.86);
+  padding-top: 30px;
+  font-size: 32px;
+  margin: 60px auto;
+max-width: 600px;
+text-align: center;
+}
+.section-title h2 {
+    font-size: 32px;
+    margin-top: 28px;
+    margin-bottom: 14px;
+}
+.section-title .underline {
+  display: block;
+  position: relative;
+  width: 6rem;
+  height: 0.2rem;
+  margin: 2.5rem auto 0;
+  background: #555555;
+  margin-top: 1.5rem;
+  margin-bottom: 2.5rem;
+
+}
+.section-title .underline .line {
+  display: block;
+  position: relative;
+  width: 6.4rem;
+  height: 0.5rem;
+  left: 50%;
+  top: -0.1rem;
+  margin-left: -3rem;
+  background: #d01110;
+}
+.section-title:hover .underline .line {
+  animation-name: slide;
+  -webkit-animation-name: slide;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+  background-color: red !important;
+}
+
+.p-25{
+  padding:25px;
+}
+.m-left15{
+  margin-left:15px;
+}
+.text-white-gray {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+.lead {
+  font-weight: 300;
+  letter-spacing: 1px;
+  font-size: 1.2rem;
+  border-color: #1C2331;
+  border-radius: 3px;
+  padding-top: 50px;
+  padding-bottom: 50px
+}
+.m-top25{
+  margin-top:3em;
+}
+.m-top150{
+  margin-top:150px;
+}
+
+.active-link{
+  background-color:#3F729B;
+
+  border:0px;
+  color: white !important;
+}
+*:focus {
+  outline: 0;
+}
+
+.bg-dark{
+  // background-color: #243a51 !important;
+  color:#1C2331;
+  // color:#243a51;
+  border-bottom: 0.25px solid #1C2331;
+}
+.item{
+  color: white !important;
+}
+.active-text{
+  border-bottom: 3px solid #d01110;
+}
+
+.nav-item{
+  margin: 0 10px;
+}
+
+@font-face {
+    font-family: 'Ethnocentric';
+     src: url('./assets/fonts/ethnocentric_rg.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Bebas-Neue';
+     src: url('./assets/fonts/BebasNeue-Regular.ttf') format('truetype');
+    font-style: normal;
+    // font-weight: normal;
+}
+
+
+.logo{
+  color: greenyellow;
+  font-size: 40px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  font-weight: bold;
+
+}
+.logo2{
+  color: black;
+  font-size: 80px;
+    text-shadow: -1px 0 greenyellow, 0 1px greenyellow, 1px 0 greenyellow, 0 -1px greenyellow;
+    font-weight: bold;
+
+}
+.btn-custom {
+    background-color: green !important;
+    color: white !important;
+    height: 38px;
+    border:green-text;
+}
+.capitalize{
+  text-transform: capitalize;
+}
+.section{
+  background-color:white;
+  height:100%;
+  margin-top:25px;
+}
+.pointer{
+  cursor: pointer;
+}
+// @include media-breakpoint-up(xs) {
+//   .navbar-custom{
+//     // background-color: #182b29;
+//     background-color: red;
+//     text-align: right;
+//     color:white;
+//     font-size: 12px;
+//     height:150px;
+//   }}
+// @include media-breakpoint-up(sm) {}
+// @include media-breakpoint-up(md) {}
+// @include media-breakpoint-up(lg) {}
+// @include media-breakpoint-up(xl) {}
+/* You can add global styles to this file, and also import other style files */

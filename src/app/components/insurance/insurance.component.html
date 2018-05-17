@@ -1,0 +1,8 @@
+<form [formGroup]="insuranceForm">
+  <div class="form-group">
+    <label class="center-block">Name:
+      <input class="form-control" formControlName="name">
+    </label>
+  </div>
+  <p>Form value: {{ insuranceForm.value | json }}</p>
+</form>

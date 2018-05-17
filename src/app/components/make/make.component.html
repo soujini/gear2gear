@@ -1,0 +1,16 @@
+<header class="header" style="margin-top:100px">
+  <div class="col-12">
+    <app-title [title]=title></app-title>
+  </div>
+</header>
+
+<div class="row">
+  <div class="col-4">
+  <app-make-list></app-make-list>
+  </div>
+  <div class="col-8">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<app-simple-modal></app-simple-modal>
+<router-outlet></router-outlet>

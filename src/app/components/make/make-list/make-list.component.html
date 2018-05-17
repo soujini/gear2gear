@@ -1,0 +1,25 @@
+<section  class="container-fluid" style="background-color:white;height:100%;margin-top:25px">
+  <div>
+    <app-search (searchTermValueChanged) = 'searchMakes($event)' (isCreate)='createMakes($event)'></app-search>
+  </div>
+  <div>
+    <table class="table">
+      <thead class="mdb-color darken-3">
+        <tr class="text-white">
+          <th>#</th>
+          <th>Name</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let make of results$ | async'>
+          <th scope="row">{{make.make_id}}</th>
+          <td>{{make.name}}</td>
+          <td class="pointer" routerLink="/add">
+            <!-- "['add',{outlets:{editsection:'/make/add'}}]" -->
+              <i class="fa fa-pencil" style="font-size:16px"></i>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
