@@ -1,13 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
-import {EmptyObservable} from 'rxjs/observable/EmptyObservable';
 import { Router,ActivatedRoute } from '@angular/router';
 
-
 import { Make } from 'app/data-model';
-import { MakeService } from 'app/services/make.service';
+import { MakeService } from 'app/services/make/make.service';
 
 @Component({
   selector: 'app-make-list',
@@ -15,32 +11,35 @@ import { MakeService } from 'app/services/make.service';
   styleUrls: ['./make-list.component.scss']
 })
 export class MakeListComponent implements OnInit {
-  public results$: Observable<Make>;
-  createMode:boolean=false;
-  //public create: boolean =false;
+  @Input()
+  results$: Observable<Make>;
+
+  @Output()
+  searchTerm = new EventEmitter();
 
   constructor(private makeService:MakeService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
-      this.getMakes();
+    this.router.navigate(['/make/add']);
   }
 
-  getMakes()  {
-    this.results$ = this.makeService.getMakes();
+  searchMakes(search: string){
+    this.searchTerm.emit(search);
   }
 
-  searchMakes(searchTerm){
-    if(searchTerm){
-      this.results$ = this.makeService.searchMakes(searchTerm);
-    }
-    else{
-      this.results$ = new EmptyObservable();
-    }
+  //On Click of the Add Button
+  createMake(mode:any){
+    this.makeService.selectedMode = mode;
+    this.router.navigate(['/make/add']);
   }
-  createMakes(isCreate){
-     //this.router.navigate(['/make/add']);
-   //this.router.navigate([{ outlets: {'add':['add']} }], {relativeTo: this.route, skipLocationChange: true});
-this.router.navigate(['/make/add']);
-    // this.createMode=true;
+
+  //On Click of the Edit Button
+  selectMake(make_id:number, mode:any){
+    this.makeService.selectedMode = mode;
+    this.router.navigate(['/make/edit']);
+    setTimeout(() => {
+      this.makeService.selectedMakeId.next(make_id);
+    }, 100);
   }
+
 }

@@ -1,0 +1,25 @@
+<section class="container-fluid section-list">
+  <div>
+    <app-search (searchTermValueChanged)="searchFuelTypes($event)" (isCreate)="createFuelType('Create')"></app-search>
+  </div>
+  <div>
+    <table class="table">
+      <thead class="#f5f5f5 grey lighten-4">
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let fuelType of results$ | async'>
+          <th scope="row">{{fuelType.fuel_type_id}}</th>
+          <td>{{fuelType.name}}</td>
+          <td class="pointer" (click)="selectFuelType(fuelType.fuel_type_id, 'Edit')">
+              <i class="fa fa-pencil"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

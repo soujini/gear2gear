@@ -1,27 +1,51 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import { EmptyObservable } from 'rxjs/observable/EmptyObservable';
+import { Router, ActivatedRoute } from '@angular/router';
 
+import { FuelType } from 'app/data-model';
+import { FuelTypeService } from 'app/services/fuel-type/fuel-type.service';
 
 @Component({
-  selector: 'app-fuel-type',
+  selector: 'app-make',
   templateUrl: './fuel-type.component.html',
   styleUrls: ['./fuel-type.component.scss']
 })
 export class FuelTypeComponent implements OnInit {
-  fuelTypeForm: FormGroup;
+  title : string = "Fuel Type";
+  selectedFuelType : FuelType;
 
-  constructor(private fb: FormBuilder) {
-    this.createForm();
+  fuelTypes$: Observable<FuelType>;
+
+  constructor(private fb: FormBuilder, private fuelTypeService:FuelTypeService, private router: Router, private route: ActivatedRoute) {
+
   }
-
-  createForm() {
-    this.fuelTypeForm = this.fb.group({
-      name: ['', Validators.required ],
-    });
-  }
-
 
   ngOnInit() {
+    this.getFuelTypes();
+    this.fuelTypeService.refreshList.subscribe(
+      res=>{
+          this.getFuelTypes();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  getFuelTypes()  {
+    this.fuelTypes$ = this.fuelTypeService.getFuelTypes();
+  }
+
+  searchFuelTypes(searchTerm){
+    if(searchTerm){
+      this.fuelTypes$ = this.fuelTypeService.searchFuelTypes(searchTerm);
+    }
+    else{
+      this.fuelTypes$ = new EmptyObservable();
+    }
   }
 
 }

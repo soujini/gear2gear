@@ -10,7 +10,8 @@ const makeRoutes: Routes = [
     component: MakeComponent,
     children: [
         {path: 'list',component: MakeListComponent},
-        {path: 'add', component: MakeFormComponent}
+        {path: 'add', component: MakeFormComponent},
+        {path: 'edit', component: MakeFormComponent}
       ]
 }];
 

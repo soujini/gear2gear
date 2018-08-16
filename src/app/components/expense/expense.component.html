@@ -1,0 +1,14 @@
+<header class="header">
+  <div class="col-12">
+    <app-title [title]=title></app-title>
+  </div>
+</header>
+
+<div class="row">
+  <div class="col-4">
+  <app-expense-list (searchTerm)="searchExpenses($event)" [results$]="expenses$"></app-expense-list>
+  </div>
+  <div class="col-8">
+    <router-outlet></router-outlet>
+  </div>
+</div>

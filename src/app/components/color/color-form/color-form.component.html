@@ -1,0 +1,36 @@
+<section class="container-fluid section">
+
+  <div class="col-12 grey lighten-4">
+    <header class="header row">
+      <div class="col-12">
+        <app-title [title]=title></app-title>
+      </div>
+    </header>
+
+    <div class="col-12">
+      <form [formGroup]="colorForm" (ngSubmit)="onSubmit()" >
+        <div class="form-group">
+          <label for="inputColorName" class="col-sm-2 col-form-label">Name</label>
+          <div>
+            <div class="md-form mt-0">
+              <input type="text" class="form-control capitalize" id="inputColorName" formControlName="name">
+              <!-- <p style="color:red" *ngIf="colorForm.controls.name.touched && colorForm.controls.name.errors.required">Required</p> -->
+              <app-control-messages [control]="colorForm.controls.name"></app-control-messages>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="text-right">
+            <!--  [disabled]="colorForm.invalid"-->
+            <button type="submit" class="btn btn-primary btn-custom btn-md" >
+              <i class="fa fa-save"></i>
+            </button>
+            <app-simple-modal [module]="module" [mode]="mode" [name]="colorForm.controls.name.value" (isDelete)="deleteColor($event)"></app-simple-modal>
+
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

@@ -1,42 +1,14 @@
-// import { BrowserModule } from '@angular/platform-browser';
-// import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-// import { MDBBootstrapModule } from 'angular-bootstrap-md';
-// import { HttpModule } from '@angular/http';
-// import { RouterModule } from '@angular/router';
-//
-// import { AppRoutingModule } from './app-routing.module';
-//
-// import { AuthService } from './auth/auth.service';
-//
-// import { AppComponent } from './app.component';
-// import { HeaderComponent } from './components/header/header.component';
-//
-// @NgModule({
-//   declarations: [
-//     AppComponent,
-//     HeaderComponent
-//   ],
-//   imports: [
-//     BrowserModule,
-//     AppRoutingModule,
-//     MDBBootstrapModule.forRoot()
-//   ],
-//   schemas: [ NO_ERRORS_SCHEMA ],
-//   providers: [AuthService],
-//   bootstrap: [
-//     AppComponent,
-//     HeaderComponent
-//   ]
-// })
-// export class AppModule { }
-
-
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
-import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';  // replaces previous Http service
+
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatButtonModule, MatCheckboxModule} from '@angular/material';
+import {MatTabsModule} from '@angular/material/tabs';
+
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -47,16 +19,26 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './auth/auth.service';
 import { CallbackComponent } from './callback/callback.component';
 import { HeaderComponent } from './components/header/header.component';
-import { ModelComponent } from './components/model/model.component';
-import { VariantComponent } from './components/variant/variant.component';
-import { VehicleTypeComponent } from './components/vehicle-type/vehicle-type.component';
-import { FuelTypeComponent } from './components/fuel-type/fuel-type.component';
-import { TransmissionTypeComponent } from './components/transmission-type/transmission-type.component';
-import { InsuranceComponent } from './components/insurance/insurance.component';
-import { InsuranceTypeComponent } from './components/insurance-type/insurance-type.component';
-import { ColorComponent } from './components/color/color.component';
-import { CarComponent } from './components/car/car.component';
-import { MakeService } from './services/make.service';
+
+import { ValidationService } from './services/validation/validation.service';
+
+import { MakeService } from './services/make/make.service';
+import { ModelService } from './services/model/model.service';
+import { VariantService } from './services/variant/variant.service';
+import { VehicleTypeService } from './services/vehicle-type/vehicle-type.service';
+import { FuelTypeService } from './services/fuel-type/fuel-type.service';
+import { InsuranceTypeService } from './services/insurance-type/insurance-type.service';
+import { TransmissionTypeService } from './services/transmission-type/transmission-type.service';
+import { InsuranceService } from './services/insurance/insurance.service';
+import { ColorService } from './services/color/color.service';
+import { CarService } from './services/car/car.service';
+import { ClientService } from './services/client/client.service';
+import { CommonService } from './services/common/common.service';
+import { ExpenseService } from './services/expense/expense.service';
+import { TransactionTypeService } from './services/transaction-type/transaction-type.service';
+import { TransactionDetailsService } from './services/transaction-details/transaction-details.service';
+import { InvestmentReocrdsComponent } from './components/investment-reocrds/investment-reocrds.component';
+
 
 @NgModule({
   declarations: [
@@ -64,25 +46,45 @@ import { MakeService } from './services/make.service';
     HomeComponent,
     CallbackComponent,
     HeaderComponent,
-    ModelComponent,
-    VariantComponent,
-    VehicleTypeComponent,
-    FuelTypeComponent,
-    TransmissionTypeComponent,
-    InsuranceComponent,
-    InsuranceTypeComponent,
-    ColorComponent,
-    CarComponent,
-  ],
+    InvestmentReocrdsComponent,
+    ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     MDBBootstrapModule.forRoot(),
-    HttpModule,
     RouterModule.forRoot(ROUTES),
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatTabsModule
+  ],
+  exports:[
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatTabsModule
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
-  providers: [AuthService,MakeService],
+  providers: [
+    AuthService,
+    ValidationService,
+    MakeService,
+    ModelService,
+    VariantService,
+    VehicleTypeService,
+    FuelTypeService,
+    InsuranceTypeService,
+    TransmissionTypeService,
+    ColorService,
+    CarService,
+    InsuranceService,
+    ExpenseService,
+    ClientService,
+    CommonService,
+    TransactionTypeService,
+    TransactionDetailsService
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

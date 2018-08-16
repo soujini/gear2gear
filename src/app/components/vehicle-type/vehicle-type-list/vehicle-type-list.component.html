@@ -1,0 +1,25 @@
+<section class="container-fluid section-list">
+  <div>
+    <app-search (searchTermValueChanged)="searchVehicleTypes($event)" (isCreate)="createVehicleType('Create')"></app-search>
+  </div>
+  <div>
+    <table class="table">
+      <thead class="#f5f5f5 grey lighten-4">
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let vehicleType of results$ | async'>
+          <th scope="row">{{vehicleType.vehicle_type_id}}</th>
+          <td>{{vehicleType.name}}</td>
+          <td class="pointer" (click)="selectVehicleType(vehicleType.vehicle_type_id, 'Edit')">
+              <i class="fa fa-pencil"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

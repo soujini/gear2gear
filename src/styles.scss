@@ -1,10 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+
 .navbar-custom{
-  background-color: black;
+  background-color: #121213;
   text-align: right;
   color:gray;
   font-size: 18px;
-   // height:100px;
    font-family: Bebas-Neue,Arial,sans-serif;
 letter-spacing: 0.12em;
 }
@@ -13,10 +13,7 @@ body, html {
     font-family: fakt-web,Helvetica Neue,Hevetica,sans-serif;
 }
 body{
-  // font-weight: 400;
   color:#1C2331;
-  // line-height: 1.8;
-
 }
 .padding0{
   padding:0px;
@@ -24,7 +21,7 @@ body{
 
 .navbar-transparent:not(.top-nav-collapse) {
   // background-color: black !important;
-  color: white !important;
+  color: #CDCFD0 !important;
 }
 // .navbar-custom {
 //   height:115px !important;
@@ -74,61 +71,18 @@ body{
 
 .section-title{
    text-align: center;
-  // position: relative;
-  // overflow: hidden;
-   text-transform: uppercase;
-  // font-weight: 400;
-  // font-size: 1rem;
-  // line-height: 1.5;
-  // letter-spacing: 2px;
-  // // font-family: "Open Sans", sans-serif;
-  // color:#333;
   font-family: inherit;
-font-weight: 500;
 line-height: 1.1;
-color: rgba(0,0,0,.86);
+// color: rgba(0,0,0,.86);
   padding-top: 30px;
   font-size: 32px;
   margin: 60px auto;
-max-width: 600px;
 text-align: center;
 }
-.section-title h2 {
-    font-size: 32px;
-    margin-top: 28px;
-    margin-bottom: 14px;
+.section-title h2{
+  font-weight: 300 !important;
+  color:#43464B !important;
 }
-.section-title .underline {
-  display: block;
-  position: relative;
-  width: 6rem;
-  height: 0.2rem;
-  margin: 2.5rem auto 0;
-  background: #555555;
-  margin-top: 1.5rem;
-  margin-bottom: 2.5rem;
-
-}
-.section-title .underline .line {
-  display: block;
-  position: relative;
-  width: 6.4rem;
-  height: 0.5rem;
-  left: 50%;
-  top: -0.1rem;
-  margin-left: -3rem;
-  background: #d01110;
-}
-.section-title:hover .underline .line {
-  animation-name: slide;
-  -webkit-animation-name: slide;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-iteration-count: 1;
-  animation-iteration-count: 1;
-  background-color: red !important;
-}
-
 .p-25{
   padding:25px;
 }
@@ -210,10 +164,11 @@ text-align: center;
 
 }
 .btn-custom {
-    background-color: green !important;
+    background-color: #43464B !important;
     color: white !important;
     height: 38px;
-    border:green-text;
+    border:#43464B;
+    border-radius:3px;
 }
 .capitalize{
   text-transform: capitalize;
@@ -221,10 +176,59 @@ text-align: center;
 .section{
   background-color:white;
   height:100%;
-  margin-top:25px;
 }
 .pointer{
   cursor: pointer;
+}
+
+.section-list{
+  background-color: white;
+}
+.fa{
+  font-size: 16px !important;
+}
+
+.nm-left3{
+  margin-left: -2px !important;
+}
+
+.loader {
+    border: 5px solid black; /* Light grey */
+    border-top: 5px solid greenyellow; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+     z-index: 1;
+     position: fixed;
+     left: 50%;
+top: 50%;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.navbar .dropdown-menu a{
+  background-color: black !important;
+  color:#CDCFD0 !important;
+}
+
+.bg-highlight{
+  background-color: greenyellow;
+}
+.bg-highlight > td{
+  font-weight:bold;
+  border:none;
+}
+.bg-highlight > input{
+  margin-top:-5px !important;
+  border:0;
+  font-weight:bold;
+}
+.border-none{
+  border:0;
 }
 // @include media-breakpoint-up(xs) {
 //   .navbar-custom{

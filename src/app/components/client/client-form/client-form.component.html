@@ -1,0 +1,131 @@
+<section class="container-fluid section">
+  <div class="col-12 grey lighten-4">
+    <header class="header row">
+      <div class="col-12">
+        <app-title [title]=title></app-title>
+      </div>
+    </header>
+    <div class="col-12">
+      <form [formGroup]="clientForm" (ngSubmit)="onSubmit()" >
+        <div class="form-group">
+          <label for="inputClientName" class="col-sm-3 col-form-label">Name</label>
+          <div>
+            <div class="md-form mt-0">
+              <input type="text" class="form-control capitalize" id="inputClientName" formControlName="name">
+              <!-- <p style="color:red" *ngIf="clientForm.controls.name.touched && clientForm.controls.name.errors.required">Required</p> -->
+              <app-control-messages [control]="clientForm.controls.name"></app-control-messages>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPhone" class="col-sm-3 col-form-label">Phone</label>
+          <div>
+            <div class="md-form mt-0">
+              <input type="text" class="form-control capitalize" id="inputPhone" formControlName="phone">
+              <!-- <p style="color:red" *ngIf="clientForm.controls.name.touched && clientForm.controls.name.errors.required">Required</p> -->
+              <app-control-messages [control]="clientForm.controls.phone"></app-control-messages>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputEmail" class="col-sm-3 col-form-label">Email</label>
+          <div>
+            <div class="md-form mt-0">
+              <input type="text" class="form-control" id="inputEmail" formControlName="email">
+              <!-- <p style="color:red" *ngIf="clientForm.controls.name.touched && clientForm.controls.name.errors.required">Required</p> -->
+              <app-control-messages [control]="clientForm.controls.email"></app-control-messages>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputAddress" class="col-sm-3 col-form-label">Address</label>
+          <div>
+            <div class="md-form mt-0">
+              <input type="text" class="form-control capitalize" id="inputAddress" formControlName="address">
+              <!-- <p style="color:red" *ngIf="clientForm.controls.name.touched && clientForm.controls.name.errors.required">Required</p> -->
+              <app-control-messages [control]="clientForm.controls.address"></app-control-messages>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputCity" class="col-sm-3 col-form-label">City</label>
+          <div>
+            <div class="md-form mt-0">
+              <input type="text" class="form-control capitalize" id="inputCity" formControlName="city">
+              <app-control-messages [control]="clientForm.controls.city"></app-control-messages>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputState" class="col-sm-3 col-form-label">State</label>
+          <div>
+            <div class="md-form mt-0">
+              <!-- <input type="text" class="form-control capitalize" id="inputState" formControlName="state"> -->
+              <select class="form-control" id="sel1" formControlName="state">
+                <option *ngFor="let state of clientService.states$" [value]="state.id" >{{state.name}}</option>
+
+              </select>
+              <app-control-messages [control]="clientForm.controls.state"></app-control-messages>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPin" class="col-sm-3 col-form-label">Pin</label>
+          <div>
+            <div class="md-form mt-0">
+              <input type="text" class="form-control capitalize" id="inputPin" formControlName="pin">
+              <!-- <p style="color:red" *ngIf="clientForm.controls.name.touched && clientForm.controls.name.errors.required">Required</p> -->
+              <!-- <app-control-messages [control]="clientForm.controls.pin"></app-control-messages> -->
+            </div>
+          </div>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="inputInvestor" formControlName="is_investor">
+          <label class="form-check-label" for="inputInvestor">Is Investor?</label>
+        </div>
+        <div class="form-group" *ngIf="clientForm.controls.is_investor.value == true">
+          <label class="col-sm-3 col-form-label">Investment Records</label>
+          <div>
+            <div class="md-form mt-0">
+              <table *ngIf="clientForm.controls.investment_records.length >=1" class="table" >
+                <thead class="#f5f5f5 grey lighten-4">
+                  <tr>
+                    <th>Date</th>
+                    <th class="text-right">Amount</th>
+                    <th class="text-center">Void</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr  formArrayName="investment_records"
+                  *ngFor="let item of clientForm.get('investment_records').controls; let i = index;" >
+                  <td [formGroupName]="i">  <input type="date" class="form-control" formControlName="date" placeholder="Date" [readonly]="item.controls.is_disabled.value == true"></td>
+                  <td [formGroupName]="i" class="text-right">  <input type="text" class="form-control text-right" formControlName="amount" placeholder="Amount" [readonly]="item.controls.is_disabled.value == true" (keyup)="formatCurrency(item.controls.amount)"></td>
+                  <td [formGroupName]="i" class="text-center">
+                    <input *ngIf="item.controls.is_void_disabled.value == false" type="checkbox" class="form-check-input text-center" formControlName="is_void" >
+                    <span *ngIf="item.controls.is_void_disabled.value == true">Void</span>
+                  </td>
+                </tr>
+                <tr class="bg-highlight">
+                  <td><span class="bold">TOTAL INVESTMENT</span></td>
+                  <td class="text-right"><input type="text" class="form-control border-none text-right" formControlName="total_investment" readonly></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <button type="button" class="btn btn-custom" (click) = "addItem()"><i class="fa fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+        <div class="form-group">
+          <div class="text-right">
+            <button type="submit" class="btn btn-primary btn-custom btn-md" >
+            <i class="fa fa-save"></i>
+            </button>
+            <app-simple-modal [module]="module" [mode]="mode" [name]="clientForm.controls.name.value" (isDelete)="deleteClient($event)"></app-simple-modal>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

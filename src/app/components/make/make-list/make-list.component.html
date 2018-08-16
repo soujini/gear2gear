@@ -1,13 +1,13 @@
-<section  class="container-fluid" style="background-color:white;height:100%;margin-top:25px">
+<section class="container-fluid section-list">
   <div>
-    <app-search (searchTermValueChanged) = 'searchMakes($event)' (isCreate)='createMakes($event)'></app-search>
+    <app-search (searchTermValueChanged)="searchMakes($event)" (isCreate)="createMake('Create')"></app-search>
   </div>
   <div>
     <table class="table">
-      <thead class="mdb-color darken-3">
-        <tr class="text-white">
+      <thead class="#f5f5f5 grey lighten-4">
+        <tr>
           <th>#</th>
-          <th>Name</th>
+          <th>Nameasda</th>
           <th>Edit</th>
         </tr>
       </thead>
@@ -15,9 +15,9 @@
         <tr *ngFor='let make of results$ | async'>
           <th scope="row">{{make.make_id}}</th>
           <td>{{make.name}}</td>
-          <td class="pointer" routerLink="/add">
-            <!-- "['add',{outlets:{editsection:'/make/add'}}]" -->
-              <i class="fa fa-pencil" style="font-size:16px"></i>
+          <td class="pointer" (click)="selectMake(make.make_id, 'Edit')">
+              <i class="fa fa-pencil"></i>
+          </td>
         </tr>
       </tbody>
     </table>

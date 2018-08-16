@@ -1,8 +1,14 @@
-<form [formGroup]="insuranceForm">
-  <div class="form-group">
-    <label class="center-block">Name:
-      <input class="form-control" formControlName="name">
-    </label>
+<header class="header">
+  <div class="col-12">
+    <app-title [title]=title></app-title>
   </div>
-  <p>Form value: {{ insuranceForm.value | json }}</p>
-</form>
+</header>
+
+<div class="row">
+  <div class="col-4">
+  <app-insurance-list (searchTerm)="searchInsurances($event)" [results$]="insurances$"></app-insurance-list>
+  </div>
+  <div class="col-8">
+    <router-outlet></router-outlet>
+  </div>
+</div>

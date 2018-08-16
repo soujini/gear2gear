@@ -1,0 +1,107 @@
+
+<header class="header">
+  <div class="col-12">
+    <app-title [title]=title></app-title>
+  </div>
+</header>
+<div class="col-12">
+  search filter -> Vehicle Type, Make, Model, Year, Trasnmission, Max Price and Exterior Color
+
+</div>
+<div class="row" *ngFor="let car of cars$ | async">
+  <div class="col-5" style="height:500px; background-color:red">
+    <mdb-carousel  [isControls]="true" [animation]="'slide'">
+      <mdb-slide>
+        <img class="d-block xw-100" style="height:480px" src="https://mdbootstrap.com/img/Photos/Slides/img%20(130).jpg" alt="First slide">
+      </mdb-slide>
+      <mdb-slide>
+        <img class="d-block xw-100" style="height:480px"  src="https://mdbootstrap.com/img/Photos/Slides/img%20(129).jpg" alt="Second slide">
+      </mdb-slide>
+      <mdb-slide>
+        <img class="d-block xw-100" style="height:480px"  src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg" alt="Third slide">
+      </mdb-slide>
+    </mdb-carousel>
+  </div>
+
+  <div class="col-6">
+    <mat-tab-group>
+      <mat-tab class="col-6" label="Overview">The Every Youths Dream Sedan – Honda Civic, it’s a Luxury loaded with 1.8ltr iVTEC Petrol Engine, VMT comes Loaded with Dual Airbags, Alloys, ABS, Dual tone Leather interiors, rear armrest with remote, central locking with remote, electornic mirror adjustments, multimedia CD player, automatic climate control, fog lamps, etc. Car is Driven 130000 kms recorded mileage from Honda, No accidents till date. Priced at just Rs.385000. Call me on 8618503850 – Location – Jpnagar 2nd phase Bangalore.</mat-tab>
+      <mat-tab class="col-6" label="Details">
+        <table>
+          <tbody>
+            <tr>
+              <td class="t-label">Vehicle Type</td>
+              <td class="t-value h6">{{car.vehicle_type_name}}</td>
+            </tr>
+
+            <tr>
+              <td class="t-label">Fuel type</td>
+              <td class="t-value h6">{{car.fuel_type_name}}</td>
+            </tr>
+
+            <tr>
+              <td class="t-label">Variant</td>
+              <td class="t-value h6">{{car.variant_name}}</td>
+            </tr>
+
+            <tr>
+              <td class="t-label">Year</td>
+              <td class="t-value h6">{{car.make_year}}</td>
+            </tr>
+            <tr>
+              <td class="t-label">Month</td>
+              <td class="t-value h6">{{car.make_month}}</td>
+            </tr>
+
+            <tr>
+              <td class="t-label">Transmission</td>
+              <td class="t-value h6">{{car.trasnmission_type_name}}</td>
+            </tr>
+
+            <tr>
+              <td class="t-label">Fuel economy</td>
+              <td class="t-value h6">{{car.fuel_economy}}</td>
+            </tr>
+
+            <tr>
+              <td class="t-label">Exterior Color</td>
+              <td class="t-value h6">{{car.exterior_color}}</td>
+            </tr>
+
+            <tr>
+              <td class="t-label">Interior Color</td>
+              <td class="t-value h6">{{car.interior_color}}</td>
+            </tr>
+            <tr>
+              <td class="t-label">Accidental?</td>
+              <td class="t-value h6">{{car.is_accidental}}</td>
+            </tr>
+            <tr>
+              <td class="t-label">Flooded?</td>
+              <td class="t-value h6">  <input type="checkbox" class="form-check-input" value="car.is_flooded"></td>
+            </tr>
+            <tr>
+              <td class="t-label">Mileage</td>
+              <td class="t-value h6">{{car.mileage}}</td>
+            </tr>
+            <tr>
+              <td class="t-label">Insurance Type</td>
+              <td class="t-value h6">{{car.insurance_type_name}}</td>
+            </tr>
+            <tr>
+              <td class="t-label">Insurance Year</td>
+              <td class="t-value h6">{{car.insurance_year}}</td>
+            </tr>
+            <tr>
+              <td class="t-label">Number of Owners</td>
+              <td class="t-value h6">{{car.owners}}</td>
+            </tr>
+            <tr>
+              <td class="t-label">Registration Number</td>
+              <td class="t-value t-vin h6">KA51P7589</td>
+            </tr>
+          </tbody></table>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

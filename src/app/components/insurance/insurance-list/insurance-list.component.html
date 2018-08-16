@@ -1,0 +1,25 @@
+<section class="container-fluid section-list">
+  <div>
+    <app-search (searchTermValueChanged)="searchInsurances($event)" (isCreate)="createInsurance('Create')"></app-search>
+  </div>
+  <div>
+    <table class="table">
+      <thead class="#f5f5f5 grey lighten-4">
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let insurance of results$ | async'>
+          <th scope="row">{{insurance.insurance_id}}</th>
+          <td>{{insurance.name}}</td>
+          <td class="pointer" (click)="selectInsurance(insurance.insurance_id, 'Edit')">
+              <i class="fa fa-pencil"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

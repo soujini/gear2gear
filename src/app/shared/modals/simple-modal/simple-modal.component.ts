@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild, Input, Output,EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-simple-modal',
@@ -7,15 +7,19 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 })
 export class SimpleModalComponent implements OnInit {
   // @ViewChild('content') public contentModal;
-  public name: string;
+  @Input() module :string = "";
+  @Input() mode :string = "";
+  @Input() name :string = "";
+  @Output() isDelete = new EventEmitter();
+
 
   constructor() { }
 
-  show(value:string){
-      this.name = value;
-    //  this.contentModal.show();
-  }
   ngOnInit() {
-  }
 
+  }
+  delete(){
+      this.isDelete.emit(true);
+      document.getElementById('linkid').click();
+  }
 }
