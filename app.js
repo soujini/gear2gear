@@ -40,6 +40,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+
 app.use(makesAPI);
 app.use(modelsAPI);
 app.use(variantsAPI);
@@ -55,8 +56,13 @@ app.use(expensesAPI);
 app.use(transactionTypesAPI);
 app.use(transactionDetailsAPI);
 
-app.get('*', (req,res) => {
-  res.sendFile(path.join(__dirname, 'dist/index.html'));
+// app.get('*', (req,res) => {
+//   res.sendFile(path.join(__dirname, 'dist/index.html'));
+// });
+
+app.get('*', function (req, res) {
+  const index = path.join(__dirname, 'build', 'index.html');
+  res.sendFile(index);
 });
 app.set('port',port);
 
