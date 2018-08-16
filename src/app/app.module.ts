@@ -60,6 +60,7 @@ import { InvestmentReocrdsComponent } from './components/investment-reocrds/inve
     MatTabsModule
   ],
   exports:[
+    BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatCheckboxModule,
