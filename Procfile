@@ -1,2 +1,1 @@
-web: node app.js,
-'heroku-postbuild': npm install --production
+web: node app.js
