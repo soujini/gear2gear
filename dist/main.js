@@ -8424,30 +8424,30 @@ var MakeService = /** @class */ (function () {
         this.refreshList = new rxjs_Subject__WEBPACK_IMPORTED_MODULE_4__["Subject"]();
     }
     MakeService.prototype.getMakes = function () {
-        return this.http.get('http://gear2gear.herokuapp.com/api/makes', { headers: { 'Content-Type': 'application/json; charset=utf-8' } });
+        return this.http.get('https://gear2gear.herokuapp.com/api/makes', { headers: { 'Content-Type': 'application/json; charset=utf-8' } });
         //.map(res => res);
     };
     MakeService.prototype.getMakeById = function (make_id) {
-        return this.http.get('http://gear2gear.herokuapp.com/api/makes/' + make_id, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+        return this.http.get('https://gear2gear.herokuapp.com/api/makes/' + make_id, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
             .map(function (res) { return res; });
     };
     MakeService.prototype.searchMakes = function (searchTerm) {
-        return this.http.get('http://gear2gear.herokuapp.com/api/makes/search/' + searchTerm, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+        return this.http.get('https://gear2gear.herokuapp.com/api/makes/search/' + searchTerm, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
             .map(function (res) { return res; });
     };
     MakeService.prototype.createMake = function (newMake) {
         var body = JSON.stringify(newMake);
-        return this.http.post('http://gear2gear.herokuapp.com/api/makes', body, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+        return this.http.post('https://gear2gear.herokuapp.com/api/makes', body, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
             .map(function (res) { return res; });
     };
     MakeService.prototype.updateMake = function (editMake) {
         var body = JSON.stringify(editMake);
         var make_id = editMake.make_id;
-        return this.http.put("http://gear2gear.herokuapp.com/api/makes/" + make_id, body, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+        return this.http.put("https://gear2gear.herokuapp.com/api/makes/" + make_id, body, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
             .map(function (res) { return res; });
     };
     MakeService.prototype.deleteMake = function (make_id) {
-        return this.http.delete('http://gear2gear.herokuapp.com/api/makes/' + make_id, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+        return this.http.delete('https://gear2gear.herokuapp.com/api/makes/' + make_id, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
             .map(function (res) { return res; });
     };
     MakeService.prototype.extractData = function (res) {
