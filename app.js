@@ -24,7 +24,8 @@ const transactionTypesAPI = require('./src/api/routes/transaction-types');
 const transactionDetailsAPI = require('./src/api/routes/transaction-details');
 
 var corsOptions = {
-  origin: 'http://localhost:3000',
+   origin: 'http://localhost:3000',
+  // origin: 'postgres://bltypmsejfdisv:e88eb86f18914916049a49313bb5c7a8044cd50c229e0b55671ace8e4565f4ea@ec2-174-129-236-147.compute-1.amazonaws.com:5432/d2m86fr3a5nu60?&ssl=true',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
