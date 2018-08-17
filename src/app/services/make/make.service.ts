@@ -27,24 +27,24 @@ export class MakeService {
   }
 
   public getMakes(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/makes', {headers: {'Content-Type': 'application/json; charset=utf-8'}});
+    return this.http.get('http://gear2gear.herokuapp.com/api/makes', {headers: {'Content-Type': 'application/json; charset=utf-8'}});
     //.map(res => res);
   }
 
   public getMakeById(make_id:number): Observable<any> {
-    return this.http.get('http://localhost:3000/api/makes/'+make_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get('http://gear2gear.herokuapp.com/api/makes/'+make_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public searchMakes(searchTerm): Observable<any> {
-    return this.http.get('http://localhost:3000/api/makes/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get('http://gear2gear.herokuapp.com/api/makes/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public createMake(newMake:Make): Observable<any> {
     const body = JSON.stringify(newMake);
 
-    return this.http.post('http://localhost:3000/api/makes', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.post('http://gear2gear.herokuapp.com/api/makes', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
@@ -52,12 +52,12 @@ export class MakeService {
     const body = JSON.stringify(editMake);
     const make_id = editMake.make_id;
 
-    return this.http.put("http://localhost:3000/api/makes/"+make_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.put("http://gear2gear.herokuapp.com/api/makes/"+make_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public deleteMake(make_id:number): Observable<any> {
-    return this.http.delete('http://localhost:3000/api/makes/'+make_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.delete('http://gear2gear.herokuapp.com/api/makes/'+make_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
