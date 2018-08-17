@@ -23,7 +23,7 @@ export class ClientFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private clientService:ClientService,
+    public clientService:ClientService,
     private commonService: CommonService,
     private router:Router,
     private route:ActivatedRoute) {

@@ -16,7 +16,7 @@ const client = new Client({
 client.connect(function(err,client,done) {
   if(err){
     console.log("Failed to connect to the database "+ err);
-    // res.status(400).send(err);
+
   }
 });
 

@@ -37,7 +37,6 @@ import { CommonService } from './services/common/common.service';
 import { ExpenseService } from './services/expense/expense.service';
 import { TransactionTypeService } from './services/transaction-type/transaction-type.service';
 import { TransactionDetailsService } from './services/transaction-details/transaction-details.service';
-import { InvestmentReocrdsComponent } from './components/investment-reocrds/investment-reocrds.component';
 
 
 @NgModule({
@@ -46,7 +45,6 @@ import { InvestmentReocrdsComponent } from './components/investment-reocrds/inve
     HomeComponent,
     CallbackComponent,
     HeaderComponent,
-    InvestmentReocrdsComponent,
     ],
   imports: [
     BrowserModule,

@@ -8,7 +8,6 @@ import 'hammerjs';
 
 if (environment.production) {
   enableProdMode();
-}
-
+}alert(environment.production);
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.log(err));
