@@ -1,4 +1,1 @@
-"scripts": {
-"web": "node app.js",
-"postinstall": "ng build --environment=production",
-}
+web: node app.js
