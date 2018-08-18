@@ -1,43 +1,28 @@
-const { Client } = require('pg');
+var client = require('./connection');
 const express = require('express');
 const http = require('http');
 const router = express.Router();
-
-/* Connect to local postgres db before starting the application server*/
-const client = new Client({
-  // connectionString: process.env.DATABASE_URL,
-  connectionString:'postgres://bltypmsejfdisv:e88eb86f18914916049a49313bb5c7a8044cd50c229e0b55671ace8e4565f4ea@ec2-174-129-236-147.compute-1.amazonaws.com:5432/d2m86fr3a5nu60?&ssl=true',
- // connectionString:'postgres://localhost:5432/postgres',
-  ssl: true,
-  // database: 'd2m86fr3a5nu60',
-  // user: 'bltypmsejfdisv',
-  //port: 5432
-});
-client.connect(function(err,client,done) {
-  if(err){
-    console.log("Failed to connect to the database "+ err);
-
-  }
-});
+// const env = require('dotenv').config();
 
 router.get('/api/cars', function(req, res) {
+
   client.query(
     'SELECT C.*, MK.NAME AS MAKE_NAME, MD.NAME AS MODEL_NAME '+
-    'FROM CAR C '+
-    'LEFT JOIN MAKE MK ON C.MAKE = MK.MAKE_ID '+
-    'LEFT JOIN MODEL MD ON C.MODEL = MD.MODEL_ID ',
+    'FROM PUBLIC.CAR C '+
+    'LEFT JOIN PUBLIC.MAKE MK ON C.MAKE = MK.MAKE_ID '+
+    'LEFT JOIN PUBLIC.MODEL MD ON C.MODEL = MD.MODEL_ID ',
     function(err,result) {
-      if(err){
-        console.log(err);
-        res.status(400).send(err);
-      }
-      else{
+    if(err){
+      console.log(err);
+      res.status(400).send(err);
+    }
+    else{
 
-        res.status(200).send(result.rows);
-        // client.end(); // closing the connection;
-      }
-    });
+      res.status(200).send(result.rows);
+      // client.end(); // closing the connection;
+    }
   });
+});
 
   router.get('/api/available-cars', function(req, res) {
     client.query(

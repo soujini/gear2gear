@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 import { Make } from '../../data-model';
 import { Http, Response } from '@angular/http';
@@ -17,8 +18,7 @@ const httpOptions = {
 
 @Injectable()
 export class MakeService {
-  private makesUrl = '/api/makes';
-  private putUrl = '/api/makes';
+  private apiUrl = environment.API_URL;
   selectedMakeId :Subject<any> = new Subject();
   selectedMode :string = "Create";
   refreshList:Subject<any> = new Subject();
@@ -27,24 +27,25 @@ export class MakeService {
   }
 
   public getMakes(): Observable<any> {
-    return this.http.get('https://gear2gear.herokuapp.com/api/makes', {headers: {'Content-Type': 'application/json; charset=utf-8'}});
-    //.map(res => res);
+    var x = this.apiUrl+'/api/makes';
+    return this.http.get(this.apiUrl+'/api/makes', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    .map(res => res);
   }
 
   public getMakeById(make_id:number): Observable<any> {
-    return this.http.get('https://gear2gear.herokuapp.com/api/makes/'+make_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/makes/'+make_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public searchMakes(searchTerm): Observable<any> {
-    return this.http.get('https://gear2gear.herokuapp.com/api/makes/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/makes/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public createMake(newMake:Make): Observable<any> {
     const body = JSON.stringify(newMake);
 
-    return this.http.post('https://gear2gear.herokuapp.com/api/makes', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.post(this.apiUrl+'/api/makes', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
@@ -57,7 +58,7 @@ export class MakeService {
   }
 
   public deleteMake(make_id:number): Observable<any> {
-    return this.http.delete('https://gear2gear.herokuapp.com/api/makes/'+make_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.delete(this.apiUrl+'/api/makes/'+make_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 

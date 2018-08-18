@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 import { Car } from '../../data-model';
 import { Http, Response } from '@angular/http';
@@ -15,11 +16,9 @@ const httpOptions = {
   headers: { 'Content-Type': 'application/json' }
 };
 
-
 @Injectable()
 export class CarService {
-  private carsUrl = '/api/cars';
-  private putUrl = '/api/cars';
+  private apiUrl = environment.API_URL;
   selectedCarId = new BehaviorSubject(0);
   sold:Subject<any> = new Subject();
   selectedMode :string = "Create";
@@ -30,32 +29,32 @@ export class CarService {
   }
 
   public getCars(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/cars', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/cars', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
   public getAvailableCars(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/available-cars', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/available-cars', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
   public getSoldCars(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/sold-cars', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/sold-cars', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public getCarById(car_id:number): Observable<any> {
-    return this.http.get('http://localhost:3000/api/cars/'+car_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/cars/'+car_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public searchCars(searchTerm): Observable<any> {
-    return this.http.get('http://localhost:3000/api/cars/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/cars/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public createCar(newCar:Car): Observable<any> {
     const body = JSON.stringify(newCar);
 
-    return this.http.post('http://localhost:3000/api/cars', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.post(this.apiUrl+'/api/cars', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
@@ -63,17 +62,16 @@ export class CarService {
     const body = JSON.stringify(editCar);
     const car_id = editCar.car_id;
 
-    return this.http.put("http://localhost:3000/api/cars/"+car_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.put(this.apiUrl+'/api/cars/'+car_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public updateTotalCost(car:any) {
     const body = JSON.stringify(car);
     const car_id = car.car_id;
-    return this.http.patch('http://localhost:3000/api/cars/'+car_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.patch(this.apiUrl+'/api/cars/'+car_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .subscribe(
       res => {
-      console.log("asdadsada", res);
     },
     err => {
        console.log("error here", err);
@@ -87,7 +85,7 @@ export class CarService {
   public updateTotalIncome(car:any) {
     const body = JSON.stringify(car);
     const car_id = car.car_id;
-    return this.http.patch('http://localhost:3000/api/cars/income/'+car_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.patch(this.apiUrl+'/api/cars/income/'+car_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .subscribe(
       res => {
       console.log("Total Income of the car is Updated", res);
@@ -102,7 +100,7 @@ export class CarService {
   }
 
   public deleteCar(car_id:number): Observable<any> {
-    return this.http.delete('http://localhost:3000/api/cars/'+car_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.delete(this.apiUrl+'/api/cars/'+car_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 

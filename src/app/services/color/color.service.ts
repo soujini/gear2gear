@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 import { Color } from '../../data-model';
 import { Http, Response } from '@angular/http';
@@ -17,8 +18,7 @@ const httpOptions = {
 
 @Injectable()
 export class ColorService {
-  private colorsUrl = '/api/colors';
-  private putUrl = '/api/colors';
+  private apiUrl = environment.API_URL;
   selectedColorId :Subject<any> = new Subject();
   selectedMode :string = "Create";
   refreshList:Subject<any> = new Subject();
@@ -27,24 +27,24 @@ export class ColorService {
   }
 
   public getColors(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/colors', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/colors', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public getColorById(color_id:number): Observable<any> {
-    return this.http.get('http://localhost:3000/api/colors/'+color_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/colors/'+color_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public searchColors(searchTerm): Observable<any> {
-    return this.http.get('http://localhost:3000/api/colors/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/colors/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public createColor(newColor:Color): Observable<any> {
     const body = JSON.stringify(newColor);
 
-    return this.http.post('http://localhost:3000/api/colors', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.post(this.apiUrl+'/api/colors', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
@@ -57,7 +57,7 @@ export class ColorService {
   }
 
   public deleteColor(color_id:number): Observable<any> {
-    return this.http.delete('http://localhost:3000/api/colors/'+color_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.delete(this.apiUrl+'/api/colors/'+color_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 

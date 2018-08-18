@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 import { TransactionDetails } from '../../data-model';
 import { Http, Response } from '@angular/http';
@@ -16,8 +17,7 @@ const httpOptions = {
 
 @Injectable()
 export class TransactionDetailsService {
-  private transactionDetailsUrl = '/api/transactionDetails';
-  private putUrl = '/api/transactionDetails';
+  private apiUrl = environment.API_URL;
   selectedTransactionDetailsId :Subject<any> = new Subject();
   selectedMode :string = "Create";
   refreshList:Subject<any> = new Subject();
@@ -26,33 +26,33 @@ export class TransactionDetailsService {
   }
 
   public getTransactionDetails(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/transactionDetails', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/transactionDetails', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public getTransactionDetailsById(transaction_details_id:number): Observable<any> {
-    return this.http.get('http://localhost:3000/api/transactionDetails/'+transaction_details_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/transactionDetails/'+transaction_details_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
   public getTotalInvestmentAndBalanceByCar(car_id:number): Observable<any> {
-    return this.http.get('http://localhost:3000/api/transactionDetails/totalInvestmentBalance/'+car_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/transactionDetails/totalInvestmentBalance/'+car_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   // public searchTransactionDetailss(searchTerm): Observable<any> {
-  //   return this.http.get('http://localhost:3000/api/transactionDetails/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+  //   return this.http.get(this.apiUrl+'/api/transactionDetails/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
   //   .map(res => res);
   // }
 
    public createTransactionDetails(newTransactionDetails:TransactionDetails): Observable<any> {
      console.log(newTransactionDetails);
      const body = JSON.stringify(newTransactionDetails);
-     return this.http.post('http://localhost:3000/api/transactionDetails',body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+     return this.http.post(this.apiUrl+'/api/transactionDetails',body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
      .map(res => res);
    }
    public createTransactionDetailsProfitAndLoss(newTransactionDetails:any): Observable<any> {
     const body = JSON.stringify(newTransactionDetails);
-     return this.http.post('http://localhost:3000/api/transactionDetails/profitAndLoss',body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+     return this.http.post(this.apiUrl+'/api/transactionDetails/profitAndLoss',body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
      .map(res => res);
    }
 
@@ -65,7 +65,7 @@ export class TransactionDetailsService {
   }
 
   public deleteTransactionDetails(transaction_details_id:number): Observable<any> {
-    return this.http.delete('http://localhost:3000/api/transactionDetails/'+transaction_details_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.delete(this.apiUrl+'/api/transactionDetails/'+transaction_details_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
   public deleteProfitOrLossTransactionDetails(car_id:number, investorsExpensesAndPercent:any): Observable<any> {
@@ -77,7 +77,7 @@ export class TransactionDetailsService {
       body: investorsDetails,
     };
 
-    return this.http.delete('http://localhost:3000/api/transactionDetails/deleteProfitOrLoss/'+car_id, options)
+    return this.http.delete(this.apiUrl+'/api/transactionDetails/deleteProfitOrLoss/'+car_id, options)
     .map(res => res);
   }
 

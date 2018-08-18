@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 import { Expense } from '../../data-model';
 import { Http, Response } from '@angular/http';
@@ -17,8 +18,7 @@ const httpOptions = {
 
 @Injectable()
 export class ExpenseService {
-  private expensesUrl = '/api/expenses';
-  private putUrl = '/api/expenses';
+  private apiUrl = environment.API_URL;
   selectedExpenseId :Subject<any> = new Subject();
   selectedMode :string = "Create";
   refreshList:Subject<any> = new Subject();
@@ -27,24 +27,24 @@ export class ExpenseService {
   }
 
   public getExpenses(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/expenses', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/expenses', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public getExpenseById(expense_id:number): Observable<any> {
-    return this.http.get('http://localhost:3000/api/expenses/'+expense_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/expenses/'+expense_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public searchExpenses(searchTerm): Observable<any> {
-    return this.http.get('http://localhost:3000/api/expenses/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/expenses/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public createExpense(newExpense:Expense): Observable<any> {
     const body = JSON.stringify(newExpense);
 
-    return this.http.post('http://localhost:3000/api/expenses', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.post(this.apiUrl+'/api/expenses', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
@@ -57,7 +57,7 @@ export class ExpenseService {
   }
 
   public deleteExpense(expense_id:number): Observable<any> {
-    return this.http.delete('http://localhost:3000/api/expenses/'+expense_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.delete(this.apiUrl+'/api/expenses/'+expense_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 

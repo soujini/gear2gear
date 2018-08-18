@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 import { Model } from '../../data-model';
 import { Http, Response } from '@angular/http';
@@ -17,8 +18,7 @@ const httpOptions = {
 
 @Injectable()
 export class ModelService {
-  private modelsUrl = '/api/models';
-  private putUrl = '/api/models';
+  private apiUrl = environment.API_URL;
   selectedModelId :Subject<any> = new Subject();
   selectedMode :string = "Create";
   refreshList:Subject<any> = new Subject();
@@ -27,24 +27,24 @@ export class ModelService {
   }
 
   public getModels(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/models', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
-    .map(res => res);
+    return this.http.get(this.apiUrl+'/api/models', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+   .map(res => res);
   }
 
   public getModelById(model_id:number): Observable<any> {
-    return this.http.get('http://localhost:3000/api/models/'+model_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/models/'+model_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public searchModels(searchTerm): Observable<any> {
-    return this.http.get('http://localhost:3000/api/models/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/models/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public createModel(newModel:Model): Observable<any> {
     const body = JSON.stringify(newModel);
 
-    return this.http.post('http://localhost:3000/api/models', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.post(this.apiUrl+'/api/models', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
@@ -57,7 +57,7 @@ export class ModelService {
   }
 
   public deleteModel(model_id:number): Observable<any> {
-    return this.http.delete('http://localhost:3000/api/models/'+model_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.delete(this.apiUrl+'/api/models/'+model_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 

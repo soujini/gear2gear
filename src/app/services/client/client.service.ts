@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 import { Client } from '../../data-model';
 import { Http, Response } from '@angular/http';
@@ -18,8 +19,7 @@ const httpOptions = {
 
 @Injectable()
 export class ClientService {
-  private clientsUrl = '/api/clients';
-  private putUrl = '/api/clients';
+  private apiUrl = environment.API_URL;
   selectedClientId :Subject<any> = new Subject();
   selectedMode :string = "Create";
   refreshList:Subject<any> = new Subject();
@@ -29,26 +29,26 @@ export class ClientService {
   }
 
   public getClients(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/clients', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/clients', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
   public getInvestors(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/investors', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/investors', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
   public getInvestorsExpensesAndPercent(car_id:number): Observable<any> {
-    return this.http.get('http://localhost:3000/api/investors/investorsExpensesAndPercent/'+car_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/investors/investorsExpensesAndPercent/'+car_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
   public getAvailableBalance(investor_id:number): Observable<any> {
-    return this.http.get('http://localhost:3000/api/investors/'+investor_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/investors/'+investor_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public updateAvailableBalance(investor:any) {
     const body = JSON.stringify(investor);
     const investor_id = investor.investor_id;
-    return this.http.patch('http://localhost:3000/api/clients/'+investor_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.patch(this.apiUrl+'/api/clients/'+investor_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .subscribe(
       res => {
       console.log("Available Balance for the client is updated", res);
@@ -65,7 +65,7 @@ export class ClientService {
   public updateTotalExpenses(investor:any) {
     const body = JSON.stringify(investor);
     const investor_id = investor.investor_id;
-    return this.http.patch('http://localhost:3000/api/clients/expenses/'+investor_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.patch(this.apiUrl+'/api/clients/expenses/'+investor_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .subscribe(
       res => {
       console.log("Total Expenses for the client is updated : ", res);
@@ -80,19 +80,19 @@ export class ClientService {
   }
 
   public getClientById(client_id:number): Observable<any> {
-    return this.http.get('http://localhost:3000/api/clients/'+client_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/clients/'+client_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public searchClients(searchTerm): Observable<any> {
-    return this.http.get('http://localhost:3000/api/clients/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/clients/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public createClient(newClient:Client): Observable<any> {
     const body = JSON.stringify(newClient);
 
-    return this.http.post('http://localhost:3000/api/clients', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.post(this.apiUrl+'/api/clients', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
@@ -100,12 +100,12 @@ export class ClientService {
     const body = JSON.stringify(editClient);
     const client_id = editClient.client_id;
 
-    return this.http.put('http://localhost:3000/api/clients/'+client_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.put(this.apiUrl+'/api/clients/'+client_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public deleteClient(client_id:number): Observable<any> {
-    return this.http.delete('http://localhost:3000/api/clients/'+client_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.delete(this.apiUrl+'/api/clients/'+client_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 

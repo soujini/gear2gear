@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 import { VehicleType } from '../../data-model';
 import { Http, Response } from '@angular/http';
@@ -17,8 +18,7 @@ const httpOptions = {
 
 @Injectable()
 export class VehicleTypeService {
-  private vehicleTypesUrl = '/api/vehicleTypes';
-  private putUrl = '/api/vehicleTypes';
+  private apiUrl = environment.API_URL;
   selectedVehicleTypeId :Subject<any> = new Subject();
   selectedMode :string = "Create";
   refreshList:Subject<any> = new Subject();
@@ -27,24 +27,24 @@ export class VehicleTypeService {
   }
 
   public getVehicleTypes(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/vehicleTypes', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/vehicleTypes', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public getVehicleTypeById(vehicle_type_id:number): Observable<any> {
-    return this.http.get('http://localhost:3000/api/vehicleTypes/'+vehicle_type_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/vehicleTypes/'+vehicle_type_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public searchVehicleTypes(searchTerm): Observable<any> {
-    return this.http.get('http://localhost:3000/api/vehicleTypes/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/vehicleTypes/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public createVehicleType(newVehicleType:VehicleType): Observable<any> {
     const body = JSON.stringify(newVehicleType);
 
-    return this.http.post('http://localhost:3000/api/vehicleTypes', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.post(this.apiUrl+'/api/vehicleTypes', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
@@ -57,7 +57,7 @@ export class VehicleTypeService {
   }
 
   public deleteVehicleType(vehicle_type_id:number): Observable<any> {
-    return this.http.delete('http://localhost:3000/api/vehicleTypes/'+vehicle_type_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.delete(this.apiUrl+'/api/vehicleTypes/'+vehicle_type_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 import { FuelType } from '../../data-model';
 import { Http, Response } from '@angular/http';
@@ -17,8 +18,7 @@ const httpOptions = {
 
 @Injectable()
 export class FuelTypeService {
-  private fuelTypesUrl = '/api/fuelTypes';
-  private putUrl = '/api/fuelTypes';
+  private apiUrl = environment.API_URL;
   selectedFuelTypeId :Subject<any> = new Subject();
   selectedMode :string = "Create";
   refreshList:Subject<any> = new Subject();
@@ -27,24 +27,24 @@ export class FuelTypeService {
   }
 
   public getFuelTypes(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/fuelTypes', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/fuelTypes', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public getFuelTypeById(fuel_type_id:number): Observable<any> {
-    return this.http.get('http://localhost:3000/api/fuelTypes/'+fuel_type_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/fuelTypes/'+fuel_type_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public searchFuelTypes(searchTerm): Observable<any> {
-    return this.http.get('http://localhost:3000/api/fuelTypes/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/fuelTypes/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public createFuelType(newFuelType:FuelType): Observable<any> {
     const body = JSON.stringify(newFuelType);
 
-    return this.http.post('http://localhost:3000/api/fuelTypes', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.post(this.apiUrl+'/api/fuelTypes', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
@@ -57,7 +57,7 @@ export class FuelTypeService {
   }
 
   public deleteFuelType(fuel_type_id:number): Observable<any> {
-    return this.http.delete('http://localhost:3000/api/fuelTypes/'+fuel_type_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.delete(this.apiUrl+'/api/fuelTypes/'+fuel_type_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 

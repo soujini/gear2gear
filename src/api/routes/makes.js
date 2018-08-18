@@ -1,19 +1,24 @@
 const { Client } = require('pg');
+var client = require('./connection');
 const express = require('express');
 const http = require('http');
 const router = express.Router();
+ // const env = require('dotenv').config();
+const app = express();
 
-/* Connect to local postgres db before starting the application server*/
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.SSL,
-});
-client.connect(function(err,client,done) {
-  if(err){
-    console.log("Failed to connect to the database "+ err);
-    
-  }
-});
+// const client = new Client({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: process.env.SSL,
+// });
+//
+// client.connect(function(err,client,done) {
+//   if(err){
+//     console.log("Failed to connect to the database "+ err);
+//   }
+//   else{
+//     console.log("Connected");
+//   }
+// });
 
 router.get('/api/makes', function(req, res) {
   let query = 'SELECT * from public.make';
@@ -23,14 +28,14 @@ router.get('/api/makes', function(req, res) {
       res.status(400).send(err);
     }
     else{
+       // console.log(result);
       if(result.rows.length >= 1){
-      //  res.status(200).send(result.rows);
-      res.status(200).send(result.rows);
+        res.status(200).send(result.rows);
       }
       else{
         res.status(200).send({message: "No records found."});
       }
-      // client.end(); // closing the connection;
+      //client.end(); // closing the connection;
     }
   });
 });

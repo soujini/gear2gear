@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 import { Variant } from '../../data-model';
 import { Http, Response } from '@angular/http';
@@ -17,8 +18,7 @@ const httpOptions = {
 
 @Injectable()
 export class VariantService {
-  private variantsUrl = '/api/variants';
-  private putUrl = '/api/variants';
+  private apiUrl = environment.API_URL;
   selectedVariantId :Subject<any> = new Subject();
   selectedMode :string = "Create";
   refreshList:Subject<any> = new Subject();
@@ -27,24 +27,24 @@ export class VariantService {
   }
 
   public getVariants(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/variants', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/variants', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public getVariantById(variant_id:number): Observable<any> {
-    return this.http.get('http://localhost:3000/api/variants/'+variant_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/variants/'+variant_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public searchVariants(searchTerm): Observable<any> {
-    return this.http.get('http://localhost:3000/api/variants/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/variants/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public createVariant(newVariant:Variant): Observable<any> {
     const body = JSON.stringify(newVariant);
 
-    return this.http.post('http://localhost:3000/api/variants', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.post(this.apiUrl+'/api/variants', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
@@ -57,7 +57,7 @@ export class VariantService {
   }
 
   public deleteVariant(variant_id:number): Observable<any> {
-    return this.http.delete('http://localhost:3000/api/variants/'+variant_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.delete(this.apiUrl+'/api/variants/'+variant_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 

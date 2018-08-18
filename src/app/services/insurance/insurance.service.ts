@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 import { Insurance } from '../../data-model';
 import { Http, Response } from '@angular/http';
@@ -17,8 +18,7 @@ const httpOptions = {
 
 @Injectable()
 export class InsuranceService {
-  private insurancesUrl = '/api/insurances';
-  private putUrl = '/api/insurances';
+  private apiUrl = environment.API_URL;
   selectedInsuranceId :Subject<any> = new Subject();
   selectedMode :string = "Create";
   refreshList:Subject<any> = new Subject();
@@ -27,24 +27,24 @@ export class InsuranceService {
   }
 
   public getInsurances(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/insurances', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/insurances', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public getInsuranceById(insurance_id:number): Observable<any> {
-    return this.http.get('http://localhost:3000/api/insurances/'+insurance_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/insurances/'+insurance_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public searchInsurances(searchTerm): Observable<any> {
-    return this.http.get('http://localhost:3000/api/insurances/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.get(this.apiUrl+'/api/insurances/search/'+searchTerm, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
   public createInsurance(newInsurance:Insurance): Observable<any> {
     const body = JSON.stringify(newInsurance);
 
-    return this.http.post('http://localhost:3000/api/insurances', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.post(this.apiUrl+'/api/insurances', body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 
@@ -57,7 +57,7 @@ export class InsuranceService {
   }
 
   public deleteInsurance(insurance_id:number): Observable<any> {
-    return this.http.delete('http://localhost:3000/api/insurances/'+insurance_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.delete(this.apiUrl+'/api/insurances/'+insurance_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 

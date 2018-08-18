@@ -1,23 +1,8 @@
-const { Client } = require('pg');
+var client = require('./connection');
 const express = require('express');
 const http = require('http');
 const router = express.Router();
-
-/* Connect to local postgres db before starting the application server*/
-const client = new Client({
-// connectionString: process.env.DATABASE_URL,
-  connectionString:'postgres://localhost:5432/postgres',
-  ssl: false,
-  //  database: 'postgres',
-  //   user: 'postgres',
-  //    port: 5432
-});
-client.connect(function(err,client,done) {
-  if(err){
-    console.log("Failed to connect to the database "+ err);
-    
-  }
-});
+// const env = require('dotenv').config();
 
 router.get('/api/models', function(req, res) {
   client.query('SELECT * from public.model' , function(err,result) {
