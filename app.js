@@ -26,8 +26,8 @@ const transactionTypesAPI = require('./src/api/routes/transaction-types');
 const transactionDetailsAPI = require('./src/api/routes/transaction-details');
 
 var corsOptions = {
-   origin: 'http://localhost:3000',
-  //origin:'https://gear2gear.herokuapp.com',
+   // origin: 'http://localhost:3000',
+  origin:'https://gear2gear.herokuapp.com',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
