@@ -18,6 +18,18 @@ body{
 .padding0{
   padding:0px;
 }
+.auth0-lock.auth0-lock .auth0-lock-header-bg {
+  background-color: black !important;
+  // background-color: rgb(49, 50, 79) !important;
+}
+.auth0-lock-name{
+   // color: #adff2f;
+   color:black;
+      font-size: 40px;
+      // text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+      font-weight: 700;
+      font-family: Ethnocentric;
+}
 
 .navbar-transparent:not(.top-nav-collapse) {
   // background-color: black !important;

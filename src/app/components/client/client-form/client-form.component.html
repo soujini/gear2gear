@@ -95,7 +95,7 @@
                     <th class="text-center">Void</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody >
                   <tr  formArrayName="investment_records"
                   *ngFor="let item of clientForm.get('investment_records').controls; let i = index;" >
                   <td [formGroupName]="i">  <input type="date" class="form-control" formControlName="date" placeholder="Date" [readonly]="item.controls.is_disabled.value == true"></td>

@@ -26,8 +26,6 @@ export class TransactionDetailsComponent implements OnInit {
   opMessage = new EventEmitter();
   // Type 'BehaviorSubject<number>' is not assignable to type 'number'.
 
-
-
   sold:boolean;
   message:string="";
   transactionDetailProfitandLoss=[];
@@ -329,6 +327,7 @@ if(this.transactionDetailsForm.get('transaction_type_mode').value == 'debit'){
     .subscribe(
       res => {
         this.transactionDetailsForm.reset();
+        this.getTransactionDetailsById(this.carService.selectedCarId.getValue());
       },
       err => {
         console.log(err);

@@ -10,13 +10,13 @@ export class AuthService {
     'allowSignUp':false,
     'redirect':false,
     theme: {
-       logo: './assets/images/g2g-logo2.png',
+      logo: './assets/images/auth0-favicon.png',
       primaryColor: '#31324F'
     },
     allowedConnections: ['Username-Password-Authentication'],
     languageDictionary: {
       emailInputPlaceholder: "something@youremail.com",
-      title: "Gear2Gear"
+      title: "GEAR 2 GEAR"
     },
     scope:'openid',
     audience: `https://${AUTH_CONFIG.domain}/userinfo`,

@@ -9,7 +9,7 @@
           <li id="li-home" class="nav-item waves-light" mdbRippleRadius [ngClass]="{'gray-text': activeMenu=='home'}" routerLink="/home">
             <a class="nav-link">HOME<span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item dropdown" dropdown>
+          <li class="nav-item dropdown" dropdown *ngIf="auth.isAuthenticated()">
               <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
               ADMIN<span class="caret"></span></a>
               <div class="dropdown-menu dropdown dropdown-primary" role="menu">
@@ -30,10 +30,10 @@
           <li id="li-home" class="nav-item active waves-light" mdbRippleRadius [ngClass]="{'white-text': activeMenu=='available-cars'}" routerLink="/cars">
             <a class="nav-link">AVAILABLE CARS<span class="sr-only">(current)</span></a>
           </li>
-          <li id="li-home" class="nav-item active waves-light" mdbRippleRadius [ngClass]="{'green-text': activeMenu=='sold-cars'}" routerLink="/sold-cars">
+          <!-- <li id="li-home" class="nav-item active waves-light" mdbRippleRadius [ngClass]="{'green-text': activeMenu=='sold-cars'}" routerLink="/sold-cars">
             <a class="nav-link">SOLD CARS<span class="sr-only">(current)</span></a>
-          </li>
-          <li id="li-home" class="nav-item active waves-light" mdbRippleRadius [ngClass]="{'green-text': activeMenu=='investors-corner'}" routerLink="/investors-corner">
+          </li> -->
+          <li id="li-home" *ngIf="auth.isAuthenticated()" class="nav-item active waves-light" mdbRippleRadius [ngClass]="{'green-text': activeMenu=='investors-corner'}" routerLink="/investors-corner">
             <a class="nav-link">INVESTOR'S CORNER<span class="sr-only">(current)</span></a>
           </li>
           <li id="li-home" class="nav-item active waves-light" mdbRippleRadius [ngClass]="{'green-text': activeMenu=='contact'}" routerLink="/contact">

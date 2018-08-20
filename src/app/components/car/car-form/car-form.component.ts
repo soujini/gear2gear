@@ -99,7 +99,7 @@ export class CarFormComponent implements OnInit {
       insurance_year:[],
       is_accidental:[],
       is_flooded:[],
-      is_sold : [],
+      is_sold : [false],
       license_plate : [],
       total_cost:[0],
       total_income:[0]

@@ -19,7 +19,14 @@ const shouldAbort = (err) => {
 }
 
 router.get('/api/transactionDetails', function(req, res) {
-  client.query('SELECT * from public.transaction_details order by date desc' , function(err,result) {
+  client.query(
+    '	SELECT *, c.name as investor_name, tt.name as transaction_type_name, e.name as expense_name'+
+	' from public.transaction_details td'+
+	' left join public.client C on td.investor_id = c.client_id'+
+	' left join public.transaction_type tt on td.transaction_type_id = tt.transaction_type_id'+
+  ' left join public.expenses e on td.expense_id = e.expense_id'+
+	' order by date desc' ,
+   function(err,result) {
     if(err){
       console.log(err);
       res.status(400).send(err);

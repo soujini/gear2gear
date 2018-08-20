@@ -50,7 +50,7 @@ router.get("/api/investors/investorsExpensesAndPercent/:id", function(req, res) 
   var car_id = parseInt(req.params.id);
 
   client.query(
-    'SELECT investor_id, SUM(A.DEBIT) AS INVESTORS_TOTAL_EXPENSES,'+
+    'SELECT B.car_id, investor_id, SUM(A.DEBIT) AS INVESTORS_TOTAL_EXPENSES,'+
     'cast(SUM(A.DEBIT) as decimal(10,2))/cast(B.TOTAL_COST/100 as DECIMAL(10,2)) as INVESTORS_PERCENT,'+
     'B.TOTAL_COST AS CAR_TOTAL_COST, B.TOTAL_INCOME AS CAR_TOTAL_INCOME '+
     'FROM PUBLIC.TRANSACTION_DETAILS A, PUBLIC.CAR B '+
