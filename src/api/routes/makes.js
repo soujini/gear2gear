@@ -6,20 +6,6 @@ const router = express.Router();
  // const env = require('dotenv').config();
 const app = express();
 
-// const client = new Client({
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: process.env.SSL,
-// });
-//
-// client.connect(function(err,client,done) {
-//   if(err){
-//     console.log("Failed to connect to the database "+ err);
-//   }
-//   else{
-//     console.log("Connected");
-//   }
-// });
-
 router.get('/api/makes', function(req, res) {
   let query = 'SELECT * from public.make';
   client.query(query, function(err,result) {
@@ -28,13 +14,13 @@ router.get('/api/makes', function(req, res) {
       res.status(400).send(err);
     }
     else{
-       // console.log(result);
-      if(result.rows.length >= 1){
         res.status(200).send(result.rows);
-      }
-      else{
-        res.status(200).send({message: "No records found."});
-      }
+      // if(result.rows.length > 0){
+      //   res.status(200).send(result.rows);
+      // }
+      // else{
+      //   res.status(200).send({message: "No records found."});
+      // }
       //client.end(); // closing the connection;
     }
   });
@@ -61,7 +47,7 @@ router.get('/api/makes/search/:searchTerm', function(req, res) {
 
 router.post("/api/makes", function(req, res) {
   const query = 'INSERT INTO public.make(make_id, name, created_by, create_date) '+
-  'VALUES(DEFAULT, ${name}, 1, CURRENT_TIMESTAMP) '+
+  'VALUES(DEFAULT, $1, 1, CURRENT_TIMESTAMP) '+
   'returning make_id';
   const values = [req.body.name];
 
@@ -71,12 +57,7 @@ router.post("/api/makes", function(req, res) {
       res.status(400).send(err);
     }
     else{
-      if(result.rows.length >= 1){
-        res.status(200).send(result.rows[0]);
-      }
-      else{
-        res.status(200).send({message: "No records found."});
-      }
+      res.status(200).send(result.rows[0]);
     }
   });
   //  client.end(); // closing the connection;

@@ -28,8 +28,8 @@ export class MakeService {
 
   public getMakes(): Observable<any> {
     var x = this.apiUrl+'/api/makes';
-    return this.http.get(this.apiUrl+'/api/makes', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
-    .map(res => res);
+    return this.http.get(this.apiUrl+'/api/makes', {headers: {'Content-Type': 'application/json; charset=utf-8'}});
+    //.map(res => res);
   }
 
   public getMakeById(make_id:number): Observable<any> {
