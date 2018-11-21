@@ -3,10 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { ExpenseComponent} from './expense.component';
 import { ExpenseListComponent} from './expense-list/expense-list.component';
 import { ExpenseFormComponent} from './expense-form/expense-form.component';
+import { AuthGuard } from 'app/auth.guard';
 
 const expenseRoutes: Routes = [
   {
     path: 'expense',
+    canActivate: [AuthGuard],
     component: ExpenseComponent,
     children: [
         {path: 'list',component: ExpenseListComponent},

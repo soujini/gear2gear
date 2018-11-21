@@ -21,7 +21,7 @@ export class ClientComponent implements OnInit {
   clients$: Observable<Client>;
 
   constructor(private fb: FormBuilder, private clientService:ClientService,private commonService:CommonService, private router: Router, private route: ActivatedRoute) {
-this.getStates();
+//this.getStates();
   }
 
   ngOnInit() {
@@ -47,14 +47,15 @@ this.getStates();
       this.clients$ = this.clientService.searchClients(searchTerm);
     }
     else{
+      this.getClients();
       this.clients$ = new EmptyObservable();
     }
   }
 
-  getStates(){
-    this.commonService.getStates().subscribe(res=>{
-    this.clientService.states$ = res.RestResponse.result;
-  })
-}
+//   getStates(){
+//     this.commonService.getStates().subscribe(res=>{
+//     this.clientService.states$ = res.RestResponse.result;
+//   })
+// }
 
 }

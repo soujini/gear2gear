@@ -40,11 +40,14 @@ export class MakeComponent implements OnInit {
   }
 
   searchMakes(searchTerm){
+      console.log("searcggg  ", searchTerm);
     if(searchTerm){
+      console.log("searcggg  ", searchTerm);
       this.makes$ = this.makeService.searchMakes(searchTerm);
     }
     else{
-      this.makes$ = new EmptyObservable();
+      this.getMakes();
+      //this.makes$ = new EmptyObservable();
     }
   }
 

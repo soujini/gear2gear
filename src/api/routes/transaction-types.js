@@ -11,15 +11,20 @@ router.get('/api/transactionTypes', function(req, res) {
       res.status(400).send(err);
     }
     else{
-      if(result.rows.length >= 1){
-      //  res.status(200).send(result.rows);
-      res.status(200).send(result.rows);
+        res.status(200).send(result.rows);
       }
-      else{
-        res.status(200).send({message: "No records found."});
-      }
-      // client.end(); // closing the connection;
+  });
+});
+router.get('/api/transactionTypes/client', function(req, res) {
+  let query = 'SELECT * from public.transaction_type where transaction_type_id in (1,11)';
+  client.query(query, function(err,result) {
+    if(err){
+      console.log(err);
+      res.status(400).send(err);
     }
+    else{
+        res.status(200).send(result.rows);
+      }
   });
 });
 
@@ -31,14 +36,8 @@ router.get('/api/transactionTypes/search/:searchTerm', function(req, res) {
       res.status(400).send(err);
     }
     else{
-      if(result.rows.length >= 1){
         res.status(200).send(result.rows);
       }
-      else{
-        res.status(200).send({message: "No matching records found."});
-      }
-      // client.end(); // closing the connection;
-    }
   });
 });
 
@@ -54,15 +53,9 @@ router.post("/api/transactionTypes", function(req, res) {
       res.status(400).send(err);
     }
     else{
-      if(result.rows.length >= 1){
         res.status(200).send(result.rows[0]);
       }
-      else{
-        res.status(200).send({message: "No records found."});
-      }
-    }
   });
-  //  client.end(); // closing the connection;
 });
 
 router.get("/api/transactionTypes/:id", function(req, res) {
@@ -76,7 +69,7 @@ router.get("/api/transactionTypes/:id", function(req, res) {
       res.status(200).send(result.rows);
     }
   });
-  // client.end(); // closing the connection;
+
 });
 
 router.put("/api/transactionTypes/:id", function(req, res) {
@@ -90,9 +83,7 @@ router.put("/api/transactionTypes/:id", function(req, res) {
       res.status(200).send(result);
     }
   });
-  // client.end(); // closing the connection;
 });
-
 
 router.delete("/api/transactionTypes/:id", function(req, res) {
   var transaction_typeId = parseInt(req.params.id);
@@ -105,7 +96,6 @@ router.delete("/api/transactionTypes/:id", function(req, res) {
       res.status(200).send(result.rows);
     }
   });
-  // client.end(); // closing the connection;
 });
 
 module.exports = router;

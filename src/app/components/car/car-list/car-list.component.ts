@@ -17,6 +17,8 @@ export class CarListComponent implements OnInit {
   @Output()
   searchTerm = new EventEmitter();
 
+  selectedCarId:number;
+
   constructor(private carService:CarService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
@@ -35,6 +37,7 @@ export class CarListComponent implements OnInit {
 
   //On Click of the Edit Button
   selectCar(car_id:number, mode:any){
+    this.selectedCarId=car_id;
     this.carService.selectedMode = mode;
     this.router.navigate(['/car/edit']);
     setTimeout(() => {

@@ -27,7 +27,6 @@ import { ModelService } from './services/model/model.service';
 import { VariantService } from './services/variant/variant.service';
 import { VehicleTypeService } from './services/vehicle-type/vehicle-type.service';
 import { FuelTypeService } from './services/fuel-type/fuel-type.service';
-import { InsuranceTypeService } from './services/insurance-type/insurance-type.service';
 import { TransmissionTypeService } from './services/transmission-type/transmission-type.service';
 import { InsuranceService } from './services/insurance/insurance.service';
 import { ColorService } from './services/color/color.service';
@@ -37,6 +36,7 @@ import { CommonService } from './services/common/common.service';
 import { ExpenseService } from './services/expense/expense.service';
 import { TransactionTypeService } from './services/transaction-type/transaction-type.service';
 import { TransactionDetailsService } from './services/transaction-details/transaction-details.service';
+// import { UploadFileComponent } from './components/upload-file/upload-file.component';
 
 
 @NgModule({
@@ -45,6 +45,7 @@ import { TransactionDetailsService } from './services/transaction-details/transa
     HomeComponent,
     CallbackComponent,
     HeaderComponent,
+    // UploadFileComponent,
     ],
   imports: [
     BrowserModule,
@@ -73,7 +74,6 @@ import { TransactionDetailsService } from './services/transaction-details/transa
     VariantService,
     VehicleTypeService,
     FuelTypeService,
-    InsuranceTypeService,
     TransmissionTypeService,
     ColorService,
     CarService,

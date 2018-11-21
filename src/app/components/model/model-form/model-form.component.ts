@@ -15,13 +15,28 @@ export class ModelFormComponent implements OnInit {
   module :string="model";
   mode :string="discard";
   message:string="";
+  message_error:string="";
   modelForm: FormGroup;
   selectedModel_Id: any;
   submitted = false;
+  private sub;
 
   constructor(private fb: FormBuilder, private modelService:ModelService, private router:Router, private route:ActivatedRoute) {
-  }
+    this.sub = this.modelService.selectedModelId
+    .subscribe(
+      res => {
+        this.selectedModel_Id = res;
+        if(this.modelService.selectedMode == "Edit"){
+          this.title = "Edit Model";
+          this.mode = "delete";
+          this.getModelById(res);
+        }
+      },
+      err => {
 
+      }
+    );
+  }
 
   createForm() {
     this.modelForm = this.fb.group({
@@ -49,6 +64,11 @@ export class ModelFormComponent implements OnInit {
         this.modelForm.patchValue(res[0]);
         },
         err => {
+          window.scrollTo(0, 0);
+          this.message_error = err;
+          setTimeout(() => {
+            this.message_error = "";
+          },5000);
           console.log(err);
         }
       );
@@ -58,10 +78,21 @@ export class ModelFormComponent implements OnInit {
     this.modelService.createModel(this.modelForm.value)
     .subscribe(
       res => {
+        window.scrollTo(0, 0);
+        this.message = this.modelForm.get('name').value + " created successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
+
         this.modelService.refreshList.next(true);
         this.modelForm.reset();
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
         console.log(err);
       }
     );
@@ -71,9 +102,19 @@ export class ModelFormComponent implements OnInit {
     this.modelService.updateModel(this.modelForm.value)
     .subscribe(
       res => {
+        window.scrollTo(0, 0);
+        this.message = this.modelForm.get('name').value + " updated successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
           this.modelService.refreshList.next(true);
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
         console.log(err);
       }
     );
@@ -99,21 +140,10 @@ export class ModelFormComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+  }
 
-    this.modelService.selectedModelId
-    .subscribe(
-      res => {
-        this.selectedModel_Id = res;
-        if(this.modelService.selectedMode == "Edit"){
-          this.title = "Edit Model";
-          this.mode = "delete";
-          this.getModelById(res);
-        }
-      },
-      err => {
-
-      }
-    );
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
 }

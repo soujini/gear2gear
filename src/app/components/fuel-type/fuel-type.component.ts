@@ -44,7 +44,8 @@ export class FuelTypeComponent implements OnInit {
       this.fuelTypes$ = this.fuelTypeService.searchFuelTypes(searchTerm);
     }
     else{
-      this.fuelTypes$ = new EmptyObservable();
+      this.getFuelTypes();
+      //this.fuelTypes$ = new EmptyObservable();
     }
   }
 

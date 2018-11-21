@@ -30,6 +30,10 @@ export class TransactionTypeService {
     return this.http.get(this.apiUrl+'/api/transactionTypes', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
+  public getTransactionTypesForClient(): Observable<any> {
+    return this.http.get(this.apiUrl+'/api/transactionTypes/client', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    .map(res => res);
+  }
 
   public getTransactionTypeById(transaction_type_id:number): Observable<any> {
     return this.http.get(this.apiUrl+'/api/transactionTypes/'+transaction_type_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})

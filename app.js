@@ -15,7 +15,6 @@ const modelsAPI = require('./src/api/routes/models');
 const variantsAPI = require('./src/api/routes/variants');
 const vehicleTypesAPI = require('./src/api/routes/vehicle-types');
 const fuelTypesAPI = require('./src/api/routes/fuel-types');
-const insuranceTypesAPI = require('./src/api/routes/insurance-types');
 const transmissionTypesAPI = require('./src/api/routes/transmission-types');
 const insurancesAPI = require('./src/api/routes/insurances');
 const colorsAPI = require('./src/api/routes/colors');
@@ -26,7 +25,7 @@ const transactionTypesAPI = require('./src/api/routes/transaction-types');
 const transactionDetailsAPI = require('./src/api/routes/transaction-details');
 
 var corsOptions = {
-   // origin: 'http://localhost:3000',
+    // origin: 'http://localhost:4200',
   origin:'https://gear2gear.herokuapp.com',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
@@ -48,7 +47,6 @@ app.use(modelsAPI);
 app.use(variantsAPI);
 app.use(vehicleTypesAPI);
 app.use(fuelTypesAPI);
-app.use(insuranceTypesAPI);
 app.use(transmissionTypesAPI);
 app.use(insurancesAPI);
 app.use(colorsAPI);

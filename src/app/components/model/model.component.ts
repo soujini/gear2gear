@@ -44,7 +44,8 @@ export class ModelComponent implements OnInit {
       this.models$ = this.modelService.searchModels(searchTerm);
     }
     else{
-      this.models$ = new EmptyObservable();
+      this.getModels();
+      //this.models$ = new EmptyObservable();
     }
   }
 

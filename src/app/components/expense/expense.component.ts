@@ -44,7 +44,8 @@ export class ExpenseComponent implements OnInit {
       this.expenses$ = this.expenseService.searchExpenses(searchTerm);
     }
     else{
-      this.expenses$ = new EmptyObservable();
+      this.getExpenses();
+      //this.expenses$ = new EmptyObservable();
     }
   }
 

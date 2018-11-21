@@ -44,7 +44,8 @@ export class VehicleTypeComponent implements OnInit {
       this.vehicleTypes$ = this.vehicleTypeService.searchVehicleTypes(searchTerm);
     }
     else{
-      this.vehicleTypes$ = new EmptyObservable();
+      this.getVehicleTypes();
+      //this.vehicleTypes$ = new EmptyObservable();
     }
   }
 

@@ -8,6 +8,7 @@ import { ClientRoutingModule } from './client-routing.module';
 import { ClientComponent } from './client.component';
 import { ClientListComponent } from './client-list/client-list.component';
 import { ClientFormComponent } from './client-form/client-form.component';
+import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { ClientFormComponent } from './client-form/client-form.component';
     ClientComponent,
     ClientListComponent,
     ClientFormComponent,
+    TransactionDetailsComponent
   ],
   // providers: [ClientService],
 })

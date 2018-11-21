@@ -3,10 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { InsuranceComponent} from './insurance.component';
 import { InsuranceListComponent} from './insurance-list/insurance-list.component';
 import { InsuranceFormComponent} from './insurance-form/insurance-form.component';
+import { AuthGuard } from 'app/auth.guard';
 
 const insuranceRoutes: Routes = [
   {
     path: 'insurance',
+    canActivate: [AuthGuard],
     component: InsuranceComponent,
     children: [
         {path: 'list',component: InsuranceListComponent},

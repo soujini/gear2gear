@@ -22,7 +22,7 @@ export class CommonService {
   constructor(private http:HttpClient) {
   }
 
-  public getStates(): Observable<any> {
-    return this.http.get('http://services.groupkt.com/state/get/IND/all',{headers: {'Content-Type': 'application/json; charset=utf-8'}});
-  }
+  // public getStates(): Observable<any> {
+  //   //return this.http.get('http://services.groupkt.com/state/get/IND/all',{headers: {'Content-Type': 'application/json; charset=utf-8'}});
+  // }
 }

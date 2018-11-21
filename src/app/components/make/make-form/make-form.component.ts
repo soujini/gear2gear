@@ -4,6 +4,8 @@ import { Router,ActivatedRoute } from '@angular/router';
 
 import { Make } from 'app/data-model';
 import { MakeService } from 'app/services/make/make.service';
+import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/take';
 
 @Component({
   selector: 'app-make-form',
@@ -15,11 +17,28 @@ export class MakeFormComponent implements OnInit {
   module :string="make";
   mode :string="discard";
   message:string="";
+  message_error:string="";
   makeForm: FormGroup;
   selectedMake_Id: any;
   submitted = false;
+  private sub;
 
   constructor(private fb: FormBuilder, private makeService:MakeService, private router:Router, private route:ActivatedRoute) {
+    this.sub = this.makeService.selectedMakeId
+    .subscribe(
+      res => {
+        this.selectedMake_Id = res;
+        if(this.makeService.selectedMode == "Edit"){
+          this.title = "Edit Make";
+          this.mode = "delete";
+          this.getMakeById(res);
+        }
+      },
+      err => {
+
+      }
+    );
+
   }
 
 
@@ -28,7 +47,6 @@ export class MakeFormComponent implements OnInit {
       make_id: [''],
       // name: ['', [Validators.required,Validators.maxLength(50)]],
       name: ['', [Validators.required]],
-
     });
   }
 
@@ -51,6 +69,11 @@ export class MakeFormComponent implements OnInit {
         this.makeForm.patchValue(res[0]);
         },
         err => {
+          window.scrollTo(0, 0);
+          this.message_error = err;
+          setTimeout(() => {
+            this.message_error = "";
+          },5000);
           console.log(err);
         }
       );
@@ -60,10 +83,20 @@ export class MakeFormComponent implements OnInit {
     this.makeService.createMake(this.makeForm.value)
     .subscribe(
       res => {
+        window.scrollTo(0, 0);
+        this.message = this.makeForm.get('name').value + " created successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
         this.makeService.refreshList.next(true);
         this.makeForm.reset();
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = err
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
         console.log(err);
       }
     );
@@ -73,9 +106,19 @@ export class MakeFormComponent implements OnInit {
     this.makeService.updateMake(this.makeForm.value)
     .subscribe(
       res => {
+        window.scrollTo(0, 0);
+        this.message = this.makeForm.get('name').value + " updated successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
           this.makeService.refreshList.next(true);
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = err
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
         console.log(err);
       }
     );
@@ -86,10 +129,20 @@ export class MakeFormComponent implements OnInit {
     {
       this.makeService.deleteMake(this.selectedMake_Id).subscribe(
         res => {
+          window.scrollTo(0, 0);
+          this.message = this.makeForm.get('name').value + " deleted successfully.";
+          setTimeout(() => {
+            this.message = "";
+          },5000);
           this.makeService.refreshList.next(true);
           this.router.navigate(['/make/add']);
         },
         err => {
+          window.scrollTo(0, 0);
+          this.message_error = err
+          setTimeout(() => {
+            this.message_error = "";
+          },5000);
           console.log(err);
         }
       );
@@ -101,21 +154,8 @@ export class MakeFormComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
-
-    this.makeService.selectedMakeId
-    .subscribe(
-      res => {
-        this.selectedMake_Id = res;
-        if(this.makeService.selectedMode == "Edit"){
-          this.title = "Edit Make";
-          this.mode = "delete";
-          this.getMakeById(res);
-        }
-      },
-      err => {
-
-      }
-    );
   }
-
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
 }

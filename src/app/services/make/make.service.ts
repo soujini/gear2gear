@@ -27,9 +27,8 @@ export class MakeService {
   }
 
   public getMakes(): Observable<any> {
-    var x = this.apiUrl+'/api/makes';
-    return this.http.get(this.apiUrl+'/api/makes', {headers: {'Content-Type': 'application/json; charset=utf-8'}});
-    //.map(res => res);
+    return this.http.get(this.apiUrl+'/api/makes', {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    .map(res => res);
   }
 
   public getMakeById(make_id:number): Observable<any> {
@@ -53,7 +52,7 @@ export class MakeService {
     const body = JSON.stringify(editMake);
     const make_id = editMake.make_id;
 
-    return this.http.put("https://gear2gear.herokuapp.com/api/makes/"+make_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+    return this.http.put(this.apiUrl+'/api/makes/'+make_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     .map(res => res);
   }
 

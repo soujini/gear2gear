@@ -7,7 +7,6 @@ import { ModelModule } from './components/model/model.module';
 import { VariantModule } from './components/variant/variant.module';
 import { VehicleTypeModule } from './components/vehicle-type/vehicle-type.module';
 import { FuelTypeModule } from './components/fuel-type/fuel-type.module';
-import { InsuranceTypeModule } from './components/insurance-type/insurance-type.module';
 import { TransmissionTypeModule } from './components/transmission-type/transmission-type.module';
 import { InsuranceModule } from './components/insurance/insurance.module';
 import { ColorModule } from './components/color/color.module';
@@ -19,6 +18,7 @@ import { InvestorsCornerModule } from './components/investors-corner/investors-c
 
 import { HomeComponent } from './components/home/home.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
+
 
 declare var require:any;
 
@@ -48,10 +48,6 @@ const routes: Routes = [
   {
     path: 'transmissionType',
     loadChildren: './components/transmission-type/transmission-type-routing.module#TransmissionTypeRoutingModule'
-  },
-  {
-    path: 'insuranceType',
-    loadChildren: './components/insurance-type/insurance-type-routing.module#InsuranceTypeRoutingModule'
   },
   {
     path: 'insurance',
@@ -91,7 +87,6 @@ const routes: Routes = [
     VariantModule,
     VehicleTypeModule,
     FuelTypeModule,
-    InsuranceTypeModule,
     TransmissionTypeModule,
     InsuranceModule,
     ExpenseModule,
@@ -102,6 +97,7 @@ const routes: Routes = [
     InvestorsCornerModule
   ],
   exports: [RouterModule],
+   // providers: [AuthService,AuthGuard],
   declarations: []
 })
 

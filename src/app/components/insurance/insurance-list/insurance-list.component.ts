@@ -17,6 +17,8 @@ export class InsuranceListComponent implements OnInit {
   @Output()
   searchTerm = new EventEmitter();
 
+  selectedInsuranceId:number;
+
   constructor(private insuranceService:InsuranceService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
@@ -35,6 +37,7 @@ export class InsuranceListComponent implements OnInit {
 
   //On Click of the Edit Button
   selectInsurance(insurance_id:number, mode:any){
+    this.selectedInsuranceId=insurance_id;
     this.insuranceService.selectedMode = mode;
     this.router.navigate(['/insurance/edit']);
     setTimeout(() => {

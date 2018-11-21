@@ -44,7 +44,8 @@ export class VariantComponent implements OnInit {
       this.variants$ = this.variantService.searchVariants(searchTerm);
     }
     else{
-      this.variants$ = new EmptyObservable();
+      this.getVariants();
+      //this.variants$ = new EmptyObservable();
     }
   }
 

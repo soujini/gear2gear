@@ -44,7 +44,8 @@ export class ColorComponent implements OnInit {
       this.colors$ = this.colorService.searchColors(searchTerm);
     }
     else{
-      this.colors$ = new EmptyObservable();
+      this.getColors();
+      //this.colors$ = new EmptyObservable();
     }
   }
 

@@ -11,7 +11,6 @@ router.get('/api/insurances', function(req, res) {
     }
     else{
       res.status(200).send(result.rows);
-        // client.end(); // closing the connection;
     }
   });
 });
@@ -24,7 +23,6 @@ router.get('/api/insurances/search/:searchTerm', function(req, res) {
     }
     else{
       res.status(200).send(result.rows);
-        // client.end(); // closing the connection;
     }
   });
 });
@@ -35,9 +33,10 @@ router.post("/api/insurances", function(req, res) {
       console.log(err);
       res.status(400).send(err);
     }
-    res.status(200).send(result.rows[0]);
+    else{
+      res.status(200).send(result.rows[0]);
+    }
   });
-  //  client.end(); // closing the connection;
 });
 
 router.get("/api/insurances/:id", function(req, res) {
@@ -47,9 +46,10 @@ router.get("/api/insurances/:id", function(req, res) {
       console.log(err);
       res.status(400).send(err);
     }
-    res.status(200).send(result.rows);
+    else{
+      res.status(200).send(result.rows);
+    }
   });
-    // client.end(); // closing the connection;
 });
 
 router.put("/api/insurances/:id", function(req, res) {
@@ -59,11 +59,11 @@ router.put("/api/insurances/:id", function(req, res) {
       console.log(err);
       res.status(400).send(err);
     }
-    res.status(200).send(result);
+    else{
+      res.status(200).send(result);
+    }
   });
-    // client.end(); // closing the connection;
 });
-
 
 router.delete("/api/insurances/:id", function(req, res) {
   var insuranceId = parseInt(req.params.id);
@@ -72,9 +72,10 @@ router.delete("/api/insurances/:id", function(req, res) {
       console.log(err);
       res.status(400).send(err);
     }
-    res.status(200).send(result.rows);
+    else{
+      res.status(200).send(result.rows);
+    }
   });
-    // client.end(); // closing the connection;
 });
 
 module.exports = router;

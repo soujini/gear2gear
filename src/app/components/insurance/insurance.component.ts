@@ -44,7 +44,8 @@ export class InsuranceComponent implements OnInit {
       this.insurances$ = this.insuranceService.searchInsurances(searchTerm);
     }
     else{
-      this.insurances$ = new EmptyObservable();
+        this.getInsurances();
+      //this.insurances$ = new EmptyObservable();
     }
   }
 

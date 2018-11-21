@@ -17,6 +17,8 @@ export class TransmissionTypeListComponent implements OnInit {
   @Output()
   searchTerm = new EventEmitter();
 
+  selectedTransmissionTypeId:number;
+
   constructor(private transmissionTypeService:TransmissionTypeService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
@@ -35,6 +37,7 @@ export class TransmissionTypeListComponent implements OnInit {
 
   //On Click of the Edit Button
   selectTransmissionType(transmissionType_id:number, mode:any){
+    this.selectedTransmissionTypeId=transmissionType_id;
     this.transmissionTypeService.selectedMode = mode;
     this.router.navigate(['/transmissionType/edit']);
     setTimeout(() => {

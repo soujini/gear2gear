@@ -17,6 +17,8 @@ export class ColorListComponent implements OnInit {
   @Output()
   searchTerm = new EventEmitter();
 
+  selectedColorId:number;
+
   constructor(private colorService:ColorService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
@@ -35,6 +37,7 @@ export class ColorListComponent implements OnInit {
 
   //On Click of the Edit Button
   selectColor(color_id:number, mode:any){
+    this.selectedColorId=color_id;
     this.colorService.selectedMode = mode;
     this.router.navigate(['/color/edit']);
     setTimeout(() => {

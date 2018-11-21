@@ -15,11 +15,27 @@ export class TransmissionTypeFormComponent implements OnInit {
   module :string="trasnmission type";
   mode :string="discard";
   message:string="";
+  message_error:string="";
   transmissionTypeForm: FormGroup;
   selectedTransmissionType_Id: any;
   submitted = false;
+  private sub;
 
   constructor(private fb: FormBuilder, private transmissionTypeService:TransmissionTypeService, private router:Router, private route:ActivatedRoute) {
+    this.sub=this.transmissionTypeService.selectedTransmissionTypeId
+    .subscribe(
+      res => {
+        this.selectedTransmissionType_Id = res;
+        if(this.transmissionTypeService.selectedMode == "Edit"){
+          this.title = "Edit Transmission Type";
+          this.mode = "delete";
+          this.getTransmissionTypeById(res);
+        }
+      },
+      err => {
+
+      }
+    );
   }
 
 
@@ -45,23 +61,40 @@ export class TransmissionTypeFormComponent implements OnInit {
   getTransmissionTypeById(transmissionType_id:number){
     this.transmissionTypeService.getTransmissionTypeById(transmissionType_id)
     .subscribe(
-        res => {
+      res => {
         this.transmissionTypeForm.patchValue(res[0]);
-        },
-        err => {
-          console.log(err);
-        }
-      );
+      },
+      err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
+        console.log(err);
+      }
+    );
   }
 
   createTransmissionType(){
     this.transmissionTypeService.createTransmissionType(this.transmissionTypeForm.value)
     .subscribe(
       res => {
+        window.scrollTo(0, 0);
+        this.message = this.transmissionTypeForm.get('name').value + " created successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
+
         this.transmissionTypeService.refreshList.next(true);
         this.transmissionTypeForm.reset();
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = this.transmissionTypeForm.get('name').value + " updated successfully.";
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
+
         console.log(err);
       }
     );
@@ -71,9 +104,19 @@ export class TransmissionTypeFormComponent implements OnInit {
     this.transmissionTypeService.updateTransmissionType(this.transmissionTypeForm.value)
     .subscribe(
       res => {
-          this.transmissionTypeService.refreshList.next(true);
+        window.scrollTo(0, 0);
+        this.message = this.transmissionTypeForm.get('name').value + " updated successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
+        this.transmissionTypeService.refreshList.next(true);
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
         console.log(err);
       }
     );
@@ -99,21 +142,10 @@ export class TransmissionTypeFormComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+  }
 
-    this.transmissionTypeService.selectedTransmissionTypeId
-    .subscribe(
-      res => {
-        this.selectedTransmissionType_Id = res;
-        if(this.transmissionTypeService.selectedMode == "Edit"){
-          this.title = "Edit Transmission Type";
-          this.mode = "delete";
-          this.getTransmissionTypeById(res);
-        }
-      },
-      err => {
-
-      }
-    );
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
 }

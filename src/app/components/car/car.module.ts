@@ -8,6 +8,7 @@ import { CarComponent } from './car.component';
 import { CarListComponent } from './car-list/car-list.component';
 import { CarFormComponent } from './car-form/car-form.component';
 import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
+import { UploadFileComponent } from 'app/components/upload-file/upload-file.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { TransactionDetailsComponent } from './transaction-details/transaction-d
     CarComponent,
     CarListComponent,
     CarFormComponent,
-    TransactionDetailsComponent
+    TransactionDetailsComponent,
+    UploadFileComponent
   ],
   // providers: [CarService],
 })

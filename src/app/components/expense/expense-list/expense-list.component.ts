@@ -17,6 +17,8 @@ export class ExpenseListComponent implements OnInit {
   @Output()
   searchTerm = new EventEmitter();
 
+  selectedExpenseId:number;
+
   constructor(private expenseService:ExpenseService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
@@ -35,6 +37,7 @@ export class ExpenseListComponent implements OnInit {
 
   //On Click of the Edit Button
   selectExpense(expense_id:number, mode:any){
+    this.selectedExpenseId=expense_id;
     this.expenseService.selectedMode = mode;
     this.router.navigate(['/expense/edit']);
     setTimeout(() => {

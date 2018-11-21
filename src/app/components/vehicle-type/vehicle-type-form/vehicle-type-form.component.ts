@@ -15,11 +15,27 @@ export class VehicleTypeFormComponent implements OnInit {
   module :string="vehicle type";
   mode :string="discard";
   message:string="";
+  message_error:string="";
   vehicleTypeForm: FormGroup;
   selectedVehicleType_Id: any;
   submitted = false;
+  private sub;
 
   constructor(private fb: FormBuilder, private vehicleTypeService:VehicleTypeService, private router:Router, private route:ActivatedRoute) {
+    this.sub=this.vehicleTypeService.selectedVehicleTypeId
+    .subscribe(
+      res => {
+        this.selectedVehicleType_Id = res;
+        if(this.vehicleTypeService.selectedMode == "Edit"){
+          this.title = "Edit Vehicle Type";
+          this.mode = "delete";
+          this.getVehicleTypeById(res);
+        }
+      },
+      err => {
+
+      }
+    );
   }
 
 
@@ -49,6 +65,11 @@ export class VehicleTypeFormComponent implements OnInit {
         this.vehicleTypeForm.patchValue(res[0]);
         },
         err => {
+          window.scrollTo(0, 0);
+          this.message_error = err;
+          setTimeout(() => {
+            this.message_error = "";
+          },5000);
           console.log(err);
         }
       );
@@ -58,10 +79,20 @@ export class VehicleTypeFormComponent implements OnInit {
     this.vehicleTypeService.createVehicleType(this.vehicleTypeForm.value)
     .subscribe(
       res => {
+        window.scrollTo(0, 0);
+        this.message = this.vehicleTypeForm.get('name').value + " created successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
         this.vehicleTypeService.refreshList.next(true);
         this.vehicleTypeForm.reset();
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
         console.log(err);
       }
     );
@@ -71,9 +102,21 @@ export class VehicleTypeFormComponent implements OnInit {
     this.vehicleTypeService.updateVehicleType(this.vehicleTypeForm.value)
     .subscribe(
       res => {
+        window.scrollTo(0, 0);
+        this.message = this.vehicleTypeForm.get('name').value + " updated successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
+
           this.vehicleTypeService.refreshList.next(true);
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
+
         console.log(err);
       }
     );
@@ -99,21 +142,10 @@ export class VehicleTypeFormComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+  }
 
-    this.vehicleTypeService.selectedVehicleTypeId
-    .subscribe(
-      res => {
-        this.selectedVehicleType_Id = res;
-        if(this.vehicleTypeService.selectedMode == "Edit"){
-          this.title = "Edit Vehicle Type";
-          this.mode = "delete";
-          this.getVehicleTypeById(res);
-        }
-      },
-      err => {
-
-      }
-    );
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
 }

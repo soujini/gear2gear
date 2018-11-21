@@ -15,11 +15,28 @@ export class ExpenseFormComponent implements OnInit {
   module :string="expense";
   mode :string="discard";
   message:string="";
+  message_error:string="";
   expenseForm: FormGroup;
   selectedExpense_Id: any;
   submitted = false;
+  private sub;
 
   constructor(private fb: FormBuilder, private expenseService:ExpenseService, private router:Router, private route:ActivatedRoute) {
+
+    this.sub=this.expenseService.selectedExpenseId
+    .subscribe(
+      res => {
+        this.selectedExpense_Id = res;
+        if(this.expenseService.selectedMode == "Edit"){
+          this.title = "Edit Expense";
+          this.mode = "delete";
+          this.getExpenseById(res);
+        }
+      },
+      err => {
+
+      }
+    );
   }
 
 
@@ -45,23 +62,38 @@ export class ExpenseFormComponent implements OnInit {
   getExpenseById(expense_id:number){
     this.expenseService.getExpenseById(expense_id)
     .subscribe(
-        res => {
+      res => {
         this.expenseForm.patchValue(res[0]);
-        },
-        err => {
-          console.log(err);
-        }
-      );
+      },
+      err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
+        console.log(err);
+      }
+    );
   }
 
   createExpense(){
     this.expenseService.createExpense(this.expenseForm.value)
     .subscribe(
       res => {
+        window.scrollTo(0, 0);
+        this.message = this.expenseForm.get('name').value + " created successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
         this.expenseService.refreshList.next(true);
         this.expenseForm.reset();
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
         console.log(err);
       }
     );
@@ -71,9 +103,19 @@ export class ExpenseFormComponent implements OnInit {
     this.expenseService.updateExpense(this.expenseForm.value)
     .subscribe(
       res => {
-          this.expenseService.refreshList.next(true);
+        window.scrollTo(0, 0);
+        this.message = this.expenseForm.get('name').value + " updated successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
+        this.expenseService.refreshList.next(true);
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
         console.log(err);
       }
     );
@@ -99,21 +141,10 @@ export class ExpenseFormComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+  }
 
-    this.expenseService.selectedExpenseId
-    .subscribe(
-      res => {
-        this.selectedExpense_Id = res;
-        if(this.expenseService.selectedMode == "Edit"){
-          this.title = "Edit Expense";
-          this.mode = "delete";
-          this.getExpenseById(res);
-        }
-      },
-      err => {
-
-      }
-    );
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
 }

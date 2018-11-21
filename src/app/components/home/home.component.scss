@@ -1,3 +1,6 @@
+.section{
+  // margin-top:-75px;
+}
 a {
   cursor: pointer;
 }
@@ -45,6 +48,7 @@ a {
 // }
 
 /* Centered text */
+/* Centered text */
 .centered {
     position: absolute;
     top: 50%;
@@ -65,10 +69,39 @@ a {
 }
 .centered-top {
     position: absolute;
-    top: 30%;
+     top: 215%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-family:Franklin Gothic;
     font-weight: bold;
     colo:greenyellow;
+    width:100%;
+    margin-top:-200px;
 }
+
+.swap{
+  margin-top:-18%;
+  margin-bottom: 18%;
+  letter-spacing: 7px;
+  font-family: Bebas-Neue,Arial,sans-serif;
+  color:#43464B;
+  font-size: 2.5rem;
+}
+/* Extra Small devices (tablets, 768px and up) col-sm */
+@media (max-width: 767px) {
+  .swap{
+    font-size: 1rem;
+  }
+}
+/* Small devices (tablets, 768px and up) col-md  collapses here*/
+@media (min-width: 768px) and (max-width: 992px) {
+
+}
+
+/* Medium devices (desktops, 992px and up)  col-lg */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) and (max-width: 1920px) {}

@@ -17,6 +17,8 @@ export class VehicleTypeListComponent implements OnInit {
   @Output()
   searchTerm = new EventEmitter();
 
+  selectedVehicleTypeId:number;
+
   constructor(private vehicleTypeService:VehicleTypeService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
@@ -35,6 +37,7 @@ export class VehicleTypeListComponent implements OnInit {
 
   //On Click of the Edit Button
   selectVehicleType(vehicleType_id:number, mode:any){
+    this.selectedVehicleTypeId=vehicleType_id;
     this.vehicleTypeService.selectedMode = mode;
     this.router.navigate(['/vehicleType/edit']);
     setTimeout(() => {

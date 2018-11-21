@@ -17,6 +17,8 @@ export class ModelListComponent implements OnInit {
   @Output()
   searchTerm = new EventEmitter();
 
+  selectedModelId:number;
+
   constructor(private modelService:ModelService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
@@ -35,6 +37,7 @@ export class ModelListComponent implements OnInit {
 
   //On Click of the Edit Button
   selectModel(model_id:number, mode:any){
+    this.selectedModelId=model_id;
     this.modelService.selectedMode = mode;
     this.router.navigate(['/model/edit']);
     setTimeout(() => {

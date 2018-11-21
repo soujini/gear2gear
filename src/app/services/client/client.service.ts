@@ -20,9 +20,10 @@ const httpOptions = {
 @Injectable()
 export class ClientService {
   private apiUrl = environment.API_URL;
-  selectedClientId :Subject<any> = new Subject();
+  selectedClientId:Subject<any> = new Subject();
   selectedMode :string = "Create";
   refreshList:Subject<any> = new Subject();
+  transactionDetail = new BehaviorSubject("");
   states$: Observable<any>;
 
   constructor(private http:HttpClient) {

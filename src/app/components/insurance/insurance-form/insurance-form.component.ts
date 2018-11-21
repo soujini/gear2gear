@@ -15,11 +15,27 @@ export class InsuranceFormComponent implements OnInit {
   module :string="insurance";
   mode :string="discard";
   message:string="";
+  message_error:string="";
   insuranceForm: FormGroup;
   selectedInsurance_Id: any;
   submitted = false;
+  private sub;
 
   constructor(private fb: FormBuilder, private insuranceService:InsuranceService, private router:Router, private route:ActivatedRoute) {
+    this.sub=this.insuranceService.selectedInsuranceId
+    .subscribe(
+      res => {
+        this.selectedInsurance_Id = res;
+        if(this.insuranceService.selectedMode == "Edit"){
+          this.title = "Edit Insurance";
+          this.mode = "delete";
+          this.getInsuranceById(res);
+        }
+      },
+      err => {
+
+      }
+    );
   }
 
 
@@ -45,23 +61,39 @@ export class InsuranceFormComponent implements OnInit {
   getInsuranceById(insurance_id:number){
     this.insuranceService.getInsuranceById(insurance_id)
     .subscribe(
-        res => {
+      res => {
         this.insuranceForm.patchValue(res[0]);
-        },
-        err => {
-          console.log(err);
-        }
-      );
+      },
+      err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
+        console.log(err);
+      }
+    );
   }
 
   createInsurance(){
     this.insuranceService.createInsurance(this.insuranceForm.value)
     .subscribe(
       res => {
+        window.scrollTo(0, 0);
+        this.message = this.insuranceForm.get('name').value + " created successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
+
         this.insuranceService.refreshList.next(true);
         this.insuranceForm.reset();
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
         console.log(err);
       }
     );
@@ -71,9 +103,20 @@ export class InsuranceFormComponent implements OnInit {
     this.insuranceService.updateInsurance(this.insuranceForm.value)
     .subscribe(
       res => {
-          this.insuranceService.refreshList.next(true);
+        window.scrollTo(0, 0);
+        this.message = this.insuranceForm.get('name').value + " updated successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
+
+        this.insuranceService.refreshList.next(true);
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
         console.log(err);
       }
     );
@@ -99,21 +142,10 @@ export class InsuranceFormComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+  }
 
-    this.insuranceService.selectedInsuranceId
-    .subscribe(
-      res => {
-        this.selectedInsurance_Id = res;
-        if(this.insuranceService.selectedMode == "Edit"){
-          this.title = "Edit Insurance";
-          this.mode = "delete";
-          this.getInsuranceById(res);
-        }
-      },
-      err => {
-
-      }
-    );
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
 }

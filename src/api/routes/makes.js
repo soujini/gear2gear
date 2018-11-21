@@ -3,7 +3,7 @@ var client = require('./connection');
 const express = require('express');
 const http = require('http');
 const router = express.Router();
- // const env = require('dotenv').config();
+// const env = require('dotenv').config();
 const app = express();
 
 router.get('/api/makes', function(req, res) {
@@ -14,13 +14,7 @@ router.get('/api/makes', function(req, res) {
       res.status(400).send(err);
     }
     else{
-        res.status(200).send(result.rows);
-      // if(result.rows.length > 0){
-      //   res.status(200).send(result.rows);
-      // }
-      // else{
-      //   res.status(200).send({message: "No records found."});
-      // }
+      res.status(200).send(result.rows);
       //client.end(); // closing the connection;
     }
   });
@@ -34,13 +28,7 @@ router.get('/api/makes/search/:searchTerm', function(req, res) {
       res.status(400).send(err);
     }
     else{
-      if(result.rows.length >= 1){
         res.status(200).send(result.rows);
-      }
-      else{
-        res.status(200).send({message: "No matching records found."});
-      }
-      // client.end(); // closing the connection;
     }
   });
 });
@@ -60,7 +48,7 @@ router.post("/api/makes", function(req, res) {
       res.status(200).send(result.rows[0]);
     }
   });
-  //  client.end(); // closing the connection;
+
 });
 
 router.get("/api/makes/:id", function(req, res) {
@@ -74,7 +62,7 @@ router.get("/api/makes/:id", function(req, res) {
       res.status(200).send(result.rows);
     }
   });
-  // client.end(); // closing the connection;
+
 });
 
 router.put("/api/makes/:id", function(req, res) {
@@ -88,9 +76,8 @@ router.put("/api/makes/:id", function(req, res) {
       res.status(200).send(result);
     }
   });
-  // client.end(); // closing the connection;
-});
 
+});
 
 router.delete("/api/makes/:id", function(req, res) {
   var makeId = parseInt(req.params.id);
@@ -103,7 +90,6 @@ router.delete("/api/makes/:id", function(req, res) {
       res.status(200).send(result.rows);
     }
   });
-  // client.end(); // closing the connection;
 });
 
 module.exports = router;

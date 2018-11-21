@@ -1,9 +1,8 @@
-
-<div class="container-fluid">
+<div xclass="container-fluid">
   <app-header></app-header>
 </div>
 
-<div xclass="container-fluid" style="margin-top:150px">
+<div>
 <!-- <div class="loader"></div> -->
-    <router-outlet></router-outlet>
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
 </div>

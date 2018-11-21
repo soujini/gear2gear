@@ -3,10 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { ClientComponent} from './client.component';
 import { ClientListComponent} from './client-list/client-list.component';
 import { ClientFormComponent} from './client-form/client-form.component';
+import { AuthGuard } from 'app/auth.guard';
 
 const clientRoutes: Routes = [
   {
     path: 'client',
+    canActivate: [AuthGuard],
     component: ClientComponent,
     children: [
         {path: 'list',component: ClientListComponent},

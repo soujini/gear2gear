@@ -15,11 +15,27 @@ export class VariantFormComponent implements OnInit {
   module :string="variant";
   mode :string="discard";
   message:string="";
+  message_error:string="";
   variantForm: FormGroup;
   selectedVariant_Id: any;
   submitted = false;
+  private sub;
 
   constructor(private fb: FormBuilder, private variantService:VariantService, private router:Router, private route:ActivatedRoute) {
+    this.sub=this.variantService.selectedVariantId
+        .subscribe(
+          res => {
+            this.selectedVariant_Id = res;
+            if(this.variantService.selectedMode == "Edit"){
+              this.title = "Edit Variant";
+              this.mode = "delete";
+              this.getVariantById(res);
+            }
+          },
+          err => {
+
+          }
+        );
   }
 
 
@@ -49,6 +65,11 @@ export class VariantFormComponent implements OnInit {
         this.variantForm.patchValue(res[0]);
         },
         err => {
+          window.scrollTo(0, 0);
+          this.message_error = err;
+          setTimeout(() => {
+            this.message_error = "";
+          },5000);
           console.log(err);
         }
       );
@@ -58,10 +79,20 @@ export class VariantFormComponent implements OnInit {
     this.variantService.createVariant(this.variantForm.value)
     .subscribe(
       res => {
+        window.scrollTo(0, 0);
+        this.message = this.variantForm.get('name').value + " created successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
         this.variantService.refreshList.next(true);
         this.variantForm.reset();
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
         console.log(err);
       }
     );
@@ -71,9 +102,19 @@ export class VariantFormComponent implements OnInit {
     this.variantService.updateVariant(this.variantForm.value)
     .subscribe(
       res => {
+        window.scrollTo(0, 0);
+        this.message = this.variantForm.get('name').value + " updated successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
           this.variantService.refreshList.next(true);
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
         console.log(err);
       }
     );
@@ -99,21 +140,10 @@ export class VariantFormComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+  }
 
-    this.variantService.selectedVariantId
-    .subscribe(
-      res => {
-        this.selectedVariant_Id = res;
-        if(this.variantService.selectedMode == "Edit"){
-          this.title = "Edit Variant";
-          this.mode = "delete";
-          this.getVariantById(res);
-        }
-      },
-      err => {
-
-      }
-    );
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
 }

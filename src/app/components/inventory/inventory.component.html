@@ -4,36 +4,119 @@
     <app-title [title]=title></app-title>
   </div>
 </header>
-<div class="col-12">
-  search filter -> Vehicle Type, Make, Model, Year, Trasnmission, Max Price and Exterior Color
 
+<div class="col-12 filter-div">
+  <form class="form-inline" [formGroup]="filterForm" xaction="/action_page.php">
+    <div class="form-group">
+      <label class="col-form-label filter-label">Make</label><br>
+      <div>
+        <div class="filter-control">
+          <select class="form-control" formControlName="make">
+            <option *ngFor="let make of makes$ | async" [value]="make.make_id">{{make.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-form-label filter-label">Model</label>
+      <div>
+        <div class="xmt-0 filter-control">
+          <select class="form-control" formControlName="model">
+            <option *ngFor="let model of models$ | async" [value]="model.model_id">{{model.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-form-label filter-label">Variant</label>
+      <div>
+        <div class="xmt-0 filter-control">
+          <select class="form-control"  formControlName="variant">
+            <option *ngFor="let variant of variants$ | async" [value]="variant.variant_id">{{variant.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-form-label filter-label">Vehicle Type</label>
+      <div>
+        <div class="xmt-0 filter-control">
+          <select class="form-control" formControlName="vehicle_type">
+            <option *ngFor="let vehicleType of vehicleTypes$ | async" [value]="vehicleType.vehicle_type_id">{{vehicleType.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-form-label filter-label">Fuel Type</label>
+      <div>
+        <div class="xmt-0 filter-control">
+          <select class="form-control" formControlName="fuel_type">
+            <option *ngFor="let fuelType of fuelTypes$ | async" [value]="fuelType.fuel_type_id">{{fuelType.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-form-label filter-label">Transmission</label>
+      <div>
+        <div class="xmt-0 filter-control">
+          <select class="form-control" formControlName="transmission_type">
+            <option *ngFor="let transmissionType of transmissionTypes$ | async" [value]="transmissionType.transmission_type_id">{{transmissionType.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form-check">
+      <label class="col-form-label filter-label">Is Sold?</label>
+      <div>
+        <div class="xmt-0 filter-control">
+          <input type="checkbox" class="form-check-input" id="inputIsSold" formControlName="is_sold">
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-custom btn-md" (click)="getFilteredCars()">
+      <i class="fa fa-save"></i>
+    </button>
+    <button type="submit" class="btn btn-primary btn-custom btn-md" (click)="clear()">
+      <i class="fa fa-trash"></i>
+    </button>
+  </form>
 </div>
-<div class="row" *ngFor="let car of cars$ | async">
-  <div class="col-5" style="height:500px; background-color:red">
-    <mdb-carousel  [isControls]="true" [animation]="'slide'">
-      <mdb-slide>
-        <img class="d-block xw-100" style="height:480px" src="https://mdbootstrap.com/img/Photos/Slides/img%20(130).jpg" alt="First slide">
-      </mdb-slide>
-      <mdb-slide>
-        <img class="d-block xw-100" style="height:480px"  src="https://mdbootstrap.com/img/Photos/Slides/img%20(129).jpg" alt="Second slide">
-      </mdb-slide>
-      <mdb-slide>
-        <img class="d-block xw-100" style="height:480px"  src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg" alt="Third slide">
+
+<div *ngIf="(cars$ | async)?.length==0" class="alert alert-danger text-center xcol-12" style="margin:50px">
+  <strong>Error!</strong>&nbsp;<span>No records matching the search criteria.</span>
+</div>
+
+<div class="row" *ngFor="let car of cars$ |async">
+  <div class="col-5" style="height:600px; xbackground-color:lightgray">
+    <mdb-carousel [isControls]="true" [animation]="'slide'" STYLE="width:600px">
+      <mdb-slide *ngFor="let file of car.image_urls">
+        <img class="d-block xw-100 img-responsive" style="height:500px; width:600px" [src]="file.url" alt="First slide">
       </mdb-slide>
     </mdb-carousel>
   </div>
 
   <div class="col-6">
     <mat-tab-group>
-      <mat-tab class="col-6" label="Overview">The Every Youths Dream Sedan – Honda Civic, it’s a Luxury loaded with 1.8ltr iVTEC Petrol Engine, VMT comes Loaded with Dual Airbags, Alloys, ABS, Dual tone Leather interiors, rear armrest with remote, central locking with remote, electornic mirror adjustments, multimedia CD player, automatic climate control, fog lamps, etc. Car is Driven 130000 kms recorded mileage from Honda, No accidents till date. Priced at just Rs.385000. Call me on 8618503850 – Location – Jpnagar 2nd phase Bangalore.</mat-tab>
+
       <mat-tab class="col-6" label="Details">
-        <table>
+        <div style="margin:35px">
+        <table class="table-bla">
           <tbody>
+            <tr>
+              <td class="t-label">Make</td>
+              <td class="t-value h6">{{car.make_name}}</td>
+            </tr>
+            <tr>
+              <td class="t-label">Model</td>
+              <td class="t-value h6">{{car.model_name}}</td>
+            </tr>
             <tr>
               <td class="t-label">Vehicle Type</td>
               <td class="t-value h6">{{car.vehicle_type_name}}</td>
             </tr>
-
             <tr>
               <td class="t-label">Fuel type</td>
               <td class="t-value h6">{{car.fuel_type_name}}</td>
@@ -73,12 +156,15 @@
               <td class="t-value h6">{{car.interior_color}}</td>
             </tr>
             <tr>
-              <td class="t-label">Accidental?</td>
-              <td class="t-value h6">{{car.is_accidental}}</td>
+              <td for="inputAccidental" class="t-label">Accidental?</td>
+                <td class="t-value h6" *ngIf="car.is_accidental == true">Yes</td>
+                <td class="t-value h6" *ngIf="car.is_accidental != true">No</td>
+
             </tr>
             <tr>
-              <td class="t-label">Flooded?</td>
-              <td class="t-value h6">  <input type="checkbox" class="form-check-input" value="car.is_flooded"></td>
+              <td for="inputAccidental" class="t-label">Flooded?</td>
+                <td class="t-value h6" *ngIf="car.is_flooded == true">Yes</td>
+                <td class="t-value h6" *ngIf="car.is_flooded != true">No</td>
             </tr>
             <tr>
               <td class="t-label">Mileage</td>
@@ -100,8 +186,15 @@
               <td class="t-label">Registration Number</td>
               <td class="t-value t-vin h6">KA51P7589</td>
             </tr>
-          </tbody></table>
-      </mat-tab>
-    </mat-tab-group>
+          </tbody>
+        </table>
+        </div>
+        </mat-tab>
+        <mat-tab class="col-6" label="Description">
+            <div style="margin:35px">
+          {{car.description}}
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
   </div>
-</div>

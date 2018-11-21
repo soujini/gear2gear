@@ -1,4 +1,10 @@
 <section class="container-fluid section">
+  <div *ngIf="message" class="alert alert-success text-center col-12">
+    <strong>Success!</strong>&nbsp;<span>{{message}}</span>
+  </div>
+  <div *ngIf="message_error" class="alert alert-danger text-center col-12">
+    <strong>Error!</strong>&nbsp;<span>{{message_error}}</span>
+  </div>
   <div class="col-12 grey lighten-4">
     <header class="header row">
       <div class="col-12">

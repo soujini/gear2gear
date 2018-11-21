@@ -27,11 +27,11 @@ export class InvestorsCornerComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private carService:CarService,
     private transactionDetailsService:TransactionDetailsService,
-  private clientService:ClientService) { }
+    private clientService:ClientService) { }
 
     ngOnInit() {
       this.createForm();
-      this.getTransactionDetailsById();
+      this.getTransactionDetails();
       this.getCars();
     }
     createForm() {
@@ -46,52 +46,33 @@ export class InvestorsCornerComponent implements OnInit {
               }),
             ]),
           }),
-
-
-
-        ]), // here
+        ]),
       });
 
     }
 
     getCars()  {
-      this.carService.getCars().subscribe(
-        res=>{
-          this.cars$ = res;
+      this.cars$ = this.carService.getCars();
 
-          // this.cars$.forEach(car=>{
-          //
-          //   // this.clientService.getInvestorsExpensesAndPercent(car.car_id)
-          //   // .subscribe(res => {
-          //   //   this.investorsExpensesAndPercent$ = res;
-          //   //   this.investorsExpensesAndPercent$.forEach(rec=>{
-          //   //     this.investorsDetails.push(rec);
-          //   //   })
-          //
-          // });
-          //
-          // console.log("moly ",this.investorsExpensesAndPercent);
-        //});
-          // let control = <FormArray>this.transactionDetailsForm.get('car_records');
-          // this.cars$.forEach(car=>{
-          //   this.investors = this.transactionDetails.filter(s => s.transaction_type_id == 1 && s.car_id == car.car_id);
-          //   this.expenses = this.transactionDetails.filter(s => s.transaction_type_id == 2 && s.car_id == car.car_id);
-          //
-          //   control.push(this.fb.group({car_id:car.car_id, investor_records:this.investors, expense_records:this.expenses}));
-          //   console.log("aa ",this.transactionDetailsForm.value);
-          // })
-        },
-        err=>{
-
-        }
-      );
     }
 
-    getTransactionDetailsById(){
+    // getTransactionDetailsById(car_id:number){
+    //   this.transactionDetailsService.getTransactionDetailsById(30).subscribe(
+    //     res=>{
+    //       this.transactionDetails = res;
+    //       //  this.getCars();
+    //     },
+    //     err=>{
+    //
+    //     });
+    //   }
+    // }
+    getTransactionDetails(){
       this.transactionDetailsService.getTransactionDetails().subscribe(
         res=>{
           this.transactionDetails = res;
-        //  this.getCars();
+          console.log(res);
+          //  this.getCars();
         },
         err=>{
 

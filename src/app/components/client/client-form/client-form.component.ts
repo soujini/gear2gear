@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Client } from 'app/data-model';
 import { ClientService } from 'app/services/client/client.service';
 import { CommonService } from 'app/services/common/common.service';
+import { TransactionTypeService } from 'app/services/transaction-type/transaction-type.service';
 
 @Component({
   selector: 'app-client-form',
@@ -16,19 +17,41 @@ export class ClientFormComponent implements OnInit {
   module :string="client";
   mode :string="discard";
   message:string="";
+  message_error:string="";
   clientForm: FormGroup;
   selectedClient_Id: any;
   selectedMode: any;
   submitted = false;
+  private sub;
+
+  transactionTypes$:Observable<any>;
 
   constructor(
     private fb: FormBuilder,
     public clientService:ClientService,
     private commonService: CommonService,
+    private transactionTypeService: TransactionTypeService,
     private router:Router,
     private route:ActivatedRoute) {
 
+      this.sub = this.clientService.selectedClientId
+      .subscribe(
+        res => {
+          this.selectedClient_Id = res;
+          if(this.clientService.selectedMode == "Get"){
+            this.title = "Edit Client";
+            this.mode = "delete";
+            this.getClientById(res);
+            this.clientService.transactionDetail.next("true");
+          }
+        },
+        err => {
+
+        }
+      );
+
     }
+
 
     createForm() {
       this.clientForm = this.fb.group({
@@ -41,10 +64,7 @@ export class ClientFormComponent implements OnInit {
         state: [],
         pin: ['',Validators.maxLength(10)],
         is_investor:[false],
-        investment_records: this.fb.array([]),
-        total_investment:[0],
-        total_expenses:[0],
-        available_balance:[0]
+        is_owner:[0]
       });
     }
 
@@ -56,11 +76,6 @@ export class ClientFormComponent implements OnInit {
         is_disabled:[false],
         is_void_disabled:[false]
       });
-    }
-
-    addItem(): void {
-      const control = <FormArray> this.clientForm.controls['investment_records'];
-      control.push(this.createInvestmentRecord());
     }
 
     onSubmit(){
@@ -82,13 +97,18 @@ export class ClientFormComponent implements OnInit {
           this.patchForm(res[0]);
         },
         err => {
+          window.scrollTo(0, 0);
+          this.message_error = err;
+          setTimeout(() => {
+            this.message_error = "";
+          },5000);
           console.log(err);
         }
       );
     }
 
     patchForm(res){
-        //this.clientForm.patchValue(res);
+      //this.clientForm.patchValue(res);
       this.clientForm.patchValue({
         client_id: res.client_id,
         name: res.name,
@@ -99,126 +119,113 @@ export class ClientFormComponent implements OnInit {
         state: res.state,
         pin: res.pin,
         is_investor: res.is_investor,
-        total_investment: res.total_investment
+        // total_investment: res.total_investment,
+        is_owner:res.is_owner
       });
-      if(res.investment_records != null){
-        //Disable is_investor if investment records exist
-        // this.clientForm.get('is_investor').disable();
-
-        let control = <FormArray>this.clientForm.controls.investment_records;
-        //Clear Form Array
-        while (control.length !== 0) {
-        control.removeAt(0)
-      }
-      //Patch Investment Records Array
-      res.investment_records.forEach(record => {
-      let is_void_disabled = false;
-      if(record.is_void == true){
-        is_void_disabled=true;
-      }
-      control.push(this.fb.group({date: record.date, amount: record.amount, is_void:record.is_void, is_disabled:true, is_void_disabled:is_void_disabled}))
-    })
-  }
-}
-
-createClient(){
-  if(this.clientForm.controls.is_investor.value == true){
-  this.clientForm.patchValue({
-    total_investment: this.getTotalInvestment(),
-    available_balance: this.getTotalInvestment()
-  });
-}
-
-  this.clientService.createClient(this.clientForm.value)
-  .subscribe(
-    res => {
-      this.clientService.refreshList.next(true);
-      this.router.navigate(['/client/add']);
-      this.clientForm.reset();
-    },
-    err => {
-      console.log(err);
-    }
-  );
-}
-
-getTotalInvestment(){
-  let total_investment = 0;
-  this.clientForm.controls.investment_records.value.forEach(record => {
-    if(record.is_void == false){
-    total_investment = total_investment + parseInt(record.amount.replace( /,/g, "" ));
-  }
-  });
-  return total_investment;
-}
-
-updateClient(){
-  let x = this.getTotalInvestment();
-  let y = this.clientForm.controls.total_expenses.value;
-
-  this.clientForm.patchValue({
-    total_investment: x,
-    available_balance: x-y,
-  });
-
-  this.clientService.updateClient(this.clientForm.value)
-  .subscribe(
-    res => {
-      this.clientService.refreshList.next(true);
-      this.router.navigate(['/client/add']);
-    },
-    err => {
-      console.log(err);
-    }
-  );
-}
-
-deleteClient(event){
-  if(this.selectedClient_Id){
-    this.clientService.deleteClient(this.selectedClient_Id).subscribe(
-      res => {
-        this.clientService.refreshList.next(true);
-        this.router.navigate(['/client/add']);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
-  else{
-    this.clientForm.reset();
-  }
-}
-formatCurrency(control){
-  var val = control.value;
-  let x = val.toString().replace( /,/g, "" );
-  var afterPoint = '';
-  if(x.indexOf('.') > 0)
-  afterPoint = x.substring(x.indexOf('.'),x.length);
-  x = Math.floor(x);
-  x=x.toString();
-  var lastThree = x.substring(x.length-3);
-  var otherNumbers = x.substring(0,x.length-3);
-  if(otherNumbers != '')
-  lastThree = ',' + lastThree;
-  var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + afterPoint;
-  control.setValue(res);
-}
-ngOnInit() {
-  this.createForm();
-  this.clientService.selectedClientId
-  .subscribe(
-    res => {
-      this.selectedClient_Id = res;
-      if(this.clientService.selectedMode == "Get"){
-        this.title = "Edit Client";
-        this.mode = "delete";
-        this.getClientById(res);
-      }
-    },
-    err => {
 
     }
-  );
-}
-}
+
+    createClient(){
+      // if(this.clientForm.controls.is_investor.value == true){
+      //   this.clientForm.patchValue({
+      //     total_investment: this.getTotalInvestment(),
+      //     available_balance: this.getTotalInvestment()
+      //   });
+      // }
+
+      this.clientService.createClient(this.clientForm.value)
+      .subscribe(
+        res => {
+          window.scrollTo(0, 0);
+          this.message = this.clientForm.get('name').value + " created successfully.";
+          setTimeout(() => {
+            this.message = "";
+          },5000);
+          this.clientService.refreshList.next(true);
+          this.router.navigate(['/client/add']);
+          this.clientForm.reset();
+        },
+        err => {
+          window.scrollTo(0, 0);
+          this.message_error = err;
+          setTimeout(() => {
+            this.message_error = "";
+          },5000);
+          console.log(err);
+        }
+      );
+    }
+
+    // getTotalInvestment(){
+    //   let total_investment = 0;
+    //   return total_investment;
+    // }
+
+    updateClient(){
+      // let x = this.getTotalInvestment();
+      // let y = this.clientForm.controls.total_expenses.value;
+      //
+      // this.clientForm.patchValue({
+      //   total_investment: x,
+      //   available_balance: x-y,
+      // });
+
+      this.clientService.updateClient(this.clientForm.value)
+      .subscribe(
+        res => {
+          window.scrollTo(0, 0);
+          this.message = this.clientForm.get('name').value + " updated successfully.";
+          setTimeout(() => {
+            this.message = "";
+          },5000);
+          this.clientService.refreshList.next(true);
+        },
+        err => {
+          window.scrollTo(0, 0);
+          this.message_error = err;
+          setTimeout(() => {
+            this.message_error = "";
+          },5000);
+          console.log(err);
+        }
+      );
+    }
+
+    deleteClient(event){
+      if(this.selectedClient_Id){
+        this.clientService.deleteClient(this.selectedClient_Id).subscribe(
+          res => {
+            this.clientService.refreshList.next(true);
+            this.router.navigate(['/client/add']);
+          },
+          err => {
+            console.log(err);
+          }
+        );
+      }
+      else{
+        this.clientForm.reset();
+      }
+    }
+
+    getTransactionTypesForClient()  {
+      this.transactionTypes$ = this.transactionTypeService.getTransactionTypesForClient();
+    }
+
+    ngAfterViewInit() {
+      // Hack: Scrolls to top of Page after page view initialized
+      window.scrollTo(0,0);
+    }
+    ngOnInit() {
+      setTimeout(() => {
+        window.scrollTo(0,0);
+        //this.router.navigate(['/car/add']);
+      },1000);
+      this.createForm();
+      this.getTransactionTypesForClient();
+    }
+
+    ngOnDestroy() {
+      this.sub.unsubscribe();
+    }
+  }

@@ -1,16 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-
-.navbar-custom{
-  background-color: #121213;
-  text-align: right;
-  color:gray;
-  font-size: 18px;
-   font-family: Bebas-Neue,Arial,sans-serif;
-letter-spacing: 0.12em;
-}
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 body, html {
-    height: 100%;
-    font-family: fakt-web,Helvetica Neue,Hevetica,sans-serif;
+  height: 100%;
+  font-family: fakt-web,Helvetica Neue,Hevetica,sans-serif;
 }
 body{
   color:#1C2331;
@@ -20,42 +12,39 @@ body{
 }
 .auth0-lock.auth0-lock .auth0-lock-header-bg {
   background-color: black !important;
-  // background-color: rgb(49, 50, 79) !important;
+}
+.bold{
+  font-weight: bold;
+}
+.is-active{
+  color:green;
+  font-weight: bold !important;
+}
+
+.is-active td{
+  color:green;
+  font-weight: bold !important;
 }
 .auth0-lock-name{
-   // color: #adff2f;
-   color:black;
-      font-size: 40px;
-      // text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
-      font-weight: 700;
-      font-family: Ethnocentric;
+  color:black;
+  font-size: 40px;
+  font-weight: 700;
+  font-family: Ethnocentric;
+}
+
+.navbar-custom{
+  background-color: #121213;
+  text-align: right;
+  color:gray;
+  font-size: 18px;
+  font-family: Bebas-Neue,Arial,sans-serif;
+  letter-spacing: 0.12em;
+  height: inherit;
 }
 
 .navbar-transparent:not(.top-nav-collapse) {
-  // background-color: black !important;
   color: #CDCFD0 !important;
 }
-// .navbar-custom {
-//   height:115px !important;
-//   border: 0;
-//   color:white !important;
-//   line-height: 2em;
-//   // font-weight:500;
-//
-//   // border-color: #f5f5f5 !important;
-//   // border-bottom: 1px solid #f5f5f5 !important;
-//   border-radius: 0;
-//   text-transform: uppercase;
-//
-//   font-size: 12px;
-//   z-index: 1000;
-//   // background-image: url('./assets/images/tecplot3.jpg');
-//   // background-size: cover;
-//   // background-repeat: no-repeat;
-//    background-color: black;
-//    color:white;
-//
-// }
 .nav-link{
   letter-spacing: 0.12em !important;
 }
@@ -64,32 +53,15 @@ body{
   min-height:100% !important;
 
 }
-@media (min-width: 600px){
-
-}
-// .navbar-toggler-icon{
-//    background-color: black;
-// }
-@media only screen and (min-width: 544px) {
-  // .navbar-transparent:not(.top-nav-collapse) {
-  //     background-color: transparent !important;
-  // }
-}
-// section{
-// margin-top:100px !important;
-// padding:30px !important;
-// height:100%;
-// }
 
 .section-title{
-   text-align: center;
+  text-align: center;
   font-family: inherit;
-line-height: 1.1;
-// color: rgba(0,0,0,.86);
+  line-height: 1.1;
   padding-top: 30px;
   font-size: 32px;
   margin: 60px auto;
-text-align: center;
+  text-align: center;
 }
 .section-title h2{
   font-weight: 300 !important;
@@ -148,39 +120,39 @@ text-align: center;
 }
 
 @font-face {
-    font-family: 'Ethnocentric';
-     src: url('./assets/fonts/ethnocentric_rg.ttf') format('truetype');
-    font-style: normal;
-    font-weight: normal;
+  font-family: 'Ethnocentric';
+  src: url('./assets/fonts/ethnocentric_rg.ttf') format('truetype');
+  font-style: normal;
+  font-weight: normal;
 }
 @font-face {
-    font-family: 'Bebas-Neue';
-     src: url('./assets/fonts/BebasNeue-Regular.ttf') format('truetype');
-    font-style: normal;
-    // font-weight: normal;
+  font-family: 'Bebas-Neue';
+  src: url('./assets/fonts/BebasNeue-Regular.ttf') format('truetype');
+  font-style: normal;
+  // font-weight: normal;
 }
 
 
-.logo{
-  color: greenyellow;
-  font-size: 40px;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  font-weight: bold;
-
-}
-.logo2{
-  color: black;
-  font-size: 80px;
-    text-shadow: -1px 0 greenyellow, 0 1px greenyellow, 1px 0 greenyellow, 0 -1px greenyellow;
-    font-weight: bold;
-
-}
+// .logo{
+//   color: greenyellow;
+//   font-size: 40px;
+//   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+//   font-weight: bold;
+//
+// }
+// .logo2{
+//   color: black;
+//   font-size: 80px;
+//   text-shadow: -1px 0 greenyellow, 0 1px greenyellow, 1px 0 greenyellow, 0 -1px greenyellow;
+//   font-weight: bold;
+//
+// }
 .btn-custom {
-    background-color: #43464B !important;
-    color: white !important;
-    height: 38px;
-    border:#43464B;
-    border-radius:3px;
+  background-color: #43464B !important;
+  color: white !important;
+  height: 38px;
+  border:#43464B;
+  border-radius:3px;
 }
 .capitalize{
   text-transform: capitalize;
@@ -205,21 +177,23 @@ text-align: center;
 }
 
 .loader {
-    border: 5px solid black; /* Light grey */
-    border-top: 5px solid greenyellow; /* Blue */
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 2s linear infinite;
-     z-index: 1;
-     position: fixed;
-     left: 50%;
-top: 50%;
+  border: 5px solid black; /* Light grey */
+  border-top: 5px solid greenyellow; /* Blue */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+  z-index: 1;
+  position: fixed;
+  left: 50%;
+  top: 50%;
 }
 
+
+
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .navbar .dropdown-menu a{
@@ -242,17 +216,33 @@ top: 50%;
 .border-none{
   border:0;
 }
-// @include media-breakpoint-up(xs) {
-//   .navbar-custom{
-//     // background-color: #182b29;
-//     background-color: red;
-//     text-align: right;
-//     color:white;
-//     font-size: 12px;
-//     height:150px;
-//   }}
-// @include media-breakpoint-up(sm) {}
-// @include media-breakpoint-up(md) {}
-// @include media-breakpoint-up(lg) {}
-// @include media-breakpoint-up(xl) {}
-/* You can add global styles to this file, and also import other style files */
+/* For Firefox */
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+/* Webkit browsers like Safari and Chrome */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Extra Small devices (tablets, 768px and up) col-sm */
+@media (max-width: 767px) {
+  .logo{
+    width: 200px;
+    height: auto;
+  }
+}
+/* Small devices (tablets, 768px and up) col-md  collapses here*/
+@media (min-width: 768px) and (max-width: 992px) {
+
+}
+
+/* Medium devices (desktops, 992px and up)  col-lg */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) and (max-width: 1920px) {}

@@ -17,6 +17,8 @@ export class FuelTypeListComponent implements OnInit {
   @Output()
   searchTerm = new EventEmitter();
 
+  selectedFuelTypeId:number;
+
   constructor(private fuelTypeService:FuelTypeService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
@@ -35,6 +37,7 @@ export class FuelTypeListComponent implements OnInit {
 
   //On Click of the Edit Button
   selectFuelType(fuelType_id:number, mode:any){
+    this.selectedFuelTypeId=fuelType_id;
     this.fuelTypeService.selectedMode = mode;
     this.router.navigate(['/fuelType/edit']);
     setTimeout(() => {

@@ -15,13 +15,28 @@ export class FuelTypeFormComponent implements OnInit {
   module :string="fuel type";
   mode :string="discard";
   message:string="";
+  message_error:string="";
   fuelTypeForm: FormGroup;
   selectedFuelType_Id: any;
   submitted = false;
+  private sub;
 
   constructor(private fb: FormBuilder, private fuelTypeService:FuelTypeService, private router:Router, private route:ActivatedRoute) {
-  }
+    this.sub=this.fuelTypeService.selectedFuelTypeId
+    .subscribe(
+      res => {
+        this.selectedFuelType_Id = res;
+        if(this.fuelTypeService.selectedMode == "Edit"){
+          this.title = "Edit Fuel Type";
+          this.mode = "delete";
+          this.getFuelTypeById(res);
+        }
+      },
+      err => {
 
+      }
+    );
+  }
 
   createForm() {
     this.fuelTypeForm = this.fb.group({
@@ -45,23 +60,39 @@ export class FuelTypeFormComponent implements OnInit {
   getFuelTypeById(fuelType_id:number){
     this.fuelTypeService.getFuelTypeById(fuelType_id)
     .subscribe(
-        res => {
+      res => {
         this.fuelTypeForm.patchValue(res[0]);
-        },
-        err => {
-          console.log(err);
-        }
-      );
+      },
+      err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
+        console.log(err);
+      }
+    );
   }
 
   createFuelType(){
     this.fuelTypeService.createFuelType(this.fuelTypeForm.value)
     .subscribe(
       res => {
+        window.scrollTo(0, 0);
+        this.message = this.fuelTypeForm.get('name').value + " created successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
+
         this.fuelTypeService.refreshList.next(true);
         this.fuelTypeForm.reset();
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
         console.log(err);
       }
     );
@@ -71,9 +102,19 @@ export class FuelTypeFormComponent implements OnInit {
     this.fuelTypeService.updateFuelType(this.fuelTypeForm.value)
     .subscribe(
       res => {
-          this.fuelTypeService.refreshList.next(true);
+        window.scrollTo(0, 0);
+        this.message = this.fuelTypeForm.get('name').value + " updated successfully.";
+        setTimeout(() => {
+          this.message = "";
+        },5000);
+        this.fuelTypeService.refreshList.next(true);
       },
       err => {
+        window.scrollTo(0, 0);
+        this.message_error = err;
+        setTimeout(() => {
+          this.message_error = "";
+        },5000);
         console.log(err);
       }
     );
@@ -99,21 +140,10 @@ export class FuelTypeFormComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+  }
 
-    this.fuelTypeService.selectedFuelTypeId
-    .subscribe(
-      res => {
-        this.selectedFuelType_Id = res;
-        if(this.fuelTypeService.selectedMode == "Edit"){
-          this.title = "Edit Fuel Type";
-          this.mode = "delete";
-          this.getFuelTypeById(res);
-        }
-      },
-      err => {
-
-      }
-    );
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
 }

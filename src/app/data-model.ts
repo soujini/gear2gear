@@ -28,11 +28,6 @@ export class TransmissionType {
   name:string;
 }
 
-export class InsuranceType {
-  insurance_type_id:number;
-  name:string;
-}
-
 export class Insurance {
   insurance_id:number;
   name:string;
@@ -56,7 +51,6 @@ export class Car {
   vehicle_type:number;
   fuel_type:number;
   transmission_type:number;
-  insurance_type:number;
   insurance:number;
   exterior_color:number;
   interior_color:number;
@@ -66,16 +60,17 @@ export class Car {
   owners:number;
   cost_price:number;
   purchased_from:number;
-  purchased_on;
+  purchased_on:string;
   selling_price:number;
   sold_to:number;
-  sold_on;
+  sold_on:string;
   make_month:number;
   insurance_year:number;
   is_accidental:boolean;
   is_flooded:boolean;
   is_sold:boolean;
   license_plate:string;
+  image_urls;
 }
 
 export class Client {
@@ -88,9 +83,7 @@ export class Client {
   state:number;
   pin:string;
   is_investor:boolean=false;
-  total_investment:number;
-  total_expenses:number;
-  available_balance:number;
+  is_owner:boolean=false;
 }
 export class TransactionType {
   transaction_type_id:number;
@@ -106,7 +99,15 @@ export class TransactionDetails {
   description:string;
   date:string;
   expense_id:number;
-  amount:number;
+  credit:number;
+  debit:number;
+}
+
+export class FileUpload {
+    url: string;
+    constructor(url: string) {
+        this.url = url;
+    }
 }
 
 export const states = ['CA', 'MD', 'OH', 'VA'];

@@ -44,7 +44,8 @@ export class TransmissionTypeComponent implements OnInit {
       this.transmissionTypes$ = this.transmissionTypeService.searchTransmissionTypes(searchTerm);
     }
     else{
-      this.transmissionTypes$ = new EmptyObservable();
+      this.getTransmissionTypes();
+      //this.transmissionTypes$ = new EmptyObservable();
     }
   }
 

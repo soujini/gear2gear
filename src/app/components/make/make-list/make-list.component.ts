@@ -17,6 +17,8 @@ export class MakeListComponent implements OnInit {
   @Output()
   searchTerm = new EventEmitter();
 
+  selectedMakeId:number;
+
   constructor(private makeService:MakeService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
@@ -35,9 +37,11 @@ export class MakeListComponent implements OnInit {
 
   //On Click of the Edit Button
   selectMake(make_id:number, mode:any){
+    this.selectedMakeId=make_id;
     this.makeService.selectedMode = mode;
     this.router.navigate(['/make/edit']);
     setTimeout(() => {
+
       this.makeService.selectedMakeId.next(make_id);
     }, 100);
   }

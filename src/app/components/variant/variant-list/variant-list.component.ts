@@ -17,6 +17,8 @@ export class VariantListComponent implements OnInit {
   @Output()
   searchTerm = new EventEmitter();
 
+  selectedVariantId:number;
+
   constructor(private variantService:VariantService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
@@ -35,6 +37,7 @@ export class VariantListComponent implements OnInit {
 
   //On Click of the Edit Button
   selectVariant(variant_id:number, mode:any){
+    this.selectedVariantId=variant_id;
     this.variantService.selectedMode = mode;
     this.router.navigate(['/variant/edit']);
     setTimeout(() => {

@@ -15,9 +15,10 @@ export class ClientListComponent implements OnInit {
   @Input()
   results$: Observable<Client>;
 
-
   @Output()
   searchTerm = new EventEmitter();
+
+  selectedClientId:number;
 
   constructor(private clientService:ClientService, private router:Router, private route:ActivatedRoute) { }
 
@@ -37,6 +38,7 @@ export class ClientListComponent implements OnInit {
 
   //On Click of the Edit Button
   selectClient(client_id:number, mode:any){
+    this.selectedClientId=client_id;
     this.clientService.selectedMode = mode;
     this.router.navigate(['/client/edit']);
     setTimeout(() => {

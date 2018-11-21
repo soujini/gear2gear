@@ -44,7 +44,8 @@ export class CarComponent implements OnInit {
       this.cars$ = this.carService.searchCars(searchTerm);
     }
     else{
-      this.cars$ = new EmptyObservable();
+      this.getCars();
+      //this.cars$ = new EmptyObservable();
     }
   }
 
