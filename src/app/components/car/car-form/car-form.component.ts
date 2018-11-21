@@ -133,7 +133,6 @@ export class CarFormComponent implements OnInit {
         is_flooded:[],
         is_sold : [false],
         license_plate : ['', [Validators.required]],
-
         sold_to : [],//required if sold
         sold_on : [],//required if sold
         selling_price : [], //required if sold
