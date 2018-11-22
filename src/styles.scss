@@ -189,6 +189,15 @@ body{
   top: 50%;
 }
 
+.modal-backdrop {
+    /* bug fix - no overlay */
+    display: none !important;
+}
+
+ .modal{
+ z-index:2050 !important;
+}
+
 
 
 @keyframes spin {

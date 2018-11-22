@@ -10,6 +10,9 @@
   height:350px;
   overflow: scroll;
 }
+.header{
+  z-index: auto;
+}
 
 /* Extra Small devices (tablets, 768px and up) col-sm */
 @media (max-width: 767px) {

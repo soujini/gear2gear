@@ -163,7 +163,7 @@ export class TransactionDetailsComponent implements OnInit {
             }
 
             this.transactionDetailsForm.patchValue({
-              investor_id : 63,
+              investor_id : 68,
               transaction_type_id: transaction_type_id,
               transaction_type_mode:transaction_type_mode,
               car_id: this.carForm.get('car_id').value,

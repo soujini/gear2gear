@@ -11,7 +11,6 @@
               <tr>
                 <th>Date</th>
                 <th>Transaction</th>
-                <!-- <th>Investor</th> -->
                 <th>Expense</th>
                 <th>Description</th>
                 <th class="text-right">Credit</th>
@@ -31,15 +30,9 @@
                   </select>
                   <app-control-messages [control]="transactionDetailsForm.controls.transaction_type_id"></app-control-messages>
                 </td>
-                <!-- <td>
-                  <select class="form-control" formControlName="investor_id" (change) = "validateAmountAgainstBalance(this)" >
-                    <option *ngFor="let investor of investors$ | async" [value]="investor.client_id">{{investor.name}}</option>
-                  </select>
-                  <app-control-messages [control]="transactionDetailsForm.controls.investor_id"></app-control-messages>
-                </td> -->
                 <td>
                   <select class="form-control" formControlName="expense_id" >
-                    <option *ngFor="let expense of expenses$ | async" [value]="expense.expense_id">{{expense.expense_id}}{{expense.name}}</option>
+                    <option *ngFor="let expense of expenses$ | async" [value]="expense.expense_id">{{expense.name}}</option>
                   </select>
                   <app-control-messages [control]="transactionDetailsForm.controls.expense_id"></app-control-messages>
                 </td>
@@ -78,21 +71,6 @@
             <tbody>
               <tr *ngFor="let item of transactionDetails$ | async; let i = index;">
                 <td> {{item.date | date}}</td>
-                <!-- <td>
-                  <select class="form-control" value="item.transaction_type_id" disabled>
-                    <option *ngFor="let tt of transactionTypes$ | async" [value]="tt.transaction_type_id" [selected] = "item.transaction_type_id == tt.transaction_type_id">{{tt.transaction_type_id}}{{tt.name}}</option>
-                  </select>
-                </td> -->
-                <!-- <td>
-                  <select class="form-control" value="item.investor_id" disabled>
-                    <option *ngFor="let investor of investors$ | async" [value]="investor.client_id" [selected] = "item.investor_id == investor.client_id">{{investor.name}}</option>
-                  </select>
-                </td> -->
-                <!-- <td>
-                  <select class="form-control" value="item.expense_id" disabled>
-                    <option *ngFor="let expense of expenses$ | async" [value]="expense.expense_id" [selected] = "item.expense_id == expense.expense_id">{{expense.expense_id}}{{expense.name}}</option>
-                  </select>
-                </td> -->
                 <td>{{item.transaction_name}}</td>
                 <td>{{item.investor_name}}</td>
                 <td>{{item.expense_name}}</td>

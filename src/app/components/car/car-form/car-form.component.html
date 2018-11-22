@@ -245,6 +245,12 @@
             </form>
           </div>
         </div>
+        <div class="text-right">
+          <button type="submit" class="btn btn-primary btn-custom btn-md" >
+            <i class="fa fa-save"></i>
+          </button>
+          <app-simple-modal [module]="module" [mode]="mode" [name]="carForm.controls.make.value" (isDelete)="deleteCar($event)"></app-simple-modal>
+        </div>
       </mat-tab>
       <mat-tab *ngIf="selectedCar_Id" class="col-12" label="Transaction Details">
 
