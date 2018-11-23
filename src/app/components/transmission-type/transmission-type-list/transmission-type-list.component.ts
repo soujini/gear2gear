@@ -31,6 +31,7 @@ export class TransmissionTypeListComponent implements OnInit {
 
   //On Click of the Add Button
   createTransmissionType(mode:any){
+    this.selectedTransmissionTypeId=0;
     this.transmissionTypeService.selectedMode = mode;
     this.router.navigate(['/transmissionType/add']);
   }

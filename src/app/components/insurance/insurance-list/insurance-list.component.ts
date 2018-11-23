@@ -31,6 +31,7 @@ export class InsuranceListComponent implements OnInit {
 
   //On Click of the Add Button
   createInsurance(mode:any){
+    this.selectedInsuranceId=0;
     this.insuranceService.selectedMode = mode;
     this.router.navigate(['/insurance/add']);
   }

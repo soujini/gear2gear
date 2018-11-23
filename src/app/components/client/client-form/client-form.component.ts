@@ -38,7 +38,7 @@ export class ClientFormComponent implements OnInit {
       .subscribe(
         res => {
           this.selectedClient_Id = res;
-          if(this.clientService.selectedMode == "Get"){
+          if(this.clientService.selectedMode == "Get" || this.clientService.selectedMode == "Edit"){
             this.title = "Edit Client";
             this.mode = "delete";
             this.getClientById(res);
@@ -49,9 +49,7 @@ export class ClientFormComponent implements OnInit {
 
         }
       );
-
     }
-
 
     createForm() {
       this.clientForm = this.fb.group({
@@ -64,7 +62,7 @@ export class ClientFormComponent implements OnInit {
         state: [],
         pin: ['',Validators.maxLength(10)],
         is_investor:[false],
-        is_owner:[0]
+        is_owner:[false]
       });
     }
 
@@ -88,6 +86,14 @@ export class ClientFormComponent implements OnInit {
           this.updateClient();
         }
       }
+    }
+
+    selectClient(client_id:number){
+        this.clientService.selectedMode = 'Edit';
+        this.router.navigate(['/client/edit']);
+        setTimeout(() => {
+          this.clientService.selectedClientId.next(client_id);
+        }, 100);
     }
 
     getClientById(client_id:number){
@@ -119,20 +125,12 @@ export class ClientFormComponent implements OnInit {
         state: res.state,
         pin: res.pin,
         is_investor: res.is_investor,
-        // total_investment: res.total_investment,
         is_owner:res.is_owner
       });
 
     }
 
     createClient(){
-      // if(this.clientForm.controls.is_investor.value == true){
-      //   this.clientForm.patchValue({
-      //     total_investment: this.getTotalInvestment(),
-      //     available_balance: this.getTotalInvestment()
-      //   });
-      // }
-
       this.clientService.createClient(this.clientForm.value)
       .subscribe(
         res => {
@@ -142,8 +140,8 @@ export class ClientFormComponent implements OnInit {
             this.message = "";
           },5000);
           this.clientService.refreshList.next(true);
-          this.router.navigate(['/client/add']);
           this.clientForm.reset();
+           this.selectClient(parseInt(res.client_id));
         },
         err => {
           window.scrollTo(0, 0);
@@ -156,20 +154,7 @@ export class ClientFormComponent implements OnInit {
       );
     }
 
-    // getTotalInvestment(){
-    //   let total_investment = 0;
-    //   return total_investment;
-    // }
-
     updateClient(){
-      // let x = this.getTotalInvestment();
-      // let y = this.clientForm.controls.total_expenses.value;
-      //
-      // this.clientForm.patchValue({
-      //   total_investment: x,
-      //   available_balance: x-y,
-      // });
-
       this.clientService.updateClient(this.clientForm.value)
       .subscribe(
         res => {
@@ -212,15 +197,11 @@ export class ClientFormComponent implements OnInit {
       this.transactionTypes$ = this.transactionTypeService.getTransactionTypesForClient();
     }
 
-    ngAfterViewInit() {
-      // Hack: Scrolls to top of Page after page view initialized
-      window.scrollTo(0,0);
-    }
     ngOnInit() {
       setTimeout(() => {
         window.scrollTo(0,0);
         //this.router.navigate(['/car/add']);
-      },1000);
+      },500);
       this.createForm();
       this.getTransactionTypesForClient();
     }

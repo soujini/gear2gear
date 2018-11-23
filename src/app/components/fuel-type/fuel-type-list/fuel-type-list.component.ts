@@ -31,6 +31,7 @@ export class FuelTypeListComponent implements OnInit {
 
   //On Click of the Add Button
   createFuelType(mode:any){
+    this.selectedFuelTypeId=0;
     this.fuelTypeService.selectedMode = mode;
     this.router.navigate(['/fuelType/add']);
   }

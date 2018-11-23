@@ -257,8 +257,6 @@ export class CarFormComponent implements OnInit {
             this.carService.refreshList.next(true);
             this.carForm.reset();
             this.selectCar(res.car_id);
-            // this.router.navigate(['/car/edit']);
-            this.getCarById(res.car_id);
           },
           err => {
             window.scrollTo(0, 0);
@@ -509,7 +507,7 @@ export class CarFormComponent implements OnInit {
       ngOnInit() {
         setTimeout(() => {
           window.scrollTo(0,0);
-        },1000);
+        },500);
         // this.createForm();
         this.getMakes();
         this.getModels();

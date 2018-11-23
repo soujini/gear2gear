@@ -31,6 +31,7 @@ export class MakeListComponent implements OnInit {
 
   //On Click of the Add Button
   createMake(mode:any){
+    this.selectedMakeId=0;
     this.makeService.selectedMode = mode;
     this.router.navigate(['/make/add']);
   }

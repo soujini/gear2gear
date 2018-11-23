@@ -31,6 +31,7 @@ export class ModelListComponent implements OnInit {
 
   //On Click of the Add Button
   createModel(mode:any){
+    this.selectedModelId=0;
     this.modelService.selectedMode = mode;
     this.router.navigate(['/model/add']);
   }

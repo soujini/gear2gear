@@ -31,6 +31,7 @@ export class VariantListComponent implements OnInit {
 
   //On Click of the Add Button
   createVariant(mode:any){
+    this.selectedVariantId=0;
     this.variantService.selectedMode = mode;
     this.router.navigate(['/variant/add']);
   }

@@ -20,7 +20,13 @@ export class ClientListComponent implements OnInit {
 
   selectedClientId:number;
 
-  constructor(private clientService:ClientService, private router:Router, private route:ActivatedRoute) { }
+  constructor(private clientService:ClientService, private router:Router, private route:ActivatedRoute) {
+    this.clientService.selectedClientId.subscribe(res=>{
+      this.selectedClientId=res;
+    },err=>{
+
+    });
+   }
 
   ngOnInit() {
     this.router.navigate(['/client/add']);
@@ -32,6 +38,7 @@ export class ClientListComponent implements OnInit {
 
   //On Click of the Add Button
   createClient(mode:any){
+    this.selectedClientId=0;
     this.clientService.selectedMode = mode;
     this.router.navigate(['/client/add']);
   }

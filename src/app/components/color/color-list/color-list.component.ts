@@ -31,6 +31,7 @@ export class ColorListComponent implements OnInit {
 
   //On Click of the Add Button
   createColor(mode:any){
+    this.selectedColorId=0;
     this.colorService.selectedMode = mode;
     this.router.navigate(['/color/add']);
   }

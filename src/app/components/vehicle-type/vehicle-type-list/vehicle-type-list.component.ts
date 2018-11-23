@@ -31,6 +31,7 @@ export class VehicleTypeListComponent implements OnInit {
 
   //On Click of the Add Button
   createVehicleType(mode:any){
+    this.selectedVehicleTypeId=0;
     this.vehicleTypeService.selectedMode = mode;
     this.router.navigate(['/vehicleType/add']);
   }

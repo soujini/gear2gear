@@ -19,7 +19,13 @@ export class CarListComponent implements OnInit {
 
   selectedCarId:number;
 
-  constructor(private carService:CarService, private router:Router, private route:ActivatedRoute) { }
+  constructor(private carService:CarService, private router:Router, private route:ActivatedRoute) {
+    this.carService.selectedCarId.subscribe(res=>{
+      this.selectedCarId=res;
+    },err=>{
+
+    });
+  }
 
   ngOnInit() {
     this.router.navigate(['/car/add']);
@@ -31,12 +37,14 @@ export class CarListComponent implements OnInit {
 
   //On Click of the Add Button
   createCar(mode:any){
+    this.selectedCarId=0;
     this.carService.selectedMode = mode;
     this.router.navigate(['/car/add']);
   }
 
   //On Click of the Edit Button
   selectCar(car_id:number, mode:any){
+
     this.selectedCarId=car_id;
     this.carService.selectedMode = mode;
     this.router.navigate(['/car/edit']);

@@ -31,6 +31,7 @@ export class ExpenseListComponent implements OnInit {
 
   //On Click of the Add Button
   createExpense(mode:any){
+    this.selectedExpenseId=0;
     this.expenseService.selectedMode = mode;
     this.router.navigate(['/expense/add']);
   }
