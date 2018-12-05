@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-
+// import { environment } from '../../../environments/environment';
+const environment = require('../../../environments/environment');
 import { TransactionDetails } from '../../data-model';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
@@ -118,6 +118,13 @@ export class TransactionDetailsService {
       const transaction_details_id = editTransactionDetails.transaction_details_id;
 
       return this.http.put("http://localhost:3000/api/transactionDetails/"+transaction_details_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+      .map(res => res);
+    }
+    public voidTransactionDetails(transactionDetails:TransactionDetails): Observable<any> {
+      const body = JSON.stringify(transactionDetails);
+      const transaction_details_id = transactionDetails.transaction_details_id;
+
+      return this.http.put("http://localhost:3000/api/transactionDetails/void/"+transaction_details_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
       .map(res => res);
     }
 

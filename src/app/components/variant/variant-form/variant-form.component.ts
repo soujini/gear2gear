@@ -22,6 +22,7 @@ export class VariantFormComponent implements OnInit {
   private sub;
 
   constructor(private fb: FormBuilder, private variantService:VariantService, private router:Router, private route:ActivatedRoute) {
+    this.variantService.selectedVariantId.next(0);
     this.sub=this.variantService.selectedVariantId
         .subscribe(
           res => {

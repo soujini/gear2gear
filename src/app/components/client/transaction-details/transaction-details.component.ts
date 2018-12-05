@@ -78,6 +78,17 @@ export class TransactionDetailsComponent implements OnInit {
     });
 
   }
+
+  voidTransaction(transactionDetails){
+    this.transactionDetailsService.voidTransactionDetails(transactionDetails)
+    .subscribe(
+      res=>{
+
+      },
+      err=>{
+        console.log("Void Transaction Details ", err);
+      });
+  }
   getSelectedTransactionTypeMode(transactionTypeId){
     let transactionType;
     this.transactionTypes$.subscribe(res=>{

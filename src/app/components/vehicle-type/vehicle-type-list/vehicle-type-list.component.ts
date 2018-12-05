@@ -19,7 +19,13 @@ export class VehicleTypeListComponent implements OnInit {
 
   selectedVehicleTypeId:number;
 
-  constructor(private vehicleTypeService:VehicleTypeService, private router:Router, private route:ActivatedRoute) { }
+  constructor(private vehicleTypeService:VehicleTypeService, private router:Router, private route:ActivatedRoute) {
+    this.vehicleTypeService.selectedVehicleTypeId.subscribe(res=>{
+      this.selectedVehicleTypeId=res;
+    },err=>{
+
+    });
+  }
 
   ngOnInit() {
     this.router.navigate(['/vehicleType/add']);

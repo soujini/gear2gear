@@ -25,6 +25,7 @@ export class ColorFormComponent implements OnInit {
     private colorService:ColorService,
     private router:Router,
     private route:ActivatedRoute) {
+      this.colorService.selectedColorId.next(0);
 
       this.sub= this.colorService.selectedColorId
       .subscribe(

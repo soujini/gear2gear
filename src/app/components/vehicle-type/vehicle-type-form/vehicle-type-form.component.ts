@@ -22,6 +22,8 @@ export class VehicleTypeFormComponent implements OnInit {
   private sub;
 
   constructor(private fb: FormBuilder, private vehicleTypeService:VehicleTypeService, private router:Router, private route:ActivatedRoute) {
+    this.vehicleTypeService.selectedVehicleTypeId.next(0);
+
     this.sub=this.vehicleTypeService.selectedVehicleTypeId
     .subscribe(
       res => {

@@ -19,7 +19,13 @@ export class FuelTypeListComponent implements OnInit {
 
   selectedFuelTypeId:number;
 
-  constructor(private fuelTypeService:FuelTypeService, private router:Router, private route:ActivatedRoute) { }
+  constructor(private fuelTypeService:FuelTypeService, private router:Router, private route:ActivatedRoute) {
+    this.fuelTypeService.selectedFuelTypeId.subscribe(res=>{
+      this.selectedFuelTypeId=res;
+    },err=>{
+
+    });
+  }
 
   ngOnInit() {
     this.router.navigate(['/fuelType/add']);

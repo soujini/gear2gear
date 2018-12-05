@@ -19,7 +19,13 @@ export class ModelListComponent implements OnInit {
 
   selectedModelId:number;
 
-  constructor(private modelService:ModelService, private router:Router, private route:ActivatedRoute) { }
+  constructor(private modelService:ModelService, private router:Router, private route:ActivatedRoute) {
+    this.modelService.selectedModelId.subscribe(res=>{
+      this.selectedModelId=res;
+    },err=>{
+
+    });
+  }
 
   ngOnInit() {
     this.router.navigate(['/model/add']);

@@ -24,6 +24,9 @@ export class MakeFormComponent implements OnInit {
   private sub;
 
   constructor(private fb: FormBuilder, private makeService:MakeService, private router:Router, private route:ActivatedRoute) {
+
+    this.makeService.selectedMakeId.next(0);
+
     this.sub = this.makeService.selectedMakeId
     .subscribe(
       res => {

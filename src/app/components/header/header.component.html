@@ -1,52 +1,50 @@
 <section class="header d-none d-block">
-<mdb-navbar SideClass="mdb-nav navbar navbar-dark fixed-top navbar-expand-lg navbar-custom navbar-transparent" [containerInside]="false" style="height:inherit">
+  <mdb-navbar SideClass="mdb-nav navbar navbar-dark fixed-top navbar-expand-lg navbar-custom navbar-transparent" [containerInside]="false" style="height:inherit">
     <logo>
-        <img class="logo" src="./assets/images/g2g-logo.png">
+      <img class="logo" src="./assets/images/g2g-logo.png">
     </logo>
     <links>
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item waves-light" mdbRippleRadius [ngClass]="{'gray-text': activeMenu=='home'}" routerLink="/home">
-            <a class="nav-link">HOME<span class="sr-only">(current)</span></a>
-          </li>
-          <!-- <li class="nav-item dropdown" dropdown *ngIf="auth.isAuthenticated()"> -->
-          <li class="nav-item dropdown" dropdown *ngIf="auth.isAuthenticated()">
-              <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
-              ADMIN<span class="caret"></span></a>
-              <div class="dropdown-menu dropdown dropdown-primary" role="menu">
-                <a class="dropdown-item" href="#" routerLink="/car">CAR</a>
-                <a class="dropdown-item" href="#" routerLink="/client">CLIENT</a>
-
-                  <a class="dropdown-item" href="#"  routerLink="/make">MAKE</a>
-                  <a class="dropdown-item" href="#" routerLink="/model">MODEL</a>
-                  <a class="dropdown-item" href="#" routerLink="/variant">VARIANT</a>
-                  <a class="dropdown-item" href="#" routerLink="/vehicleType">VEHICLE TYPE</a>
-                  <a class="dropdown-item" href="#" routerLink="/fuelType">FUEL TYPE</a>
-                  <a class="dropdown-item" href="#" routerLink="/transmissionType">TRANSMISSION</a>
-                  <a class="dropdown-item" href="#" routerLink="/insurance">INSURANCE</a>
-                  <a class="dropdown-item" href="#" routerLink="/expense">Expense</a>
-                  <a class="dropdown-item" href="#" routerLink="/color">COLOR</a>
-
-              </div>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item waves-light" mdbRippleRadius [ngClass]="{'gray-text': activeMenu=='home'}" routerLink="/home">
+          <a class="nav-link">HOME<span class="sr-only">(current)</span></a>
+        </li>
+        <!-- <li class="nav-item dropdown" dropdown *ngIf="auth.isAuthenticated()"> -->
+        <li class="nav-item dropdown" dropdown *ngIf="auth.isAuthenticated()">
+          <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+            ADMIN<span class="caret"></span></a>
+            <div class="dropdown-menu dropdown dropdown-primary" role="menu">
+              <a class="dropdown-item" href="#" routerLink="/car/edit">CAR</a>
+              <a class="dropdown-item" href="#" routerLink="/client/edit">CLIENT</a>
+              <a class="dropdown-item" href="#" routerLink="/make/add">MAKE</a>
+              <a class="dropdown-item" href="#" routerLink="/model/add">MODEL</a>
+              <a class="dropdown-item" href="#" routerLink="/variant/add">VARIANT</a>
+              <a class="dropdown-item" href="#" routerLink="/vehicleType/add">VEHICLE TYPE</a>
+              <a class="dropdown-item" href="#" routerLink="/fuelType/add">FUEL TYPE</a>
+              <a class="dropdown-item" href="#" routerLink="/transmissionType/add">TRANSMISSION</a>
+              <a class="dropdown-item" href="#" routerLink="/insurance/add">INSURANCE</a>
+              <a class="dropdown-item" href="#" routerLink="/expense/add">Expense</a>
+              <a class="dropdown-item" href="#" routerLink="/color/add">COLOR</a>
+            </div>
           </li>
           <li class="nav-item waves-light" mdbRippleRadius [ngClass]="{'white-text': activeMenu=='available-cars'}" routerLink="/cars">
             <a class="nav-link">INVENTORY<span class="sr-only">(current)</span></a>
           </li>
           <!-- <li class="nav-item active waves-light" mdbRippleRadius [ngClass]="{'green-text': activeMenu=='sold-cars'}" routerLink="/sold-cars">
-            <a class="nav-link">SOLD CARS<span class="sr-only">(current)</span></a>
-          </li> -->
-          <li *ngIf="auth.isAuthenticated()" class="nav-item waves-light" mdbRippleRadius [ngClass]="{'green-text': activeMenu=='investors-corner'}" routerLink="/investors-corner">
-            <a class="nav-link">INVESTOR'S CORNER<span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item waves-light" mdbRippleRadius [ngClass]="{'green-text': activeMenu=='contact'}" routerLink="/contact">
-            <a class="nav-link">CONTACT<span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item waves-light" mdbRippleRadius *ngIf="!auth.isAuthenticated()" (click)="!auth.login()">
-            <a class="nav-link">LOGIN<span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item waves-light" mdbRippleRadius *ngIf="auth.isAuthenticated()" (click)="auth.logout()">
-            <a class="nav-link">LOGOUT<span class="sr-only">(current)</span></a>
-          </li>
-        </ul>
+          <a class="nav-link">SOLD CARS<span class="sr-only">(current)</span></a>
+        </li> -->
+        <li *ngIf="auth.isAuthenticated()" class="nav-item waves-light" mdbRippleRadius [ngClass]="{'green-text': activeMenu=='investors-corner'}" routerLink="/investors-corner">
+          <a class="nav-link">INVESTOR'S CORNER<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item waves-light" mdbRippleRadius [ngClass]="{'green-text': activeMenu=='contact'}" routerLink="/contact">
+          <a class="nav-link">CONTACT<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item waves-light" mdbRippleRadius *ngIf="!auth.isAuthenticated()" (click)="!auth.login()">
+          <a class="nav-link">LOGIN<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item waves-light" mdbRippleRadius *ngIf="auth.isAuthenticated()" (click)="auth.logout()">
+          <a class="nav-link">LOGOUT<span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
     </links>
-</mdb-navbar>
+  </mdb-navbar>
 </section>

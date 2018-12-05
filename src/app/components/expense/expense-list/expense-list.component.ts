@@ -19,7 +19,13 @@ export class ExpenseListComponent implements OnInit {
 
   selectedExpenseId:number;
 
-  constructor(private expenseService:ExpenseService, private router:Router, private route:ActivatedRoute) { }
+  constructor(private expenseService:ExpenseService, private router:Router, private route:ActivatedRoute) {
+    this.expenseService.selectedExpenseId.subscribe(res=>{
+      this.selectedExpenseId=res;
+    },err=>{
+
+    });
+  }
 
   ngOnInit() {
     this.router.navigate(['/expense/add']);

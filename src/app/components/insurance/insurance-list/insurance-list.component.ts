@@ -19,7 +19,13 @@ export class InsuranceListComponent implements OnInit {
 
   selectedInsuranceId:number;
 
-  constructor(private insuranceService:InsuranceService, private router:Router, private route:ActivatedRoute) { }
+  constructor(private insuranceService:InsuranceService, private router:Router, private route:ActivatedRoute) {
+    this.insuranceService.selectedInsuranceId.subscribe(res=>{
+      this.selectedInsuranceId=res;
+    },err=>{
+
+    });
+  }
 
   ngOnInit() {
     this.router.navigate(['/insurance/add']);

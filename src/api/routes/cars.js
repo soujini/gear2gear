@@ -23,9 +23,10 @@ const shouldAbort = (err) => {
 router.get('/api/cars', function(req, res) {
 
   client.query(
-    'SELECT C.*, MK.NAME AS MAKE_NAME, MD.NAME AS MODEL_NAME '+
+    'SELECT C.*, MK.NAME AS MAKE_NAME, MD.NAME AS MODEL_NAME, V.NAME AS VARIANT_NAME '+
     'FROM PUBLIC.CAR C '+
     'LEFT JOIN PUBLIC.MAKE MK ON C.MAKE = MK.MAKE_ID '+
+    'LEFT JOIN PUBLIC.VARIANT V ON C.VARIANT = V.VARIANT_ID '+
     'LEFT JOIN PUBLIC.MODEL MD ON C.MODEL = MD.MODEL_ID ',
     function(err,result) {
       if(err){

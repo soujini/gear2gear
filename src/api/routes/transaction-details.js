@@ -66,13 +66,16 @@ router.get('/api/transactionDetails/investorsInvestmentDetails/:date', function(
 
   router.get('/api/transactionDetails', function(req, res) {
     client.query(
-      '	SELECT *, c.name as investor_name, tt.name as transaction_type_name, e.name as expense_name'+
-      ' from public.transaction_details td'+
-      ' left join public.client C on td.investor_id = c.client_id'+
-      ' left join public.transaction_type tt on td.transaction_type_id = tt.transaction_type_id'+
-      ' left join public.expenses e on td.expense_id = e.expense_id'+
-      // ' group by date'+
-      ' order by date desc' ,
+      '	SELECT CR.MAKE_YEAR, MK.NAME AS MAKE_NAME, MD.NAME AS MODEL_NAME, V.NAME AS VARIANT_NAME,  TD.*, C.NAME AS INVESTOR_NAME, TT.NAME AS TRANSACTION_TYPE_NAME, E.NAME AS EXPENSE_NAME'+
+      ' FROM PUBLIC.TRANSACTION_DETAILS TD'+
+      ' LEFT JOIN PUBLIC.CLIENT C ON TD.INVESTOR_ID = C.CLIENT_ID'+
+      ' LEFT JOIN PUBLIC.TRANSACTION_TYPE TT ON TD.TRANSACTION_TYPE_ID = TT.TRANSACTION_TYPE_ID'+
+      ' LEFT JOIN PUBLIC.EXPENSES E ON TD.EXPENSE_ID = E.EXPENSE_ID'+
+      ' LEFT JOIN PUBLIC.CAR CR ON TD.CAR_ID = CR.CAR_ID'+
+      ' LEFT JOIN PUBLIC.MAKE MK ON CR.MAKE = MK.MAKE_ID'+
+      ' LEFT JOIN PUBLIC.MODEL MD ON CR.MODEL = MD.MODEL_ID'+
+      ' LEFT JOIN PUBLIC.VARIANT V ON CR.VARIANT = V.VARIANT_ID'+
+      ' ORDER BY DATE DESC' ,
       function(err,result) {
         if(err){
           console.log(err);
@@ -275,6 +278,19 @@ router.get('/api/transactionDetails/investorsInvestmentDetails/:date', function(
         router.put("/api/transactionDetails/:id", function(req, res) {
           var transaction_details_id = parseInt(req.params.id);
           client.query("update public.transaction_details set transaction_type_id = $1, car_id= $2, investor_id=$3, transaction_type_mode=$4, description=$5, date= $6, expense_id=$7, credit=$8, debit=$9, balance=$10,  updated_by=1, update_date=CURRENT_TIMESTAMP where transaction_details_id = "+transaction_details_id,[req.body.transaction_type_id,req.body.car_id, req.body.investor_id, req.body.transaction_type_mode, req.body.description, req.body.date, req.body.expense_id, req.body.credit, req.body.debit, req.body.balance ], function(err,result) {
+            if(err){
+              console.log(err);
+              res.status(400).send(err);
+            }
+            else{
+            res.status(200).send(result);
+          }
+          });
+
+        });
+        router.put("/api/transactionDetails/void/:id", function(req, res) {
+          var transaction_details_id = parseInt(req.params.id);
+          client.query("update public.transaction_details set is_void = true, updated_by=1, update_date=CURRENT_TIMESTAMP where transaction_details_id = "+transaction_details_id, function(err,result) {
             if(err){
               console.log(err);
               res.status(400).send(err);

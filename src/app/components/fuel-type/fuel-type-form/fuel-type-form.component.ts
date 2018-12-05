@@ -22,6 +22,7 @@ export class FuelTypeFormComponent implements OnInit {
   private sub;
 
   constructor(private fb: FormBuilder, private fuelTypeService:FuelTypeService, private router:Router, private route:ActivatedRoute) {
+    this.fuelTypeService.selectedFuelTypeId.next(0);
     this.sub=this.fuelTypeService.selectedFuelTypeId
     .subscribe(
       res => {

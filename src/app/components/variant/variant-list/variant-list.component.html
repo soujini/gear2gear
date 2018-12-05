@@ -9,15 +9,13 @@
     <table class="table">
       <thead class="#f5f5f5 grey lighten-4">
         <tr>
-          <th>#</th>
           <th>Name</th>
           <th>Edit</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor='let variant of results$ | async' [ngClass]="{'is-active': selectedVariantId == variant.variant_id}">
-          <th scope="row">{{variant.variant_id}}</th>
-          <td>{{variant.name}}</td>
+          <td class="capitalize">{{variant.name}}</td>
           <td class="pointer" (click)="selectVariant(variant.variant_id, 'Edit')">
               <i class="fa fa-pencil"></i>
           </td>

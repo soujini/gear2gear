@@ -9,15 +9,13 @@
     <table class="table">
       <thead class="#f5f5f5 grey lighten-4">
         <tr>
-          <th>#</th>
           <th>Name</th>
           <th>Edit</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor='let transmissionType of results$ | async' [ngClass]="{'is-active': selectedTransmissionTypeId == transmissionType.transmission_type_id}">
-          <th scope="row">{{transmissionType.transmission_type_id}}</th>
-          <td>{{transmissionType.name}}</td>
+          <td class="capitalize">{{transmissionType.name}}</td>
           <td class="pointer" (click)="selectTransmissionType(transmissionType.transmission_type_id, 'Edit')">
               <i class="fa fa-pencil"></i>
           </td>

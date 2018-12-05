@@ -24,6 +24,7 @@ export class MakeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.makeService.selectedMakeId.next(0);
     this.getMakes();
     this.makeService.refreshList.subscribe(
       res=>{
@@ -40,9 +41,7 @@ export class MakeComponent implements OnInit {
   }
 
   searchMakes(searchTerm){
-      console.log("searcggg  ", searchTerm);
     if(searchTerm){
-      console.log("searcggg  ", searchTerm);
       this.makes$ = this.makeService.searchMakes(searchTerm);
     }
     else{

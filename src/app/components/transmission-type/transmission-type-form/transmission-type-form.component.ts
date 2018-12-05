@@ -22,6 +22,7 @@ export class TransmissionTypeFormComponent implements OnInit {
   private sub;
 
   constructor(private fb: FormBuilder, private transmissionTypeService:TransmissionTypeService, private router:Router, private route:ActivatedRoute) {
+    this.transmissionTypeService.selectedTransmissionTypeId.next(0);
     this.sub=this.transmissionTypeService.selectedTransmissionTypeId
     .subscribe(
       res => {

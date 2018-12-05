@@ -19,7 +19,13 @@ export class VariantListComponent implements OnInit {
 
   selectedVariantId:number;
 
-  constructor(private variantService:VariantService, private router:Router, private route:ActivatedRoute) { }
+  constructor(private variantService:VariantService, private router:Router, private route:ActivatedRoute) {
+    this.variantService.selectedVariantId.subscribe(res=>{
+      this.selectedVariantId=res;
+    },err=>{
+
+    });
+  }
 
   ngOnInit() {
     this.router.navigate(['/variant/add']);

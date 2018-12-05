@@ -22,6 +22,7 @@ export class ModelFormComponent implements OnInit {
   private sub;
 
   constructor(private fb: FormBuilder, private modelService:ModelService, private router:Router, private route:ActivatedRoute) {
+    this.modelService.selectedModelId.next(0);
     this.sub = this.modelService.selectedModelId
     .subscribe(
       res => {

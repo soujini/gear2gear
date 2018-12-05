@@ -22,7 +22,7 @@ export class ExpenseFormComponent implements OnInit {
   private sub;
 
   constructor(private fb: FormBuilder, private expenseService:ExpenseService, private router:Router, private route:ActivatedRoute) {
-
+this.expenseService.selectedExpenseId.next(0);
     this.sub=this.expenseService.selectedExpenseId
     .subscribe(
       res => {

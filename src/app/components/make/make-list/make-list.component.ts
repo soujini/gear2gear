@@ -18,11 +18,21 @@ export class MakeListComponent implements OnInit {
   searchTerm = new EventEmitter();
 
   selectedMakeId:number;
+  private sub;
 
-  constructor(private makeService:MakeService, private router:Router, private route:ActivatedRoute) { }
+  constructor(private makeService:MakeService, private router:Router, private route:ActivatedRoute) {
+    this.sub = this.makeService.selectedMakeId
+    .subscribe(
+      res => {
+        this.selectedMakeId = res;
+      });
+  }
 
   ngOnInit() {
     this.router.navigate(['/make/add']);
+  }
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   searchMakes(search: string){
@@ -42,7 +52,6 @@ export class MakeListComponent implements OnInit {
     this.makeService.selectedMode = mode;
     this.router.navigate(['/make/edit']);
     setTimeout(() => {
-
       this.makeService.selectedMakeId.next(make_id);
     }, 100);
   }

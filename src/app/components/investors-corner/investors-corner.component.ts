@@ -23,6 +23,7 @@ export class InvestorsCornerComponent implements OnInit {
   transactionDetails=[];
   investorsExpensesAndPercent$:Observable<any>;
   investorsDetails = new Array();
+  available_balance:string;
 
   constructor(private fb: FormBuilder,
     private carService:CarService,
@@ -33,6 +34,7 @@ export class InvestorsCornerComponent implements OnInit {
       this.createForm();
       this.getTransactionDetails();
       this.getCars();
+      this.getAvailablePoolBalanceAsOfPurchaseDate();
     }
     createForm() {
       this.transactionDetailsForm = this.fb.group({
@@ -56,17 +58,6 @@ export class InvestorsCornerComponent implements OnInit {
 
     }
 
-    // getTransactionDetailsById(car_id:number){
-    //   this.transactionDetailsService.getTransactionDetailsById(30).subscribe(
-    //     res=>{
-    //       this.transactionDetails = res;
-    //       //  this.getCars();
-    //     },
-    //     err=>{
-    //
-    //     });
-    //   }
-    // }
     getTransactionDetails(){
       this.transactionDetailsService.getTransactionDetails().subscribe(
         res=>{
@@ -78,4 +69,27 @@ export class InvestorsCornerComponent implements OnInit {
 
         });
       }
+
+
+    getAvailablePoolBalanceAsOfPurchaseDate()
+    {
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth()+1;
+      var yyyy = today.getFullYear();
+
+      var formattedDate = yyyy+"-"+mm+"-"+dd;
+      this.transactionDetailsService.getAvailablePoolBalanceAsOfPurchaseDate(formattedDate)
+      .subscribe(
+        res => {
+          this.available_balance = res[0].available_balance;
+        },
+        err => {
+          console.log("Get Available Pool Balance ",err);
+        },
+        () =>{
+
+        }
+      );
     }
+  }

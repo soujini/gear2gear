@@ -7,9 +7,9 @@ const port = process.env.PORT || '3000';
 var bodyParser = require('body-parser');
 const app = express();
 require('dotenv').config();
-// var env = require('dotenv').config();
-//const environment = require('./src/environment');
 
+//import environment from './src/environments/environment.ts';
+const environment = require('./src/environments/environment.ts');
 const makesAPI = require('./src/api/routes/makes');
 const modelsAPI = require('./src/api/routes/models');
 const variantsAPI = require('./src/api/routes/variants');
@@ -25,15 +25,14 @@ const transactionTypesAPI = require('./src/api/routes/transaction-types');
 const transactionDetailsAPI = require('./src/api/routes/transaction-details');
 
 var corsOptions = {
-    // origin: 'http://localhost:4200',
-  origin:'https://gear2gear.herokuapp.com',
+  origin:environment.ORIGIN,
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({
- extended: true
+  extended: true
 }));
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
@@ -65,7 +64,6 @@ app.set('port',port);
 // Initialize the app.
 const server = http.createServer(app);
 server.listen(port, () => console.log("App is listening on Port : ",port));
-
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {
   console.log("ERROR: " + reason);

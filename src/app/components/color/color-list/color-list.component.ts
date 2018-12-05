@@ -19,7 +19,13 @@ export class ColorListComponent implements OnInit {
 
   selectedColorId:number;
 
-  constructor(private colorService:ColorService, private router:Router, private route:ActivatedRoute) { }
+  constructor(private colorService:ColorService, private router:Router, private route:ActivatedRoute) {
+    this.colorService.selectedColorId.subscribe(res=>{
+      this.selectedColorId=res;
+    },err=>{
+      
+    });
+  }
 
   ngOnInit() {
     this.router.navigate(['/color/add']);

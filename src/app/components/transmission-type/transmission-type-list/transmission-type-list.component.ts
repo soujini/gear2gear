@@ -19,7 +19,13 @@ export class TransmissionTypeListComponent implements OnInit {
 
   selectedTransmissionTypeId:number;
 
-  constructor(private transmissionTypeService:TransmissionTypeService, private router:Router, private route:ActivatedRoute) { }
+  constructor(private transmissionTypeService:TransmissionTypeService, private router:Router, private route:ActivatedRoute) {
+    this.transmissionTypeService.selectedTransmissionTypeId.subscribe(res=>{
+      this.selectedTransmissionTypeId=res;
+    },err=>{
+
+    });
+  }
 
   ngOnInit() {
     this.router.navigate(['/transmissionType/add']);

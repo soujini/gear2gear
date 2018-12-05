@@ -22,6 +22,7 @@ export class InsuranceFormComponent implements OnInit {
   private sub;
 
   constructor(private fb: FormBuilder, private insuranceService:InsuranceService, private router:Router, private route:ActivatedRoute) {
+    this.insuranceService.selectedInsuranceId.next(0);
     this.sub=this.insuranceService.selectedInsuranceId
     .subscribe(
       res => {

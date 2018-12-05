@@ -95,6 +95,9 @@
       <mdb-slide *ngFor="let file of car.image_urls">
         <img class="d-block xw-100 img-responsive" style="height:500px; width:600px" [src]="file.url" alt="First slide">
       </mdb-slide>
+      <mdb-slide *ngIf="car.image_urls?.length==0">
+        <img class="d-block xw-100 img-responsive" style="height:500px; width:600px" src="https://s3.amazonaws.com/gear2gear/no_photo_car.gif" alt="First slide">
+      </mdb-slide>
     </mdb-carousel>
   </div>
 
