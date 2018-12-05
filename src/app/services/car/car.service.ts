@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-  //import * as environment from '../../../environments/environment';
- const environment = require('../../../environments/environment');
-
+// import {environment} from '../../../environments/environment';
+let environment = require('../../../environments/environment');
 import { Car,FileUpload } from '../../data-model';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
