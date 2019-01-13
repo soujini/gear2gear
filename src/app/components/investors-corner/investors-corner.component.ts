@@ -16,6 +16,7 @@ import { TransactionDetailsService } from 'app/services/transaction-details/tran
 })
 export class InvestorsCornerComponent implements OnInit {
   cars$: Observable<any>;
+  cars:any=[];
   transactionDetails$:Observable<any>;
   transactionDetailsForm: FormGroup;
   investors=[];
@@ -24,6 +25,7 @@ export class InvestorsCornerComponent implements OnInit {
   investorsExpensesAndPercent$:Observable<any>;
   investorsDetails = new Array();
   available_balance:string;
+  total_expenses:number=0;
 
   constructor(private fb: FormBuilder,
     private carService:CarService,
@@ -55,41 +57,77 @@ export class InvestorsCornerComponent implements OnInit {
 
     getCars()  {
       this.cars$ = this.carService.getCars();
-
-    }
-
-    getTransactionDetails(){
-      this.transactionDetailsService.getTransactionDetails().subscribe(
+      this.cars$.subscribe(
         res=>{
-          this.transactionDetails = res;
-          console.log(res);
-          //  this.getCars();
+          this.cars=res;
         },
         err=>{
 
         });
+
       }
 
+      getTransactionDetails(){
+        this.transactionDetailsService.getTransactionDetails().subscribe(
+          res=>{
+            this.transactionDetails = res;
+            console.log("td ",res);
+            this.cars$.subscribe(
+              res1=>{
+                for(var i=0;i<res1.length;i++)
+                {
+                  this.total_expenses=0;
+                  for(var j =0; j<res.length;j++)
+                  {
 
-    getAvailablePoolBalanceAsOfPurchaseDate()
-    {
-      var today = new Date();
-      var dd = today.getDate();
-      var mm = today.getMonth()+1;
-      var yyyy = today.getFullYear();
+                    if(res[j].car_id != null){
+                      if(res1[i].car_id == res[j].car_id && res[j].transaction_type_id == 2)
+                      {
+                        this.total_expenses=this.total_expenses+res[j].debit;
+                        // res[j].ex = this.total_expenses;
+                        this.cars[i].total_cost = parseInt(res1[i].cost_price) + this.total_expenses;
+                      }
+                    }
+                  }
+                }
+              },
+              err=>{
 
-      var formattedDate = yyyy+"-"+mm+"-"+dd;
-      this.transactionDetailsService.getAvailablePoolBalanceAsOfPurchaseDate(formattedDate)
-      .subscribe(
-        res => {
-          this.available_balance = res[0].available_balance;
-        },
-        err => {
-          console.log("Get Available Pool Balance ",err);
-        },
-        () =>{
+              }
+            );
+            // for(var i=0;i<res.length;i++){
+            //   if(res[i].transaction_type_id == 2){//Expenses
+            //     this.total_expenses = this.total_expenses + parseInt(res[i].debit);
+            //     console.log(this.total_expenses);
+            //   }
+            // }
+            //  this.getCars();
+          },
+          err=>{
 
+          });
         }
-      );
-    }
-  }
+
+
+        getAvailablePoolBalanceAsOfPurchaseDate()
+        {
+          var today = new Date();
+          var dd = today.getDate();
+          var mm = today.getMonth()+1;
+          var yyyy = today.getFullYear();
+
+          var formattedDate = yyyy+"-"+mm+"-"+dd;
+          this.transactionDetailsService.getAvailablePoolBalanceAsOfPurchaseDate(formattedDate)
+          .subscribe(
+            res => {
+              this.available_balance = res[0].available_balance;
+            },
+            err => {
+              console.log("Get Available Pool Balance ",err);
+            },
+            () =>{
+
+            }
+          );
+        }
+      }

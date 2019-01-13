@@ -16,7 +16,7 @@
           </thead>
           <tbody>
 
-            <tr *ngFor="let car of cars$ |async;let i=index">
+            <tr *ngFor="let car of cars;let i=index">
               <td style="color:green;font-weight:bold">
                 <span>{{car.make_name}} {{car.model_name}} {{car.variant_name}} {{car.make_year}}</span><br>
                 <span>{{car.vehicle_type_name}}</span><br>
@@ -24,7 +24,8 @@
                 <span>{{car.transmission_type_name}}</span><br>
                 <span>{{car.mileage}}</span><span>Kms</span><br>
                 <span>{{car.license_plate}}</span><br>
-                <span>CP Rs. {{car.cost_price | currency:' '}}</span><br>
+                <span>PP Rs. {{car.cost_price | currency:' '}}</span><br>
+                <span>CP Rs. {{car.total_cost | currency:' '}}</span><br>
                 <span>SP Rs. {{car.selling_price | currency:' '}}</span><br>
                 <span>Purchased On: {{car.purchased_on}}</span><br>
                 <span>Purchased From: {{car.purchased_from_name}}</span><br>
