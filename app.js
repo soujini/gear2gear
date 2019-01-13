@@ -8,7 +8,6 @@ var bodyParser = require('body-parser');
 const app = express();
 require('dotenv').config();
 
-//import environment from './src/environments/environment.ts';
 const environment = require('./src/environments/environment.ts');
 const makesAPI = require('./src/api/routes/makes');
 const modelsAPI = require('./src/api/routes/models');

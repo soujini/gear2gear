@@ -32,7 +32,7 @@
                   <app-control-messages [control]="transactionDetailsForm.controls.description"></app-control-messages>
                 </td>
                 <td class="text-right">
-                  <input type="text" class="form-control text-right" formControlName="credit" placeholder="Credit" (keyup)="formatCurrency(transactionDetailsForm.controls.credit)" >
+                  <input type="text" class="form-control text-right" formControlName="credit" (keyup)="formatCurrency(transactionDetailsForm.controls.credit)" placeholder="Credit">
                   <app-control-messages [control]="transactionDetailsForm.controls.credit"></app-control-messages>
                 </td>
                 <td class="text-right">

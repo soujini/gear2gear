@@ -15,7 +15,6 @@ import { TransactionDetailsComponent } from './transaction-details/transaction-d
     CommonModule,
     SharedModule,
     ClientRoutingModule,
-
   ],
   declarations: [
     ClientComponent,

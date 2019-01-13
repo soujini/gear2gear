@@ -126,7 +126,7 @@ export class CarFormComponent implements OnInit {
         owners : ['', [Validators.required]],
         cost_price : ['', [Validators.required]],//required
         purchased_from : ['', [Validators.required]],//required
-        purchased_on : ['', [Validators.required]],//required
+        purchased_on : [null, [Validators.required]],//required
         make_month : [],
         insurance_year:[],
         is_accidental:[],
@@ -403,6 +403,9 @@ export class CarFormComponent implements OnInit {
 
       formatCurrency(control){
         var val = control.value;
+        var isValid = /^[0-9,.]*$/.test(val);
+        if(isValid == true)
+        {
         let x = val.toString().replace( /,/g, "" );
         var afterPoint = '';
         if(x.indexOf('.') > 0)
@@ -415,6 +418,10 @@ export class CarFormComponent implements OnInit {
         lastThree = ',' + lastThree;
         var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + afterPoint;
         control.setValue(res);
+      }
+      else{
+        control.setValue("");
+      }
       }
 
       ProcessSale()
