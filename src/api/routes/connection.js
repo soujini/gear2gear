@@ -2,7 +2,6 @@ const { Client } = require('pg');
 const express = require('express');
 const router = express.Router();
 let environment = require('../../environments/environment.ts');
-//import environment from '../../environments/environment.ts';
 const app = express();
 
 function connect(){
