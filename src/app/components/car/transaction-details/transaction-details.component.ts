@@ -303,7 +303,7 @@ export class TransactionDetailsComponent implements OnInit {
 
         if(transactionType[0].mode == "credit"){
           this.transactionDetailsForm.get('credit').enable();
-          this.transactionDetailsForm.get('credit').setValidators(Validators.required);
+          this.transactionDetailsForm.get('credit').setValidators([Validators.required, Validators.min(1)]);
           this.transactionDetailsForm.get('credit').updateValueAndValidity({emitEvent:false, onlySelf:true});
 
           this.transactionDetailsForm.patchValue({'debit':''  });
@@ -313,7 +313,7 @@ export class TransactionDetailsComponent implements OnInit {
         }
         else{
           this.transactionDetailsForm.get('debit').enable();
-          this.transactionDetailsForm.get('debit').setValidators(Validators.required);
+          this.transactionDetailsForm.get('debit').setValidators([Validators.required, Validators.min(1)]);
           this.transactionDetailsForm.get('debit').updateValueAndValidity({emitEvent:false, onlySelf:true});
 
           this.transactionDetailsForm.patchValue({'credit':''});

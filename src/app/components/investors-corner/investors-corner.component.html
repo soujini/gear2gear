@@ -122,7 +122,7 @@
           </thead>
           <tbody *ngFor="let item of transactionDetails; let i = index;">
             <tr *ngIf="item.is_void != true">
-              <td>{{item.date | date}} {{item.is_void}}</td>
+              <td>{{item.date | date}}</td>
               <td>{{item.transaction_type_name}}</td>
               <td>{{item.investor_name}}</td>
               <td><span>{{item.make_name}}</span>&nbsp;<span>{{item.model_name}}</span>&nbsp;<span>{{item.variant_name}}</span>&nbsp;<span>{{item.make_year}}</span></td>

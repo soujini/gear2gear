@@ -52,7 +52,7 @@
             </tbody>
           </table>
 
-          <button type="submit" class="btn btn-primary btn-custom btn-md" *ngIf="carForm.get('is_sold').value != true" >
+          <button type="submit" [disabled]="!transactionDetailsForm.valid" class="btn btn-primary btn-custom btn-md" *ngIf="carForm.get('is_sold').value != true" >
             <i class="fa fa-save"></i>
           </button>
           <div class="table-td">
