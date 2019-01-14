@@ -90,7 +90,7 @@ router.get('/api/transactionDetails/investorsInvestmentDetails/:date', function(
     router.get('/api/transactionDetails/availablePoolBalance/:date', function(req, res) {
       var purchase_date = req.params.date;
       client.query(
-        "select coalesce(sum(credit),0) - coalesce(sum(debit),0) as available_balance,coalesce(sum(debit),0) as total_debits from public.transaction_details where date::timestamp::date <= '"+ purchase_date+"'",
+        "select coalesce(sum(credit),0) - coalesce(sum(debit),0) as available_balance, coalesce(sum(debit),0) as total_debits, coalesce(sum(credit),0) as total_credits from public.transaction_details where (is_void=false or is_void is null) and date::timestamp::date <= '"+purchase_date+"'",
         function(err,result) {
           if(err){
             console.log(err);

@@ -178,6 +178,8 @@ export class TransactionDetailsComponent implements OnInit {
             console.log("P&L details ",this.transactionDetailProfitandLoss);
             // Create P&L Transaction Detail for all investors and Update Car with IS_Sold = true
             this.transactionDetailsService.createTransactionDetailsProfitAndLoss(this.transactionDetailProfitandLoss)
+            .debounceTime(1000)
+            .distinctUntilChanged()
             .subscribe(
               res => {
                 this.transactionDetailsForm.reset();

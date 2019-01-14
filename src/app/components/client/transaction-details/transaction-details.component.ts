@@ -35,6 +35,9 @@ export class TransactionDetailsComponent implements OnInit {
   total_investment:string;
   total_withdrawal:String;
   total_balance:String;
+  mode:String="Void";
+  module:String="transaction";
+  message_error:String="";
 
   constructor(
     private fb: FormBuilder,
@@ -80,160 +83,214 @@ export class TransactionDetailsComponent implements OnInit {
     }
 
     voidTransaction(transactionDetails){
-      this.transactionDetailsService.voidTransactionDetails(transactionDetails)
-      .subscribe(
-        res=>{
+      var balance = this.total_balance.replace (/,/g, "");
+      //If investment => check if balance is there
+      //If withdrawal => Check if balance is there
 
-        },
-        err=>{
-          console.log("Void Transaction Details ", err);
-        });
-      }
-      getSelectedTransactionTypeMode(transactionTypeId){
-        let transactionType;
-        this.transactionTypes$.subscribe(res=>{
-          transactionType = res.filter(tt => tt.transaction_type_id == transactionTypeId);
-          this.transactionDetailsForm.patchValue({
-            transaction_type_mode:transactionType[0].mode,
-          });
-
-          if(transactionType[0].mode == "credit"){
-            this.transactionDetailsForm.get('credit').enable();
-            this.transactionDetailsForm.get('credit').setValidators(Validators.required);
-            this.transactionDetailsForm.get('credit').updateValueAndValidity({emitEvent:false, onlySelf:true});
-
-            this.transactionDetailsForm.patchValue({'debit':''  });
-            this.transactionDetailsForm.get('debit').clearValidators();
-            this.transactionDetailsForm.get('debit').disable();
-            this.transactionDetailsForm.get('debit').updateValueAndValidity({emitEvent:false, onlySelf:true});
-          }
-          else{
-            this.transactionDetailsForm.get('debit').enable();
-            this.transactionDetailsForm.get('debit').setValidators(Validators.required);
-            this.transactionDetailsForm.get('debit').updateValueAndValidity({emitEvent:false, onlySelf:true});
-
-            this.transactionDetailsForm.patchValue({'credit':''});
-            this.transactionDetailsForm.get('credit').clearValidators();
-            this.transactionDetailsForm.get('credit').disable();
-            this.transactionDetailsForm.get('credit').updateValueAndValidity({emitEvent:false, onlySelf:true});
-          }
-        });
-      }
-
-      getTransactionDetailsByInvestor(investor_id:any){
-        this.transactionDetailsForm.reset();
-        this.transactionDetails$ = this.transactionDetailsService.getTransactionDetailsByInvestor(investor_id);
-        let total_investment = 0;
-        let total_withdrawal = 0;
-        this.total_balance="";
-        this.total_investment="";
-        this.total_withdrawal="";
-
-        this.transactionDetails$.subscribe(
-          res=>{
-            res.forEach(val=>{
-              if(val.transaction_type_mode == "credit")
-              {
-                total_investment = total_investment + parseInt(val.credit);
-              }
-              else if(val.transaction_type_mode == "debit"){
-                total_withdrawal = total_withdrawal + parseInt(val.debit);
-              }
-
-              this.total_balance = this.formatCurrencyByVal(total_investment - total_withdrawal);
-              this.total_investment = this.formatCurrencyByVal(total_investment).toString();
-              this.total_withdrawal = this.formatCurrencyByVal(total_withdrawal).toString();
-            });
-          },
-          err=>{
-
-          }
-        )
-      }
-
-      onSubmit(){
-        var description="";
-        if(this.transactionDetailsForm.get('description').value == "" || this.transactionDetailsForm.get('description').value == null){
-          if(this.transactionDetailsForm.get('transaction_type_id').value == 1){
-            description="Investment";
-          }
-          else if(this.transactionDetailsForm.get('transaction_type_id').value == 11){
-            description="Withdrawal"
-          }
+      if(transactionDetails.transaction_type_id == 11){ //Withdrawal
+        if(parseInt(balance) < parseInt(transactionDetails.debit))
+        {
+          this.message_error="Not enough available balance - Cannot void this transaction";
+          setTimeout(() => {
+            this.message_error = "";
+          },5000);
         }
         else{
-          description = this.transactionDetailsForm.get('description').value;
+          this.transactionDetailsService.voidTransactionDetails(transactionDetails)
+          .subscribe(
+            res=>{
+              this.getTransactionDetailsByInvestor(this.selectedClient_Id);
+            },
+            err=>{
+              console.log("Void Transaction Details ", err);
+            });
+          }
         }
 
-        this.transactionDetailsForm.patchValue({
-          investor_id:this.selectedClient_Id,
-          description:description
-        });
-
-        //if(this.selectedClient_Id != null && description != null){
-        this.createTransactionDetails();
-        //  }
-      }
-      createTransactionDetails(){
-        this.transactionDetailsService.createTransactionDetailsForClient(this.transactionDetailsForm.value)
-        .subscribe(
-          res => {
-            this.getTransactionDetailsByInvestor(this.selectedClient_Id);
+        else if(transactionDetails.transaction_type_id == 1){ //Investment
+          if(parseInt(balance) < parseInt(transactionDetails.credit))
+          {
+            this.message_error="Not enough available balance - Cannot void this transaction";
             this.transactionDetailsForm.reset();
-
-            this.transactionDetailsForm.patchValue({'debit':''  });
-            this.transactionDetailsForm.get('debit').clearValidators();
-            this.transactionDetailsForm.get('debit').disable();
-            this.transactionDetailsForm.get('debit').updateValueAndValidity({emitEvent:false, onlySelf:true});
-
-            this.transactionDetailsForm.patchValue({'credit':''  });
-            this.transactionDetailsForm.get('credit').clearValidators();
-            this.transactionDetailsForm.get('credit').disable();
-            this.transactionDetailsForm.get('credit').updateValueAndValidity({emitEvent:false, onlySelf:true});
-          },
-          err => {
-            console.log(err);
-          },
-          () =>{
-
+            setTimeout(() => {
+              this.message_error = "";
+            },5000);
           }
-        );
-      }
+          else{
+            this.transactionDetailsService.voidTransactionDetails(transactionDetails)
+            .subscribe(
+              res=>{
+                this.getTransactionDetailsByInvestor(this.selectedClient_Id);
+              },
+              err=>{
+                console.log("Void Transaction Details ", err);
+              });
+            }
+          }
+        }
+        getSelectedTransactionTypeMode(transactionTypeId){
+          let transactionType;
+          this.transactionTypes$.subscribe(res=>{
+            transactionType = res.filter(tt => tt.transaction_type_id == transactionTypeId);
+            this.transactionDetailsForm.patchValue({
+              transaction_type_mode:transactionType[0].mode,
+            });
 
-      formatCurrency(control){
-        var val = control.value;
-        var isValid = /^[0-9,.]*$/.test(val);
-        if(isValid == true)
-        {
-          let x = val.toString().replace( /,/g, "" );
+            if(transactionType[0].mode == "credit"){
+              this.transactionDetailsForm.get('credit').enable();
+              this.transactionDetailsForm.get('credit').setValidators([Validators.required, Validators.min(1)]);
+              this.transactionDetailsForm.get('credit').updateValueAndValidity({emitEvent:false, onlySelf:true});
+
+              this.transactionDetailsForm.patchValue({'debit':''  });
+              this.transactionDetailsForm.get('debit').clearValidators();
+              this.transactionDetailsForm.get('debit').disable();
+              this.transactionDetailsForm.get('debit').updateValueAndValidity({emitEvent:false, onlySelf:true});
+            }
+            else{
+              this.transactionDetailsForm.get('debit').enable();
+              this.transactionDetailsForm.get('debit').setValidators([Validators.required, Validators.min(1)]);
+              this.transactionDetailsForm.get('debit').updateValueAndValidity({emitEvent:false, onlySelf:true});
+
+              this.transactionDetailsForm.patchValue({'credit':''});
+              this.transactionDetailsForm.get('credit').clearValidators();
+              this.transactionDetailsForm.get('credit').disable();
+              this.transactionDetailsForm.get('credit').updateValueAndValidity({emitEvent:false, onlySelf:true});
+            }
+          });
+        }
+
+        getTransactionDetailsByInvestor(investor_id:any){
+          this.transactionDetailsForm.reset();
+          this.transactionDetails$ = this.transactionDetailsService.getTransactionDetailsByInvestor(investor_id);
+          let total_investment = 0;
+          let total_withdrawal = 0;
+          this.total_balance="";
+          this.total_investment="";
+          this.total_withdrawal="";
+
+          this.transactionDetails$.subscribe(
+            res=>{
+              res.forEach(val=>{
+                if(val.transaction_type_mode == "credit" && val.is_void != true)
+                {
+                  total_investment = total_investment + parseInt(val.credit);
+                }
+                else if(val.transaction_type_mode == "debit" && val.is_void != true){
+                  total_withdrawal = total_withdrawal + parseInt(val.debit);
+                }
+
+                this.total_balance = this.formatCurrencyByVal(total_investment - total_withdrawal);
+                this.total_investment = this.formatCurrencyByVal(total_investment).toString();
+                this.total_withdrawal = this.formatCurrencyByVal(total_withdrawal).toString();
+              });
+            },
+            err=>{
+
+            }
+          )
+        }
+
+        onSubmit(){
+          var description="";
+          var mode="";
+          if(this.transactionDetailsForm.get('description').value == "" || this.transactionDetailsForm.get('description').value == null){
+            if(this.transactionDetailsForm.get('transaction_type_id').value == 1){
+              description="Investment";
+            }
+            else if(this.transactionDetailsForm.get('transaction_type_id').value == 11){
+              description="Withdrawal"
+            }
+          }
+          else{
+            description = this.transactionDetailsForm.get('description').value;
+          }
+
+          this.transactionDetailsForm.patchValue({
+            investor_id:this.selectedClient_Id,
+            description:description
+          });
+
+          if(this.transactionDetailsForm.get('transaction_type_id').value == 11){
+            //If withdrawal or void check if there is available balance
+            var balance = this.total_balance.replace (/,/g, "");
+            if(parseInt(balance) < parseInt(this.transactionDetailsForm.get('debit').value.replace (/,/g, "")))
+            {
+              this.message_error="Not enough available balance";
+              this.transactionDetailsForm.reset();
+              setTimeout(() => {
+                this.message_error = "";
+              },5000);
+            }
+            else{
+              this.createTransactionDetails();
+            }
+          }
+          else{
+            this.createTransactionDetails();
+          }
+        }
+        createTransactionDetails(){
+          this.transactionDetailsService.createTransactionDetailsForClient(this.transactionDetailsForm.value)
+          .debounceTime(1000)
+          .distinctUntilChanged()
+          .subscribe(
+            res => {
+              this.getTransactionDetailsByInvestor(this.selectedClient_Id);
+              this.transactionDetailsForm.reset();
+
+              this.transactionDetailsForm.patchValue({'debit':''  });
+              this.transactionDetailsForm.get('debit').clearValidators();
+              this.transactionDetailsForm.get('debit').disable();
+              this.transactionDetailsForm.get('debit').updateValueAndValidity({emitEvent:false, onlySelf:true});
+
+              this.transactionDetailsForm.patchValue({'credit':''  });
+              this.transactionDetailsForm.get('credit').clearValidators();
+              this.transactionDetailsForm.get('credit').disable();
+              this.transactionDetailsForm.get('credit').updateValueAndValidity({emitEvent:false, onlySelf:true});
+            },
+            err => {
+              console.log(err);
+            },
+            () =>{
+
+            }
+          );
+        }
+
+        formatCurrency(control){
+          var val = control.value;
+          var isValid = /^[0-9,.]*$/.test(val);
+          if(isValid == true)
+          {
+            let x = val.toString().replace( /,/g, "" );
+            var afterPoint = '';
+            if(x.indexOf('.') > 0)
+            afterPoint = x.substring(x.indexOf('.'),x.length);
+            x = Math.floor(x);
+            x = x.toString();
+            var lastThree = x.substring(x.length-3);
+            var otherNumbers = x.substring(0,x.length-3);
+            if(otherNumbers != '')
+            lastThree = ',' + lastThree;
+            var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + afterPoint;
+            control.setValue(res);
+          }
+          else {
+            control.value ="";
+          }
+        }
+        formatCurrencyByVal(val){
+          let val1 = ''+val;
+          let x = val1.replace( /,/g, "" );
           var afterPoint = '';
           if(x.indexOf('.') > 0)
           afterPoint = x.substring(x.indexOf('.'),x.length);
-          x = Math.floor(x);
-          x = x.toString();
+          x = Math.floor(parseInt(x)).toString();
           var lastThree = x.substring(x.length-3);
           var otherNumbers = x.substring(0,x.length-3);
           if(otherNumbers != '')
           lastThree = ',' + lastThree;
           var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + afterPoint;
-          control.setValue(res);
-        }
-        else {
-          control.value ="";
+          return res;
         }
       }
-      formatCurrencyByVal(val){
-        let val1 = ''+val;
-        let x = val1.replace( /,/g, "" );
-        var afterPoint = '';
-        if(x.indexOf('.') > 0)
-        afterPoint = x.substring(x.indexOf('.'),x.length);
-        x = Math.floor(parseInt(x)).toString();
-        var lastThree = x.substring(x.length-3);
-        var otherNumbers = x.substring(0,x.length-3);
-        if(otherNumbers != '')
-        lastThree = ',' + lastThree;
-        var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + afterPoint;
-        return res;
-      }
-    }

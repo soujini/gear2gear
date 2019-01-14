@@ -4,6 +4,9 @@
     <div class="form-group col-12">
       <div>
         <div class="xmt-0">
+          <div *ngIf="message_error" class="alert alert-danger text-center col-12">
+            <strong>Error!</strong>&nbsp;<span>{{message_error}}</span>
+          </div>
           <table class="table">
             <thead class="#f5f5f5 grey lighten-4">
               <tr>
@@ -43,7 +46,7 @@
             </tbody>
           </table>
 
-          <button type="submit" class="btn btn-primary btn-custom btn-md">
+          <button type="submit" [disabled]="!transactionDetailsForm.valid" class="btn btn-primary btn-custom btn-md">
             <i class="fa fa-save"></i>
           </button>
           <table class="table">
@@ -55,7 +58,7 @@
                 <th class="text-right">Investment</th>
                 <th class="text-right">Withdrawal</th>
                 <th class="text-right">Balance</th>
-                <!-- <th class="text-center">Void</th> -->
+                <th class="text-center">Void</th>
               </tr>
             </thead>
             <tbody>
@@ -66,21 +69,22 @@
                 <td class="text-right">{{item.credit_formatted}}</td>
                 <td class="text-right">{{item.debit_formatted}}</td>
                 <td></td>
-                <!-- <td class="text-center">
-<app-simple-modal [module]="module" [mode]="mode" (isDelete)="voidTransaction($event)"></app-simple-modal>
-                  <button *ngIf="item.is_void == false" type="button" class="btn btn-custom" name="button" (click)="voidTransaction(item)">Void</button></td> -->
-
-              </tr>
-              <tr *ngIf="(transactionDetails$ | async)?.length != 0">
-                <td class="bold green-text" colspan="3">BALANCE</td>
-                <td class="bold green-text text-right">{{total_investment}}</td>
-                <td class="bold green-text text-right">{{total_withdrawal}}</td>
-                <td class="bold green-text text-right">{{total_balance}}</td>
+                <td class="text-center">
+                  <app-simple-modal *ngIf="(item.is_void == false || item.is_void == null) && (item.transaction_type_id == 1 ||item.transaction_type_id == 11)" [module]="module" [mode]="mode" (isDelete)="voidTransaction(item)"></app-simple-modal>
+                  <label *ngIf="item.is_void == true">VOID</label>
+                  <!-- <button *ngIf="item.is_void == false && (item.transaction_type_id == 1 ||item.transaction_type_id == 11)" type="button" class="btn btn-custom" name="button" (click)="voidTransaction(item)">Void</button></td> -->
                 </tr>
-            </tbody>
-          </table>
+                <tr *ngIf="(transactionDetails$ | async)?.length != 0">
+                  <td class="bold green-text" colspan="3">BALANCE</td>
+                  <td class="bold green-text text-right">{{total_investment}}</td>
+                  <td class="bold green-text text-right">{{total_withdrawal}}</td>
+                  <td class="bold green-text text-right">{{total_balance}}</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</form>
+  </form>

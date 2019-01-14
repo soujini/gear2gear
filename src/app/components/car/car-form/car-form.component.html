@@ -301,7 +301,7 @@
               </button>
             </div>
             <div class="col">
-              <button *ngIf="carForm.controls.is_sold.value == false" type="submit" class="btn btn-danger btn-md" (click)="Sell()" >
+              <button *ngIf="carForm.controls.is_sold.value == false && inProcess == true" type="submit" class="btn btn-danger btn-md" (click)="Sell()" >
                 Sell
               </button>
               <button *ngIf="carForm.controls.is_sold.value == true" type="submit" class="btn btn-danger btn-md">

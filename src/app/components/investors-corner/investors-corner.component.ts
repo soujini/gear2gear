@@ -25,6 +25,8 @@ export class InvestorsCornerComponent implements OnInit {
   investorsExpensesAndPercent$:Observable<any>;
   investorsDetails = new Array();
   available_balance:string;
+  total_credits:string;
+  total_debits:string;
   total_expenses:number=0;
 
   constructor(private fb: FormBuilder,
@@ -70,8 +72,8 @@ export class InvestorsCornerComponent implements OnInit {
       getTransactionDetails(){
         this.transactionDetailsService.getTransactionDetails().subscribe(
           res=>{
+            // this.transactionDetails = res.filter(elem => elem.is_void !== true);
             this.transactionDetails = res;
-            console.log("td ",res);
             this.cars$.subscribe(
               res1=>{
                 for(var i=0;i<res1.length;i++)
@@ -108,6 +110,28 @@ export class InvestorsCornerComponent implements OnInit {
           });
         }
 
+        formatCurrency(val){
+          var isValid = /^[0-9,.]*$/.test(val);
+          if(isValid == true)
+          {
+            let x = val.toString().replace( /,/g, "" );
+            var afterPoint = '';
+            if(x.indexOf('.') > 0)
+            afterPoint = x.substring(x.indexOf('.'),x.length);
+            x = Math.floor(x);
+            x=x.toString();
+            var lastThree = x.substring(x.length-3);
+            var otherNumbers = x.substring(0,x.length-3);
+            if(otherNumbers != '')
+            lastThree = ',' + lastThree;
+            var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + afterPoint;
+            return res;
+          }
+          else{
+            return "";
+          }
+        }
+
 
         getAvailablePoolBalanceAsOfPurchaseDate()
         {
@@ -120,7 +144,9 @@ export class InvestorsCornerComponent implements OnInit {
           this.transactionDetailsService.getAvailablePoolBalanceAsOfPurchaseDate(formattedDate)
           .subscribe(
             res => {
-              this.available_balance = res[0].available_balance;
+              this.available_balance = this.formatCurrency(res[0].available_balance);
+              this.total_credits = this.formatCurrency(res[0].total_credits);
+              this.total_debits = this.formatCurrency(res[0].total_debits);
             },
             err => {
               console.log("Get Available Pool Balance ",err);
