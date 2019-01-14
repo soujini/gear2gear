@@ -117,14 +117,14 @@ export class TransactionDetailsService {
       const body = JSON.stringify(editTransactionDetails);
       const transaction_details_id = editTransactionDetails.transaction_details_id;
 
-      return this.http.put("http://localhost:3000/api/transactionDetails/"+transaction_details_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+      return this.http.put(this.apiUrl+'/api/transactionDetails/'+transaction_details_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
       .map(res => res);
     }
     public voidTransactionDetails(transactionDetails:TransactionDetails): Observable<any> {
       const body = JSON.stringify(transactionDetails);
       const transaction_details_id = transactionDetails.transaction_details_id;
 
-      return this.http.put("http://localhost:3000/api/transactionDetails/void/"+transaction_details_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+      return this.http.put(this.apiUrl+'/api/transactionDetails/void/'+transaction_details_id, body, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
       .map(res => res);
     }
 
