@@ -44,7 +44,7 @@
                     </tr>
                   </thead>
                   <tbody *ngFor="let td of transactionDetails">
-                    <tr  *ngIf="(td.transaction_type_id == 1 ||td.transaction_type_id == 3) && td.date <=car.purchased_on "  >
+                    <tr  *ngIf="(td.transaction_type_id == 1 ||td.transaction_type_id == 3) && td.date <=car.purchased_on && td.is_void != true" >
                       <td>{{td.date | date}}</td>
                       <td>{{td.investor_name}}</td>
                       <td>{{td.transaction_type_name}}</td>
@@ -63,7 +63,7 @@
                     </tr>
                   </thead>
                   <tbody *ngFor="let td of transactionDetails">
-                    <tr  *ngIf="td.transaction_type_id == 2 && car.car_id == td.car_id"  >
+                    <tr  *ngIf="td.transaction_type_id == 2 && car.car_id == td.car_id && td.is_void != true"  >
                       <td>{{td.date | date}}</td>
                       <td>{{td.expense_name}}</td>
                       <td class="text-right">{{td.debit| currency:' '}}</td>
@@ -83,7 +83,7 @@
                     </tr>
                   </thead>
                   <tbody *ngFor="let td of transactionDetails">
-                    <tr  *ngIf="(td.transaction_type_id == 3 || td.transaction_type_id == 4) && car.car_id == td.car_id"  >
+                    <tr  *ngIf="(td.transaction_type_id == 3 || td.transaction_type_id == 4) && car.car_id == td.car_id && td.is_void != true"  >
                       <td>{{td.date | date}}</td>
                       <td>{{td.investor_name}}</td>
                       <td class="text-right" *ngIf="td.percentage != null">{{td.percentage}}%</td>
@@ -120,9 +120,9 @@
               <th class="text-right">Debit</th>
             </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let item of transactionDetails; let i = index;">
-              <td>{{item.date | date}}</td>
+          <tbody *ngFor="let item of transactionDetails; let i = index;">
+            <tr *ngIf="item.is_void != true">
+              <td>{{item.date | date}} {{item.is_void}}</td>
               <td>{{item.transaction_type_name}}</td>
               <td>{{item.investor_name}}</td>
               <td><span>{{item.make_name}}</span>&nbsp;<span>{{item.model_name}}</span>&nbsp;<span>{{item.variant_name}}</span>&nbsp;<span>{{item.make_year}}</span></td>
