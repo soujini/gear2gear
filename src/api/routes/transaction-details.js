@@ -142,7 +142,7 @@ router.get('/api/transactionDetails/investorsInvestmentDetails/:date', function(
             if (shouldAbort(err)) return
 
             var sql = "INSERT INTO public.transaction_details (transaction_details_id, transaction_type_id, investor_id, transaction_type_mode, description, date, credit,debit, car_id, expense_id, percentage, created_by, create_date) VALUES(DEFAULT, $1, $2, $3, $4, $5, $6, $7,$8,$9,$10, 1, CURRENT_TIMESTAMP) returning transaction_details_id";
-            var values = [investor.transaction_type_id, investor.investor_id, investor.transaction_type_mode, investor.description, investor.date, investor.credit, investor.debit, investor.car_id, investor.expense_id, investor.percentage];
+            var values = [investor.transaction_type_id, investor.investor_id, investor.transaction_type_mode, investor.description, '2018-11-15', investor.credit, investor.debit, investor.car_id, investor.expense_id, investor.percentage];
             client.query(sql, values, function(err,result) {
               if(err){
                 console.log("ERROR : ", err);
