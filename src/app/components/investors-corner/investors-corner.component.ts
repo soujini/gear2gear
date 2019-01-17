@@ -88,6 +88,9 @@ export class InvestorsCornerComponent implements OnInit {
                         this.total_expenses= (parseFloat(this.total_expenses) + parseFloat(res[j].debit)).toString();
                         this.cars[i].total_cost = parseFloat(res1[i].cost_price) + parseFloat(this.total_expenses);
                       }
+                      if(this.total_expenses == "0"){
+                        this.cars[i].total_cost = parseFloat(res1[i].cost_price);
+                      }
                     }
                   }
                   }
