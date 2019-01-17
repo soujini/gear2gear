@@ -27,6 +27,7 @@
                 <span>PP Rs. {{car.cost_price | currency:' '}}</span><br>
                 <span>CP Rs. {{car.total_cost | currency:' '}}</span><br>
                 <span>SP Rs. {{car.selling_price | currency:' '}}</span><br>
+                <span>Profit Rs. {{car.selling_price - car.total_cost | currency:' '}}</span><br>
                 <span>Purchased On: {{car.purchased_on |date}}</span><br>
                 <span>Purchased From: {{car.purchased_from_name}}</span><br>
                 <span>Sold On: {{car.sold_on |date }}</span><br>
@@ -86,7 +87,7 @@
                     <tr  *ngIf="(td.transaction_type_id == 3 || td.transaction_type_id == 4) && car.car_id == td.car_id && td.is_void != true"  >
                       <td>{{td.date | date}}</td>
                       <td>{{td.investor_name}}</td>
-                      <td class="text-right" *ngIf="td.percentage != null">{{td.percentage}}%</td>
+                      <td class="text-right" *ngIf="td.percentage != null">{{td.percentage| number : '1.2-2'}}%</td>
                       <td *ngIf="td.percentage == null"></td>
                       <td class="text-right">{{td.credit | currency:' '}}</td>
                       <td class="text-right">{{td.debit| currency:' '}}</td>

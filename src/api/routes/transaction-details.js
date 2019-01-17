@@ -42,16 +42,18 @@ router.get('/api/transactionDetails/investorsInvestmentDetails/:date', function(
      ' where investor_id is not null'+
      ' AND date <='+purchase_date+
      ' AND transaction_type_id in(1,3,4,11)'+
+     ' AND is_void is not true'+
     ' ) as total_company_investment'+
 
     ' FROM transaction_details td, client c'+
     ' WHERE td.investor_id is not null'+
+    ' AND td.is_void is not true'+
     ' AND date <= '+purchase_date+
     ' AND c.is_investor=true'+
     ' AND td.investor_id=c.client_id'+
     ' GROUP BY td.investor_id, c.is_investor )'+
     ' select investor_id, investor_investment, investor_withdrawal, investor_balance, total_company_investment,'+
-    ' round(cast(investor_balance as decimal) / cast(total_company_investment as decimal) * 100) as investor_percent'+
+    ' ((cast(investor_balance as decimal) / cast(total_company_investment as decimal) * 100)) as investor_percent'+
     ' from table1',
     function(err,result) {
       if(err){
@@ -121,6 +123,7 @@ router.get('/api/transactionDetails/investorsInvestmentDetails/:date', function(
         'FROM PUBLIC.TRANSACTION_DETAILS A, PUBLIC.CAR B '+
         'WHERE A.CAR_ID = ' +car_id+' AND B.CAR_ID = ' +car_id+
         'AND TRANSACTION_TYPE_ID = 1 '+
+        'AND A.IS_VOID is not true '+
         'GROUP BY A.CAR_ID, B.CAR_ID ',
         function(err,result) {
           if(err){
@@ -204,7 +207,7 @@ router.get('/api/transactionDetails/investorsInvestmentDetails/:date', function(
       router.get("/api/transactionDetails/soldTranType/:id", function(req, res) {
         var car_id = parseInt(req.params.id);
         client.query(
-          'select coalesce(sum(credit),0) as total_money_received from transaction_details where transaction_type_id=13 and car_id = '+car_id,
+          'select coalesce(sum(credit),0) as total_money_received from transaction_details where transaction_type_id=13 and (is_void=false or is_void is null) and car_id = '+car_id,
           function(err,result) {
             if(err){
               console.log(err);
@@ -214,12 +217,11 @@ router.get('/api/transactionDetails/investorsInvestmentDetails/:date', function(
               res.status(200).send(result.rows);
             }
           });
-
         });
         router.get("/api/transactionDetails/purchaseTranType/:id", function(req, res) {
           var car_id = parseInt(req.params.id);
           client.query(
-            'select coalesce(sum(debit),0) as total_money_invested from transaction_details where transaction_type_id=12 and car_id = '+car_id,
+            'select coalesce(sum(debit),0) as total_money_invested from transaction_details where transaction_type_id=12 and (is_void=false or is_void is null) and car_id = '+car_id,
             function(err,result) {
               if(err){
                 console.log(err);
@@ -240,7 +242,7 @@ router.get('/api/transactionDetails/investorsInvestmentDetails/:date', function(
           'LEFT JOIN EXPENSES E ON TD.EXPENSE_ID = E.EXPENSE_ID '+
           'LEFT JOIN CLIENT C ON TD.INVESTOR_ID = C.CLIENT_ID '+
           'LEFT JOIN TRANSACTION_TYPE TT ON TD.TRANSACTION_TYPE_ID = TT.TRANSACTION_TYPE_ID '+
-          'where car_id = '+car_id,
+          'WHERE car_id = '+car_id,
           // 'group by td.transaction_details_id', E.name, c.name, tt.name,
           function(err,result) {
             if(err){
@@ -258,8 +260,35 @@ router.get('/api/transactionDetails/investorsInvestmentDetails/:date', function(
               res.status(200).send(result.rows);
             }
           });
-
         });
+        router.get("/api/transactionDetails/all/:id", function(req, res) {
+          var car_id = parseInt(req.params.id);
+          client.query(
+            'SELECT TD.*, E.NAME as EXPENSE_NAME, C.NAME as INVESTOR_NAME, TT.NAME AS TRANSACTION_NAME '+
+            'FROM TRANSACTION_DETAILS TD '+
+            'LEFT JOIN EXPENSES E ON TD.EXPENSE_ID = E.EXPENSE_ID '+
+            'LEFT JOIN CLIENT C ON TD.INVESTOR_ID = C.CLIENT_ID '+
+            'LEFT JOIN TRANSACTION_TYPE TT ON TD.TRANSACTION_TYPE_ID = TT.TRANSACTION_TYPE_ID '+
+            'where td.is_void is not true '+
+            'and car_id = '+car_id,
+            // 'group by td.transaction_details_id', E.name, c.name, tt.name,
+            function(err,result) {
+              if(err){
+                console.log(err);
+                res.status(400).send(err);
+              }
+              else{
+                if(result.rows.credit){
+                  result.rows.credit = formatCurrency(result.rows.credit);
+                }
+                if(result.rows.debit){
+                  result.rows.debit = formatCurrency(result.rows.debit);
+                }
+
+                res.status(200).send(result.rows);
+              }
+            });
+          });
         //Get available balance
         // router.get("/api/transactionDetails/balance/:id", function(req, res) {
         //

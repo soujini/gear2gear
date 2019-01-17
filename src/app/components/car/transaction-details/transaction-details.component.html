@@ -66,6 +66,9 @@
                 <th>Description</th>
                 <th class="text-right">Credit</th>
                 <th class="text-right">Debit</th>
+                <th class="text-center">Void</th>
+
+                  <!-- <button *ngIf="item.is_void == false && (item.transaction_type_id == 1 ||item.transaction_type_id == 11)" type="button" class="btn btn-custom" name="button" (click)="voidTransaction(item)">Void</button></td> -->
               </tr>
             </thead>
             <tbody>
@@ -77,6 +80,10 @@
                 <td>{{item.description}}</td>
                 <td class="text-right">{{item.credit_formatted}}</td>
                 <td class="text-right">{{item.debit_formatted}}</td>
+                <td class="text-center">
+                  <app-simple-modal *ngIf="carForm.get('is_sold').value != true && (item.is_void == false || item.is_void == null) && (item.transaction_type_id == 2 || item.transaction_type_id == 12 || item.transaction_type_id == 13)" [module]="module" [mode]="mode" (isDelete)="voidTransaction(item)"></app-simple-modal>
+                  <label *ngIf="item.is_void == true">VOID</label>
+                  </td>
               </tr>
             </tbody>
           </table>

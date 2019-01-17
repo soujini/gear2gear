@@ -72,6 +72,7 @@
                 <td class="text-center">
                   <app-simple-modal *ngIf="(item.is_void == false || item.is_void == null) && (item.transaction_type_id == 1 ||item.transaction_type_id == 11)" [module]="module" [mode]="mode" (isDelete)="voidTransaction(item)"></app-simple-modal>
                   <label *ngIf="item.is_void == true">VOID</label>
+                  </td>
                   <!-- <button *ngIf="item.is_void == false && (item.transaction_type_id == 1 ||item.transaction_type_id == 11)" type="button" class="btn btn-custom" name="button" (click)="voidTransaction(item)">Void</button></td> -->
                 </tr>
                 <tr *ngIf="(transactionDetails$ | async)?.length != 0">

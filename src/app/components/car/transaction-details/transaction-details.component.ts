@@ -42,9 +42,12 @@ export class TransactionDetailsComponent implements OnInit {
   message:string="";
   private sub;
   private sub1;
-    private sub2;
+  private sub2;
   total_credits:string;
-  total_debits:String;
+  total_debits:string;
+  mode:String="Void";
+  module:String="transaction";
+  message_error:String="";
 
   constructor(
     private ref: ChangeDetectorRef,
@@ -70,14 +73,14 @@ export class TransactionDetailsComponent implements OnInit {
 
           //Calculate Profit
           const Profit = parseInt(this.carForm.get('selling_price').value.toString().replace( /,/g, "" )) - this.total_cost_car;
-
           // console.log("SP   ",parseInt(this.carForm.get('selling_price').value.toString().replace( /,/g, "" )));
           // console.log("total cost of the car ",this.total_cost_car);
           // console.log("Profit in tran detail line 65 ", Profit);
 
           //Split Owner Percent and Investors Percent
           const OwnersAmount = 60/100 * Profit;
-          const InvestorsAmount = 40/100 * Profit;
+          //const InvestorsAmount = 40/100 * Profit;
+          const InvestorsAmount = Profit - OwnersAmount;
 
           // console.log("Owners Amt ", OwnersAmount);
           // console.log("Investors Amt ", InvestorsAmount);
@@ -94,8 +97,9 @@ export class TransactionDetailsComponent implements OnInit {
               var credit=0;
               var transaction_type_id=0;
               var transaction_type_mode="";
-              let investor_percent = parseInt(investor.investor_percent);
-              let profitAmount = Math.round((investor_percent /100) * InvestorsAmount);
+              var investor_percent = investor.investor_percent;
+              // let profitAmount = parseFloat(investor_percent /100) * InvestorsAmount;
+              var profitAmount = ((investor_percent /100.00) * InvestorsAmount).toString();
               var description="";
 
               //Enable Credit, Debit, Investor
@@ -106,14 +110,14 @@ export class TransactionDetailsComponent implements OnInit {
               this.transactionDetailsForm.get('investor_id').enable();
               this.transactionDetailsForm.get('investor_id').updateValueAndValidity({emitEvent:false, onlySelf:true});
 
-              if(profitAmount > 0){ //Profit
-                credit = Math.round(profitAmount);
+              if(parseFloat(profitAmount) > 0){ //Profit
+                credit = parseFloat(profitAmount);
                 transaction_type_id = 3; //Profit
                 transaction_type_mode = 'credit';
                 description="Profit Earned";
               }
               else{
-                debit = Math.round(profitAmount);
+                debit = parseFloat(profitAmount);
                 var removeNegativeSign = profitAmount.toString().replace(/-/g, '');
                 debit = parseInt(removeNegativeSign);
                 transaction_type_id = 4; //Loss
@@ -148,13 +152,13 @@ export class TransactionDetailsComponent implements OnInit {
             var description="";
 
             if(profitAmount > 0){ //Profit
-              credit = Math.round(profitAmount);
+              credit = profitAmount;
               transaction_type_id = 3; //Profit
               transaction_type_mode = 'credit';
               description="Owner Profit Earned";
             }
             else{
-              debit = Math.round(profitAmount);
+              debit = profitAmount;
               var removeNegativeSign = profitAmount.toString().replace(/-/g, '');
               debit = parseInt(removeNegativeSign);
               transaction_type_id = 4; //Loss
@@ -243,6 +247,63 @@ export class TransactionDetailsComponent implements OnInit {
       });
     }
 
+    voidTransaction(transactionDetails){
+          this.transactionDetailsService.voidTransactionDetails(transactionDetails)
+          .subscribe(
+            res=>{
+              this.getTransactionDetailsById(this.selectedCar_Id);
+            },
+            err=>{
+              console.log("Void Transaction Details ", err);
+            });
+
+
+      // var balance = this.total_balance.replace (/,/g, "");
+      // //If investment => check if balance is there
+      // //If withdrawal => Check if balance is there
+      //
+      // if(transactionDetails.transaction_type_id == 11){ //Withdrawal
+      //   if(parseInt(balance) < parseInt(transactionDetails.debit))
+      //   {
+      //     this.message_error="Not enough available balance - Cannot void this transaction";
+      //     setTimeout(() => {
+      //       this.message_error = "";
+      //     },5000);
+      //   }
+      //   else{
+      //     this.transactionDetailsService.voidTransactionDetails(transactionDetails)
+      //     .subscribe(
+      //       res=>{
+      //         this.getTransactionDetailsByInvestor(this.selectedClient_Id);
+      //       },
+      //       err=>{
+      //         console.log("Void Transaction Details ", err);
+      //       });
+      //     }
+      //   }
+      //
+      //   else if(transactionDetails.transaction_type_id == 1){ //Investment
+      //     if(parseInt(balance) < parseInt(transactionDetails.credit))
+      //     {
+      //       this.message_error="Not enough available balance - Cannot void this transaction";
+      //       this.transactionDetailsForm.reset();
+      //       setTimeout(() => {
+      //         this.message_error = "";
+      //       },5000);
+      //     }
+      //     else{
+      //       this.transactionDetailsService.voidTransactionDetails(transactionDetails)
+      //       .subscribe(
+      //         res=>{
+      //           this.getTransactionDetailsByInvestor(this.selectedClient_Id);
+      //         },
+      //         err=>{
+      //           console.log("Void Transaction Details ", err);
+      //         });
+      //       }
+      //     }
+        }
+
     createForm() {
       this.transactionDetailsForm = this.fb.group({
         date: ['', Validators.required],
@@ -328,8 +389,8 @@ export class TransactionDetailsComponent implements OnInit {
     getTransactionDetailsById(car_id:any){
       //this.transactionDetailsForm.reset();
       this.transactionDetails$ = this.transactionDetailsService.getTransactionDetailsById(car_id);
-      let total_debits = 0;
-      let total_credits = 0;
+      let total_debits="0.00";
+      let total_credits="0.00";
 
       this.transactionDetails$.subscribe(res=>{
         this.total_cost_car=0;
@@ -337,25 +398,27 @@ export class TransactionDetailsComponent implements OnInit {
         this.total_money_invested=0;
 
           res.forEach(val=>{
+            if(val.is_void != true){
               if(val.transaction_type_mode == "credit")
               {
-                total_credits= total_credits + parseInt(val.credit);
+                total_credits= (parseFloat(total_credits) +parseFloat(val.credit)).toString();
               }
               else if(val.transaction_type_mode == "debit"){
-                total_debits = total_debits + parseInt(val.debit);
-                this.total_cost_car = this.total_cost_car + parseInt(val.debit);
+                total_debits = (parseFloat(total_debits) + parseFloat(val.debit)).toString();
+                this.total_cost_car = this.total_cost_car + parseFloat(val.debit);
               }
 
               if(val.transaction_type_id == 13){
-                this.total_money_received=this.total_money_received + parseInt(val.credit);
+                this.total_money_received=this.total_money_received + parseFloat(val.credit);
               }
               if(val.transaction_type_id == 12){
-                this.total_money_invested=this.total_money_invested + parseInt(val.credit);
+                this.total_money_invested=this.total_money_invested + parseFloat(val.debit);
               }
 
-              this.total_credits = this.formatCurrencyByVal(total_credits).toString();
-              this.total_debits = this.formatCurrencyByVal(total_debits).toString();
-          })
+              this.total_credits = this.formatCurrencyByVal(total_credits);
+              this.total_debits = this.formatCurrencyByVal(total_debits);
+          }
+        })
       },
       err=>{
         console.log(err);

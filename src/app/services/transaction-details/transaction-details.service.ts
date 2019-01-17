@@ -75,6 +75,24 @@ export class TransactionDetailsService {
         console.log("Error getTransactionDetailsById ",err);
       });
     }
+    public getAllTransactionDetailsById(car_id:number): Observable<any> {
+      return this.http.get<any[]>(this.apiUrl+'/api/transactionDetails/'+car_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+      .map(transaction =>
+        {
+          transaction.forEach(c => {
+            if(c.debit != 0 && c.debit != null){
+              c.debit_formatted = this.formatCurrencyByVal(c.debit);
+            }
+            if(c.credit != 0 && c.credit != null){
+              c.credit_formatted = this.formatCurrencyByVal(c.credit);
+            }
+          });
+          return transaction;
+        },
+      err=>{
+        console.log("Error getAllTransactionDetailsById ",err);
+      });
+    }
     // public getTotalInvestmentAndBalanceByCar(car_id:number): Observable<any> {
     //   return this.http.get(this.apiUrl+'/api/transactionDetails/totalInvestmentBalance/'+car_id, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
     //   .map(res => res);
