@@ -53,7 +53,7 @@ router.get('/api/transactionDetails/investorsInvestmentDetails/:date', function(
     ' AND td.investor_id=c.client_id'+
     ' GROUP BY td.investor_id, c.is_investor )'+
     ' select investor_id, investor_investment, investor_withdrawal, investor_balance, total_company_investment,'+
-    ' ((cast(investor_balance as decimal) / cast(total_company_investment as decimal) * 100)) as investor_percent'+
+    ' round((cast(investor_balance as decimal) / cast(total_company_investment as decimal) * 100),5) as investor_percent'+
     ' from table1',
     function(err,result) {
       if(err){
