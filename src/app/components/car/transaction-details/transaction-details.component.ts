@@ -91,6 +91,15 @@ export class TransactionDetailsComponent implements OnInit {
             var mm = today.getMonth()+1;
             var yyyy = today.getFullYear();
 
+            if(dd.toString().length == 1){
+              var a = "0"+dd.toString();
+              dd=parseInt(a);
+            }
+            if(mm.toString().length == 1){
+              var a = "0"+mm.toString();
+              mm=parseInt(a, 10)
+            }
+
             this.transactionDetailProfitandLoss=[];
             res.forEach(investor=>{
               var debit =0;
@@ -134,7 +143,7 @@ export class TransactionDetailsComponent implements OnInit {
                 credit: credit,
                 debit: debit,
                 description:description,
-                date:yyyy+"-"+mm+"-"+dd,
+                date:yyyy+"-0"+mm+"-"+dd,
                 percentage:investor_percent,
               });
 
@@ -174,8 +183,7 @@ export class TransactionDetailsComponent implements OnInit {
               credit: credit,
               debit: debit,
               description:description,
-              // date:yyyy+"-"+mm+"-"+dd,
-              date:'2018-11-15',
+              date:yyyy+"-"+mm+"-"+dd,
               percentage:null,
             });
 
