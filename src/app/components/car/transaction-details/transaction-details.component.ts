@@ -174,7 +174,8 @@ export class TransactionDetailsComponent implements OnInit {
               credit: credit,
               debit: debit,
               description:description,
-              date:yyyy+"-"+mm+"-"+dd,
+              // date:yyyy+"-"+mm+"-"+dd,
+              date:'2018-11-15',
               percentage:null,
             });
 
